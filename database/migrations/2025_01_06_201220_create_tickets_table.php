@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('subject');
             $table->string('content');
-            $table->foreignId('users');
+            $table->foreignId('user');
             $table->boolean('status');
             $table->timestamps();
         });
