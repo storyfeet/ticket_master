@@ -21,33 +21,36 @@
     </body>
 
 <script type="module">
-import * as loader from "/js/loader";
+import * as loader from "/js/loader.js";
 
 function drawTickets(location,tickets){
     location.innerHTML = "";
     for(let i in tickets){
         let t = tickets[i];
+        let status = t.status ? "Closed" : "Open";
 
+        let infoline = `${t.ticket_id} (${status}): ${t.subject} `;
+        let userline = `${t.user_id}: ${t.user_name} - ${t.email}`;
+
+        let dateline = `Opened : ${t.created_at}`;
+
+
+
+        //TODO
     }
 }
-
 
 function setNextPrev(location,data){
 }
 
 
 document.getElementById("btn_open_tickets").onclick = async function(){
+    console.log("view open tickets")
     let fResult = await loader.loadTickets(true);
     let location = document.getElementById("ticket_view");
     drawTickets(fResult.data);
     setNextPrev(fResult);
 }
-
-
-
-
-
-
 
 
 </script>
