@@ -9,15 +9,37 @@ use Illuminate\Support\Facades\DB;
 
 class TicketController extends Controller
 {
+    protected $TICKETS_USER = [
+            'tickets.id as ticket_id',
+            'tickets.user as user_id',
+            'users.name',
+            'users.email',
+            'tickets.subject',
+            'tickets.content',
+            'tickets.status',
+            'tickets.created_at',
+            'tickets.updated_at',
+
+        ];
     //
     public function open(){
-        $tickets = Ticket::query()->where('status',false)->orderBy('id')->paginate(3);
+        $tickets = Ticket::query()
+            ->where('status',false)
+            ->join('users','tickets.user','=','users.id')
+            ->orderBy('tickets.id')
+            ->select($this->TICKETS_USER)
+            ->paginate(3);
 
         return $tickets;
     }
 
     public function closed(){
-        $tickets = Ticket::query()->where('status',true)->orderBy('id')->paginate(3);
+        $tickets = Ticket::query()
+            ->join('users','tickets.user','=','users.id')
+            ->where('status',true)
+            ->orderBy('tickets.id')
+            ->select($this->TICKETS_USER)
+            ->paginate(3);
 
         return $tickets;
     }
@@ -27,6 +49,7 @@ class TicketController extends Controller
         $tickets = DB::table('tickets')
             ->join('users','tickets.user','=','users.id')
             ->where('users.email',$email)
+            ->select($this->TICKETS_USER)
             ->paginate(3);
         return $tickets;
     }
