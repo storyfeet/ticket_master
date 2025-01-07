@@ -6,3 +6,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/tickets/open', 'App\Http\Controllers\TicketController@open');
+Route::get('/tickets/closed', 'App\Http\Controllers\TicketController@closed');
+
