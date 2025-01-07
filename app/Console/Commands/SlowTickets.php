@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\Ticket;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class SlowTickets extends Command
 {
@@ -27,18 +28,23 @@ class SlowTickets extends Command
      */
     public function handle():void
     {
-        $GLOBALS["slow_tickets_continue"] = true;
 
-        Ticket::factory()
-            ->count(1)
-            ->create();
+        DB::table('globalflags')->updateOrInsert([
+            'id'=>"slow_tickets_continue",
+            'value'=>true,
+        ]);
 
-        while ($GLOBALS["slow_tickets_continue"]){
+        while (true){
             Log::debug("Slow tickets loop");
             Ticket::factory()
                 ->count(1)
                 ->create();
             sleep(60);
+
+            $stc = DB::table('globalflags')->where('id','slow_tickets_continue')->get();
+            Log::debug("stc : " . $stc->count());
+            if ($stc->count() ==0) return;
+            if ($stc[0]->value == false ) return;
         }
 
         Log::debug("Slow tickets reach end");

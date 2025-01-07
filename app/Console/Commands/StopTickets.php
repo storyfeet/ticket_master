@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-
+use Illuminate\Support\Facades\DB;
 class StopTickets extends Command
 {
     /**
@@ -25,6 +25,6 @@ class StopTickets extends Command
      */
     public function handle():Void
     {
-        $GLOBALS["slow_tickets_continue"] = false;
+        DB::table('globalflags')->where('id','slow_tickets_continue')->delete();
     }
 }
