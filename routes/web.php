@@ -2,9 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/',
+        'App\Http\Controllers\HomeController@home'
+    );
 
 Route::get('/tickets/open',
         'App\Http\Controllers\TicketController@open'
