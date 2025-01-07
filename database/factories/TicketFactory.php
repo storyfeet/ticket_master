@@ -17,11 +17,16 @@ class TicketFactory extends Factory
      */
     public function definition(): array
     {
-        $user = DB::table('users')->orderByRaw("RAND()")->take(1)->get();
+        $uid = 1;
+        $users = DB::table('users')->orderByRaw("RAND()")->take(1)->get();
+        if ($users->count() != 0){
+            $uid = $users[0]->id;
+        }
+
         return [
             'subject' => fake()->text(10),
             'content' => fake()->text(40),
-            'user' => $user->id,
+            'user' => $uid,
             'status' => false,
         ];
     }
