@@ -16,5 +16,8 @@ Route::get('/users/{email}/tickets',
            'App\Http\Controllers\TicketController@user'
     );
 
+Route::get('/stats',
+           'App\Http\Controllers\TicketController@stats'
+    );
 
 
