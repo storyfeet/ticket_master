@@ -1,7 +1,6 @@
 //(Yes I know about arrow functions)
 
-export async function loadTickets(open) {
-    let path = open ? "/tickets/open" : "/tickets/closed";
+export async function loadJson(path) {
     let res = await fetch(path, {
         method: "get",
     });
@@ -11,7 +10,7 @@ export async function loadTickets(open) {
 
 export function elem(tagname, values) {
     let res = document.createElement(tagname);
-    for (k in values) {
+    for (let k in values) {
         res[k] = values[k];
     }
     return res;

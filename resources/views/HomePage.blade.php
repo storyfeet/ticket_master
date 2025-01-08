@@ -12,7 +12,8 @@
             <p>View Tickets</p>
             <button id="btn_open_tickets">Open Tickets</button>
             <button id="btn_closed_tickets">Closed Tickets</button>
-
+            &nbsp;&nbsp; <input type="text" id="txt_email" />
+            <button id="btn_tickets_by_email">Tickets By Email</button>
             <div id="ticket_view">
             </div>
 
@@ -30,10 +31,19 @@ function drawTickets(location,tickets){
         let status = t.status ? "Closed" : "Open";
 
         let infoline = `${t.ticket_id} (${status}): ${t.subject} `;
-        let userline = `${t.user_id}: ${t.user_name} - ${t.email}`;
+        let userline = `${t.user_id}: ${t.name} - ${t.email}`;
 
-        let dateline = `Opened : ${t.created_at}`;
+        let dateline = `Opened : ${t.created_at}. Last Update: ${t.updated_at} `;
 
+
+
+
+        let div = loader.elem('div',{className:"ticket"});
+        location.appendChild(div);
+        div.appendChild(loader.elem('p',{innerText:infoline}))
+        div.appendChild(loader.elem('p',{innerText:userline}))
+        div.appendChild(loader.elem('p',{innerText:t.content}))
+        div.appendChild(loader.elem('p',{innerText:dateline}))
 
 
         //TODO
@@ -45,10 +55,24 @@ function setNextPrev(location,data){
 
 
 document.getElementById("btn_open_tickets").onclick = async function(){
-    console.log("view open tickets")
-    let fResult = await loader.loadTickets(true);
+    await loadTickets("/tickets/open");
+}
+
+document.getElementById("btn_closed_tickets").onclick = async function(){
+    await loadTickets("/tickets/closed");
+}
+
+document.getElementById("btn_tickets_by_email").onclick = async function(){
+    let email = document.getElementById("txt_email").value;
+    await loadTickets(`/users/${email}/tickets`);
+}
+
+
+
+async function loadTickets(path){
+    let fResult = await loader.loadJson(path);
     let location = document.getElementById("ticket_view");
-    drawTickets(fResult.data);
+    drawTickets(location,fResult.data);
     setNextPrev(fResult);
 }
 

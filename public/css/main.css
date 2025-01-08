@@ -1,4 +1,10 @@
 
+.ticket{
+    background:#bbffbb;
+    padding:5px;
+    margin:5px;
+}
+
 div {
     border : 1px solid black;
     padding : 5px;
