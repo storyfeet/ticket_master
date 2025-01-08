@@ -18,7 +18,7 @@ class TicketFactory extends Factory
     public function definition(): array
     {
         $uid = 1;
-        $users = DB::table('users')->orderByRaw("RAND()")->take(1)->get();
+        $users = DB::table('users')->inRandomOrder()->take(1)->get();
         if ($users->count() != 0){
             $uid = $users[0]->id;
         }

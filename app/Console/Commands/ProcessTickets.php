@@ -26,7 +26,7 @@ class ProcessTickets extends Command
     {
         Ticket::query()
             ->where('status',false)
-            ->orderByRaw("RAND()")
+            ->inRandomOrder()
             ->take(1)
             ->update([
                 'status'=>true,
