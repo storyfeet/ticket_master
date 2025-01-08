@@ -26,7 +26,7 @@ class TicketController extends Controller
         $tickets = Ticket::query()
             ->where('status',false)
             ->join('users','tickets.user','=','users.id')
-            ->orderBy('tickets.id')
+            ->orderByDesc('tickets.id')
             ->select($this->TICKETS_USER)
             ->paginate(3);
 
@@ -37,7 +37,7 @@ class TicketController extends Controller
         $tickets = Ticket::query()
             ->join('users','tickets.user','=','users.id')
             ->where('status',true)
-            ->orderBy('tickets.id')
+            ->orderByDesc('tickets.id')
             ->select($this->TICKETS_USER)
             ->paginate(3);
 
