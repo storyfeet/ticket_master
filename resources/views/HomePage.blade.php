@@ -14,7 +14,8 @@
             <button id="btn_closed_tickets">Closed Tickets</button>
             &nbsp;&nbsp; <input type="text" id="txt_email" />
             <button id="btn_tickets_by_email">Tickets By Email</button>
-            <div id="ticket_view">
+            <div id="next_prev_view"></div>
+            <table id="ticket_table">
             </div>
 
         </div>
@@ -28,29 +29,37 @@ function drawTickets(location,tickets){
     location.innerHTML = "";
     for(let i in tickets){
         let t = tickets[i];
-        let status = t.status ? "Closed" : "Open";
 
-        let infoline = `${t.ticket_id} (${status}): ${t.subject} `;
-        let userline = `${t.user_id}: ${t.name} - ${t.email}`;
-
-        let dateline = `Opened : ${t.created_at}. Last Update: ${t.updated_at} `;
-
-
-
-
-        let div = loader.elem('div',{className:"ticket"});
-        location.appendChild(div);
-        div.appendChild(loader.elem('p',{innerText:infoline}))
-        div.appendChild(loader.elem('p',{innerText:userline}))
-        div.appendChild(loader.elem('p',{innerText:t.content}))
-        div.appendChild(loader.elem('p',{innerText:dateline}))
-
-
-        //TODO
+        let row = document.createElement("tr");
+        loader.drawTicket(row,t);
+        loader.drawUserLink(row,t,async()=>{
+            console.log("Loading user tickets");
+            loadTickets(`users/${t.email}/tickets`);
+        });
+        location.appendChild(row);
     }
 }
 
 function setNextPrev(location,data){
+    location.innerHTML = "";
+    if (data.prev_page_url) {
+        let btn = loader.elem("button", {
+            onclick: async ()=>{
+                await loadTickets(data.prev_page_url);
+            },
+            innerHTML:"Previous"
+        });
+        location.appendChild(btn);
+    }
+    if (data.next_page_url) {
+        let btn = loader.elem("button", {
+            onclick: async ()=>{
+                await loadTickets(data.next_page_url);
+            },
+            innerHTML:"Next"
+        });
+        location.appendChild(btn);
+    }
 }
 
 
@@ -71,9 +80,12 @@ document.getElementById("btn_tickets_by_email").onclick = async function(){
 
 async function loadTickets(path){
     let fResult = await loader.loadJson(path);
-    let location = document.getElementById("ticket_view");
+    let location = document.getElementById("ticket_table");
     drawTickets(location,fResult.data);
-    setNextPrev(fResult);
+
+    let nextPrev = document.getElementById("next_prev_view");
+    setNextPrev(nextPrev,fResult);
+
 }
 
 

@@ -1,9 +1,16 @@
 
-.ticket{
-    background:#bbffbb;
+.open_ticket , .closed_ticket{
     padding:5px;
     margin:5px;
 }
+
+.open_ticket{
+    background:#bbffbb;
+}
+.closed_ticket{
+    background:#ffbbbb;
+}
+
 
 div {
     border : 1px solid black;
