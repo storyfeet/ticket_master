@@ -8,6 +8,13 @@
     <body>
 
         <h1>Ticket Master</h1>
+        @if (isset($user))
+            <p>Welcome : <strong>{{$user->name}}</strong></p>
+            <p><a href="/logout">Log Out</a></p>
+        @else
+            <p><a href="/loginhome">Login</a> to create tickets</p>
+        @endif
+
         <div>
             <p>View Tickets</p>
             <button id="btn_open_tickets">Open Tickets</button>

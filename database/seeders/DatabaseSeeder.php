@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Ticket;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,6 +20,16 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
+        ]);
+        User::factory()->create([
+            'name' => 'normal',
+            'email' => 'normal@tickets.com',
+            'password' => Hash::make("normalnormal"),
+        ]);
+        User::factory()->create([
+            'name' => 'admin',
+            'email' => 'admin@tickets.com',
+            'password' => Hash::make("adminadmin"),
         ]);
         User::factory()
             ->count(30)
