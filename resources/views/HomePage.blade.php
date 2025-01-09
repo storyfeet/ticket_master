@@ -40,7 +40,7 @@ import * as loader from "/js/loader.js";
 
 const CSRF_TOKEN = '{{csrf_token()}}';
 
-function drawTickets(location,tickets,isByUser){
+function drawTickets(location,tickets,isByUser,path){
     location.innerHTML = "";
     for(let i in tickets){
         let t = tickets[i];
@@ -56,7 +56,12 @@ function drawTickets(location,tickets,isByUser){
         if (t.status == 0 && (t.user_id == USER_ID || IS_ADMIN) ){
             loader.drawCloser(row,async()=>{
                 let r = await loader.closeTicket(t.ticket_id,CSRF_TOKEN);
-                console.log(r);//TODO
+                if (r.error) {
+                    console.log(r)
+                }else {
+                    loadTickets(path,isByUser);
+                }
+
             })
         }
         location.appendChild(row);
@@ -115,7 +120,7 @@ document.getElementById("btn_tickets_by_email").onclick = async function(){
 async function loadTickets(path,isByUser){
     let fResult = await loader.loadJson(path);
     let location = document.getElementById("ticket_table");
-    drawTickets(location,fResult.data,isByUser);
+    drawTickets(location,fResult.data,isByUser,path);
 
     let nextPrev = document.getElementById("next_prev_view");
     setNextPrev(nextPrev,fResult);

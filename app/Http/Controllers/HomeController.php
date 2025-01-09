@@ -8,11 +8,16 @@ class HomeController extends Controller
 {
 
     public function home(){
+        $arr = [];
         $user = Auth::user();
         if ($user != Null){
-            return view('HomePage',["user"=>$user]);
+            $arr["user"] = $user;
         }
-        return view('HomePage');
+        $mes = session()->get('message');
+        if ($mes != Null){
+            $arr["message"] = $mes;
+        }
+        return view('HomePage',$arr);
     }
     //
     //

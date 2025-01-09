@@ -50,6 +50,7 @@ class TicketController extends Controller
         $tickets = DB::table('tickets')
             ->join('users','tickets.user','=','users.id')
             ->where('users.email',$email)
+            ->orderByDesc('tickets.updated_at')
             ->select($this->TICKETS_USER)
             ->paginate(3);
         return $tickets;
@@ -106,8 +107,7 @@ class TicketController extends Controller
             'status'=>false,
         ]);
 
-        return view('HomePage',[
-            'user'=>$user,
+        return redirect('/')->with([
             'message'=>"Ticket Created " . $subject,
         ]);
     }
