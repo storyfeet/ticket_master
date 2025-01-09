@@ -1,66 +1,71 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Ticket Master
+=============
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This application has been created as a coding test for Secure Screening Services UK.
 
-## About Laravel
+(For the Laravel readme see README_LARAVEL.md)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+It's purpose is to show that I am confident using the Laravel framework to build applications.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+It is a simple ticket store, and tickets are largely produced at random through the seeding mechanism.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Running the Application
+-------------
 
-## Learning Laravel
+The primary application is run through Sail to guard the Mysql Database.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+* To bring in vendor components run ```composer install```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+* Make sure docker is running ```(sudo) systemctl start docker``` ? (If on windows the process will be different
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+* Start the mysql server: ``` vendor/bin/sail up -d```
 
-## Laravel Sponsors
+Using Console Commands
+--------------
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+To run the background tasks to create and resolve tickets use the following commands.
 
-### Premium Partners
+### To Create Tickets
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+```vender/bin/sail artisan app:slow-tickets```
 
-## Contributing
+If you disown the thread (with &) you can stop the process with:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```vendor/bin/sail artisan app:stop-tickets```
 
-## Code of Conduct
+### To Resolve Tickets
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```vender/bin/sail artisan app:process-tickets```
 
-## Security Vulnerabilities
+If you disown the thread (with &) you can stop the process with:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```vendor/bin/sail artisan app:stop-process-tickets```
 
-## License
+Accessing the public Endpoints
+--------------
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+If sail is up and running, you should be able to access the following API Endpoints:
+
+```
+localhost/tickets/open
+localhost/tickets/closed
+localhost/users/{email}/tickets
+localhost/stats
+```
+
+The routes: ```tickets/open```,```tickets/closed```,and ```users/{email}/tickets```: Will return a paginated JSON page in the same format.  The ```data``` element, will contain a list of up the three elements. The ```next_page_url```, how to get the following page.
+
+The route: ```stats``` will list useful details about how the server is being used. This is not paginated
+
+Using the Web Front End
+------------
+
+From the browser : ```localhost``` will return a homepage, where you can select to view "Open" or "Closed" tickets, these will be displayed beneath those buttons. The view next, and view previous buttons will indicate if there are more pages to see.
+
+You will also see a text input and a "Tickets by Email" Button. If you input a user email, and select this, it will bring up the list of that users tickets, paginated as before.
+
+
+
+
+
+
