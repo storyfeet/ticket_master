@@ -112,4 +112,23 @@ class TicketController extends Controller
         ]);
     }
 
+    public function closeTicket(){
+        $user = Auth::user();
+        $id = request()->post('ticket_id');
+        if ($id == NULL ){
+            return [
+                "error"=>"No ticket_id provided",
+                "request"=>request()->all(),
+            ];
+        }
+        $update = Ticket::query()
+            ->where('id','=',$id)
+            ->where('user','=',$user->id)
+            ->update(['status'=>1]);
+
+        return ["count"=>$update];
+
+
+    }
+
 }

@@ -8,6 +8,24 @@ export async function loadJson(path) {
     return json;
 }
 
+export async function closeTicket(ticketId, csrf_token) {
+    let formData = new FormData();
+    formData.append('ticket_id', ticketId);
+    console.log("Posting ticket_id as :", ticketId);
+    let res = await fetch("tickets/close_ticket", {
+        method: "post",
+        headers: {
+            "X-CSRF-Token": csrf_token,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ticket_id: ticketId }),
+        credentials: "same-origin",
+    });
+    let json = await res.json();
+    return json;
+}
+
+
 export function elem(tagname, values) {
     let res = document.createElement(tagname);
     for (let k in values) {
@@ -44,7 +62,18 @@ export function drawUserLink(parent, tk, callback) {
 
     parent.appendChild(td);
     return td;
+}
 
+export function drawCloser(parent, callback) {
+    let td = elem('td', { className: "open_ticket" });
+    let btn = elem("button", {
+        innerText: "Close Ticket",
+    });
+    btn.onclick = callback;
+    td.appendChild(btn);
+
+    parent.appendChild(td);
+    return td;
 }
 
 

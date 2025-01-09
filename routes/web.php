@@ -26,6 +26,10 @@ Route::post('/tickets/new',
         'App\Http\Controllers\TicketController@newTicket'
 )->middleware('auth');
 
+Route::post('/tickets/close_ticket',
+        'App\Http\Controllers\TicketController@closeTicket'
+)->middleware('auth');
+
 
 Route::get('/tickets/open',
         'App\Http\Controllers\TicketController@open'

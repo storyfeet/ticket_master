@@ -38,17 +38,27 @@
 <script type="module">
 import * as loader from "/js/loader.js";
 
-function drawTickets(location,tickets){
+const CSRF_TOKEN = '{{csrf_token()}}';
+
+function drawTickets(location,tickets,isByUser){
     location.innerHTML = "";
     for(let i in tickets){
         let t = tickets[i];
 
         let row = document.createElement("tr");
         loader.drawTicket(row,t);
-        loader.drawUserLink(row,t,async()=>{
-            console.log("Loading user tickets");
-            loadTickets(`users/${t.email}/tickets`);
-        });
+        if (!isByUser){
+            loader.drawUserLink(row,t,async()=>{
+                console.log("Loading user tickets");
+                loadTickets(`users/${t.email}/tickets`,true);
+            });
+        }
+        if (t.status == 0 && (t.user_id == USER_ID || IS_ADMIN) ){
+            loader.drawCloser(row,async()=>{
+                let r = await loader.closeTicket(t.ticket_id,CSRF_TOKEN);
+                console.log(r);//TODO
+            })
+        }
         location.appendChild(row);
     }
 }
@@ -75,32 +85,37 @@ function setNextPrev(location,data){
     }
 }
 @isset($user)
+const USER_ID = {{$user->id}};
+const USER_NAME = "{{$user->name}}";
+const USER_EMAIL = "{{$user->email}}";
+const IS_ADMIN = false;
 document.getElementById("btn_my_tickets").onclick =  async function(){
-    await loadTickets("/users/{{$user->email}}/tickets");
+    await loadTickets("/users/{{$user->email}}/tickets",true);
 }
+
 @endisset
 
 
 
 document.getElementById("btn_open_tickets").onclick = async function(){
-    await loadTickets("/tickets/open");
+    await loadTickets("/tickets/open",false);
 }
 
 document.getElementById("btn_closed_tickets").onclick = async function(){
-    await loadTickets("/tickets/closed");
+    await loadTickets("/tickets/closed",false);
 }
 
 document.getElementById("btn_tickets_by_email").onclick = async function(){
     let email = document.getElementById("txt_email").value;
-    await loadTickets(`/users/${email}/tickets`);
+    await loadTickets(`/users/${email}/tickets`,true);
 }
 
 
 
-async function loadTickets(path){
+async function loadTickets(path,isByUser){
     let fResult = await loader.loadJson(path);
     let location = document.getElementById("ticket_table");
-    drawTickets(location,fResult.data);
+    drawTickets(location,fResult.data,isByUser);
 
     let nextPrev = document.getElementById("next_prev_view");
     setNextPrev(nextPrev,fResult);
