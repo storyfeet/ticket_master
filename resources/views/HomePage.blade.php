@@ -70,12 +70,12 @@ function drawTickets(location,tickets,isByUser,path){
     }
 }
 
-function setNextPrev(location,data){
+function setNextPrev(location,data,byUser){
     location.innerHTML = "";
     if (data.prev_page_url) {
         let btn = loader.elem("button", {
             onclick: async ()=>{
-                await loadTickets(data.prev_page_url);
+                await loadTickets(data.prev_page_url,byUser);
             },
             innerHTML:"Previous"
         });
@@ -84,23 +84,31 @@ function setNextPrev(location,data){
     if (data.next_page_url) {
         let btn = loader.elem("button", {
             onclick: async ()=>{
-                await loadTickets(data.next_page_url);
+                await loadTickets(data.next_page_url,byUser);
             },
             innerHTML:"Next"
         });
         location.appendChild(btn);
     }
 }
-@isset($user)
+
+@if(isset($is_admin))
+const IS_ADMIN = {{$is_admin}};
+@else
+const IS_ADMIN = false;
+@endif
+@if( isset($user))
 const USER_ID = {{$user->id}};
 const USER_NAME = "{{$user->name}}";
 const USER_EMAIL = "{{$user->email}}";
-const IS_ADMIN = false;
 document.getElementById("btn_my_tickets").onclick =  async function(){
     await loadTickets("/users/{{$user->email}}/tickets",true);
 }
-
-@endisset
+@else
+const USER_ID = null;
+const USER_NAME = null;
+const USER_EMAIL = null;
+@endif
 
 
 
@@ -125,11 +133,16 @@ async function loadTickets(path,isByUser){
     drawTickets(location,fResult.data,isByUser,path);
 
     let nextPrev = document.getElementById("next_prev_view");
-    setNextPrev(nextPrev,fResult);
+    setNextPrev(nextPrev,fResult,isByUser);
 
 }
 
+@if(isset($user))
 loadTickets(`/users/${USER_EMAIL}/tickets`,true);
+@else
+loadTickets(`/tickets/open`,true);
+
+@endif
 
 </script>
 

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Ticket;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\HomeController;
 
 class TicketController extends Controller
 {
@@ -27,7 +28,7 @@ class TicketController extends Controller
         $tickets = Ticket::query()
             ->where('status',false)
             ->join('users','tickets.user','=','users.id')
-            ->orderByDesc('tickets.id')
+            ->orderByDesc('tickets.updated_at')
             ->select($this->TICKETS_USER)
             ->paginate(3);
 
@@ -38,7 +39,7 @@ class TicketController extends Controller
         $tickets = Ticket::query()
             ->join('users','tickets.user','=','users.id')
             ->where('status',true)
-            ->orderByDesc('tickets.id')
+            ->orderByDesc('tickets.updated_at')
             ->select($this->TICKETS_USER)
             ->paginate(3);
 
@@ -121,10 +122,16 @@ class TicketController extends Controller
                 "request"=>request()->all(),
             ];
         }
-        $update = Ticket::query()
-            ->where('id','=',$id)
-            ->where('user','=',$user->id)
-            ->update(['status'=>1]);
+        if( HomeController::isAdmin($user)){
+            $update = Ticket::query()
+                ->where('id','=',$id)
+                ->update(['status'=>1]);
+        }else{
+            $update = Ticket::query()
+                ->where('id','=',$id)
+                ->where('user','=',$user->id)
+                ->update(['status'=>1]);
+        }
 
         return ["count"=>$update];
 

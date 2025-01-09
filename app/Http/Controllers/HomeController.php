@@ -3,15 +3,26 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Role;
 
 class HomeController extends Controller
 {
+
+    public static function isAdmin($user):bool{
+        return Role::query()
+            ->where('user','=',$user->id)
+            ->where('role','=','admin')
+            ->count() > 0;
+    }
 
     public function home(){
         $arr = [];
         $user = Auth::user();
         if ($user != Null){
             $arr["user"] = $user;
+            if ($this->isAdmin($user)){
+                $arr["is_admin"] = true;
+            }
         }
         $mes = session()->get('message');
         if ($mes != Null){
