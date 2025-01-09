@@ -35,3 +35,9 @@ test('tickets can update',function(){
     $this->assertEquals($count,11);
 });
 
+it('database stability', function ($url) {
+    $response = $this->get($url);
+
+    $response->assertStatus(200);
+})->with(["/tickets/open","/tickets/closed","/users/test@example.com/tickets","/stats","/users/nobody@nothing.co.uk/tickets"]);
+
