@@ -13,7 +13,9 @@
         @endisset
         @if (isset($user))
             <p>Welcome : <strong>{{$user->name}}</strong></p>
-            <p><a href="/ticketform">Raise New Ticket</a>&nbsp;&nbsp;<a href="/logout">Log Out</a></p>
+            <p><a href="/ticketform">Raise New Ticket</a>
+            &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+            <a href="/logout">Log Out</a></p>
         @else
             <p><a href="/loginhome">Login</a> to create tickets</p>
         @endif
@@ -127,6 +129,7 @@ async function loadTickets(path,isByUser){
 
 }
 
+loadTickets(`/users/${USER_EMAIL}/tickets`,true);
 
 </script>
 
