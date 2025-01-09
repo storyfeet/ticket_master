@@ -41,3 +41,13 @@ it('database stability', function ($url) {
     $response->assertStatus(200);
 })->with(["/tickets/open","/tickets/closed","/users/test@example.com/tickets","/stats","/users/nobody@nothing.co.uk/tickets","/stats","/stats_page"]);
 
+it('login works for real user', function() {
+    $response = $this->post("/login",[
+        "email"=>"normal@tickets.com",
+        "password"=>"normalnormal"
+    ]);
+    $response->assertStatus(302);
+    //TODO Check directed to home page
+    //TODO check for auth in is real
+});
+
