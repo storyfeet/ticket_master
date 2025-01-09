@@ -7,6 +7,11 @@ use App\Models\Ticket;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * This command produces a new ticket using ipsum lorem every munute.
+ * Each minute it checks the database for the flag "slow_tickets_continue"
+ * If the flag is gone, the process will end.
+ */
 class SlowTickets extends Command
 {
     /**

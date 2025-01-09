@@ -4,6 +4,11 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+
+/**
+ * Simply removes a flag from the global_flags table
+ * to stop new tickets being generated
+ */
 class StopTickets extends Command
 {
     /**

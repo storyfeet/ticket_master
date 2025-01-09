@@ -6,6 +6,12 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use App\Models\Ticket;
 
+/**
+ * This command creates tickets every 5 minutes.
+ * At each 5 minutes it checks if there is still a flag entry in the
+ * database (process_tickets_continue) , if the flag is removed,
+ * it will stop
+ */
 class ProcessTickets extends Command
 {
     /**

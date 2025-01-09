@@ -9,8 +9,12 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\HomeController;
 
+/**
+* Handles requesrs relating to creating and viewing tickets.
+*/
 class TicketController extends Controller
 {
+    // This selection list is the format for all three ticket collection requests.
     protected $TICKETS_USER = [
             'tickets.id as ticket_id',
             'tickets.user as user_id',
@@ -23,7 +27,9 @@ class TicketController extends Controller
             'tickets.updated_at',
 
         ];
-    //
+    /**
+    * Return the list of open tickets paginated
+    */
     public function open(){
         $tickets = Ticket::query()
             ->where('status',false)
@@ -35,6 +41,9 @@ class TicketController extends Controller
         return $tickets;
     }
 
+    /**
+    * Return the list of closed tickets paginated
+    */
     public function closed(){
         $tickets = Ticket::query()
             ->join('users','tickets.user','=','users.id')
@@ -46,6 +55,9 @@ class TicketController extends Controller
         return $tickets;
     }
 
+    /**
+    * return the list of tickets associated with a single user,
+    */
     public function user($email){
 
         $tickets = DB::table('tickets')
@@ -57,6 +69,9 @@ class TicketController extends Controller
         return $tickets;
     }
 
+    /**
+    * Return a set of useful stats about the application
+    */
     public function stats(){
         $numTickets = Ticket::query()->count();
         $numUnprocessed = Ticket::query()->where("status",false)->count();
@@ -93,6 +108,10 @@ class TicketController extends Controller
         ];
     }
 
+    /**
+    * Create a new ticket based on the post data recieved.
+    * Associated with the new user
+    */
     public function newTicket() {
         $user = Auth::user();
         validator([
@@ -113,6 +132,9 @@ class TicketController extends Controller
         ]);
     }
 
+    /**
+    * Check the user has the authority to close a ticket, then close it.
+    */
     public function closeTicket(){
         $user = Auth::user();
         $id = request()->post('ticket_id');

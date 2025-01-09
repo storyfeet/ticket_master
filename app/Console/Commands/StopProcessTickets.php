@@ -5,6 +5,9 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Simple mark a flag in the database to stop processing tickets
+ */
 class StopProcessTickets extends Command
 {
     /**
