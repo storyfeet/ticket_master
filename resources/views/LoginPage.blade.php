@@ -15,15 +15,16 @@
                 @endforeach
             </ul>
             </div>
+            <br>
         @endif
         <form action="login" method="post">
-            @csrf;
+            @csrf
             Email : <input name="email" type="text" value="{{old('email')}}"/><br>
             Password : <input name="password" type="password"/><br>
             <input type="submit" value="login"/>
         </form>
 
-
+<br><br>
         <div>
             <p>This is a dummy webpage, the two available logins are :</p>
             <p>normal : normal@tickets.com : normalnormal</p>
