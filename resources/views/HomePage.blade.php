@@ -8,9 +8,12 @@
     <body>
 
         <h1>Ticket Master</h1>
+        @isset($message)
+            <p>{{$message}}</p>
+        @endisset
         @if (isset($user))
             <p>Welcome : <strong>{{$user->name}}</strong></p>
-            <p><a href="/logout">Log Out</a></p>
+            <p><a href="/ticketform">Raise New Ticket</a>&nbsp;&nbsp;<a href="/logout">Log Out</a></p>
         @else
             <p><a href="/loginhome">Login</a> to create tickets</p>
         @endif
@@ -19,6 +22,9 @@
             <p>View Tickets</p>
             <button id="btn_open_tickets">Open Tickets</button>
             <button id="btn_closed_tickets">Closed Tickets</button>
+            @isset($user)
+            <button id="btn_my_tickets">My Tickets</button>
+            @endisset
             &nbsp;&nbsp; <input type="text" id="txt_email" />
             <button id="btn_tickets_by_email">Tickets By Email</button>
             <div id="next_prev_view"></div>
@@ -68,6 +74,12 @@ function setNextPrev(location,data){
         location.appendChild(btn);
     }
 }
+@isset($user)
+document.getElementById("btn_my_tickets").onclick =  async function(){
+    await loadTickets("/users/{{$user->email}}/tickets");
+}
+@endisset
+
 
 
 document.getElementById("btn_open_tickets").onclick = async function(){

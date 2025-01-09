@@ -18,10 +18,18 @@
         @endif
         <form action="login" method="post">
             @csrf;
-            <input name="email" type="text" value="{{old('email')}}"/>
-            <input name="password" type="password"/>
+            Email : <input name="email" type="text" value="{{old('email')}}"/><br>
+            Password : <input name="password" type="password"/><br>
             <input type="submit" value="login"/>
         </form>
+
+
+        <div>
+            <p>This is a dummy webpage, the two available logins are :</p>
+            <p>normal : normal@tickets.com : normalnormal</p>
+            <p>admin : admin@tickets.com : adminadmin</p>
+
+        </div>
 
     </body>
 </html>

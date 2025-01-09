@@ -20,6 +20,14 @@ class HomeController extends Controller
         return view('LoginPage');
     }
 
+    public function ticketform(){
+        $user = Auth::user();
+        if ($user != Null){
+            return view('TicketForm',["user"=>$user]);
+        }
+        return redirect('/');
+    }
+
     public function login(){
         validator(request()->all(),[
             'email' => ['required','email'],

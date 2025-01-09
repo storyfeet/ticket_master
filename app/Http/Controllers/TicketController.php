@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Ticket;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class TicketController extends Controller
 {
@@ -88,8 +89,27 @@ class TicketController extends Controller
             'most_tickets' => $ticketChamp,
             'last_processed' => $lastProcessed,
         ];
+    }
 
+    public function newTicket() {
+        $user = Auth::user();
+        validator([
+            'subject' => ['required'],
+            'content' => ['required']
+        ])->validate();
 
+        $subject = request()->post('subject');
+        Ticket::factory()->create([
+            'user'=>$user->id,
+            'subject'=>$subject,
+            'content'=>request()->post('content'),
+            'status'=>false,
+        ]);
+
+        return view('HomePage',[
+            'user'=>$user,
+            'message'=>"Ticket Created " . $subject,
+        ]);
     }
 
 }

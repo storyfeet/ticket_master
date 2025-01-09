@@ -8,7 +8,7 @@ Route::get('/',
 
 Route::get('/loginhome',
         'App\Http\Controllers\HomeController@loginhome'
-);
+)->name('login');
 
 Route::post('/login',
         'App\Http\Controllers\HomeController@login'
@@ -17,6 +17,15 @@ Route::post('/login',
 Route::get('/logout',
         'App\Http\Controllers\HomeController@logout'
 );
+
+Route::get('/ticketform',
+        'App\Http\Controllers\HomeController@ticketform'
+);
+
+Route::post('/tickets/new',
+        'App\Http\Controllers\TicketController@newTicket'
+)->middleware('auth');
+
 
 Route::get('/tickets/open',
         'App\Http\Controllers\TicketController@open'
