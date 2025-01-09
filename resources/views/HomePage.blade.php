@@ -15,9 +15,13 @@
             <p>Welcome : <strong>{{$user->name}}</strong></p>
             <p><a href="/ticketform">Raise New Ticket</a>
             &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+            <a href="stats_page">View Stats</a>
+            &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
             <a href="/logout">Log Out</a></p>
         @else
-            <p><a href="/loginhome">Login</a> to create tickets</p>
+            <p><a href="/loginhome">Login</a> to create tickets.
+            &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+            Or <a href="/stats_page">View Stats</a></p>
         @endif
 
         <div>

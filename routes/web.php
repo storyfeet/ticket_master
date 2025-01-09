@@ -46,5 +46,8 @@ Route::get('/stats',
            'App\Http\Controllers\TicketController@stats'
     );
 
+Route::get('/stats_page',
+           'App\Http\Controllers\TicketController@statsPage'
+    );
 
 

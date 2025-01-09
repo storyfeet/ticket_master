@@ -109,6 +109,13 @@ class TicketController extends Controller
     }
 
     /**
+     * Create a nicer view of the stats data
+     */
+    public function statsPage(){
+        return view('StatsPage',$this->stats());
+    }
+
+    /**
     * Create a new ticket based on the post data recieved.
     * Associated with the new user
     */
