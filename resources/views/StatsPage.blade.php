@@ -23,7 +23,7 @@
         <br>With : <strong>{{$most_tickets->total}}</strong> tickets
 
         <h2>Most Recent</h2>
-        The most recent ticket processed was <strong>"{{$last_processed->subject}}"</strong> at <strong>{{$last_processed->updated_at}}.</strong>
+        The most recent ticket processed was <strong>"{{$last_processed?->subject ?: "NO_ITEM"}}"</strong> at <strong>{{$last_processed?->updated_at ?: "NEVER"}}.</strong>
 
 
     </body>
