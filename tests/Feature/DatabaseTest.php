@@ -47,7 +47,15 @@ it('login works for real user', function() {
         "password"=>"normalnormal"
     ]);
     $response->assertStatus(302);
-    //TODO Check directed to home page
-    //TODO check for auth in is real
+    $this->assertHeader('location',"http://localhost");
+});
+
+it('Login doesn\'t work for non user', function() {
+    $response = $this->post("/login",[
+        "email"=>"bad@bad.bad",
+        "password"=>"bad bad bad"
+    ]);
+    $response->assertStatus(302);
+    //TODO work out why back(), doesn't return to loginhome (when it does in browser)
 });
 
