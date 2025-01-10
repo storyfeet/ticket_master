@@ -90,7 +90,7 @@ it ('admin can close tickets', function(){
 
     $admin = User::query()->where('name','=','admin')->get()[0];
 
-    $adminResponse = $this->actingAs($user)
+    $adminResponse = $this->actingAs($admin)
         ->post("/tickets/close_ticket",[
             'ticket_id'=>$ticket->id,
         ]);
@@ -98,9 +98,48 @@ it ('admin can close tickets', function(){
     $ticket = Ticket::query()->where('subject','=',"user_ticket_test")->get()[0];
     $this->assertEquals($ticket->status,true);
 
+    // In this case there should be a processed ticket, so covers another angle
+    $statsResponse = $this->get("/stats");
+    $statsResponse->assertOk();
+
+
+});
+
+it ('user can close ticket', function(){
+
+    $user = User::query()->where('name','=','normal')->get()[0];
+
+    $response = $this->followingRedirects()
+        ->actingAs($user)
+        ->post("/tickets/new",[
+            'subject'=>"user_close_test",
+            'content'=>"there is content on the user_closing_ticket_test",
+        ]);
+
+    $response->assertStatus(200);
+
+    $ticket = Ticket::query()->where('subject','=',"user_close_test")->get()[0];
+
+
+    $adminResponse = $this->actingAs($user)
+        ->post("/tickets/close_ticket",[
+            'ticket_id'=>$ticket->id,
+        ]);
+
+    $ticket = Ticket::query()->where('subject','=',"user_close_test")->get()[0];
+    $this->assertEquals($ticket->status,true);
 
 
 
 });
 
 
+it ('Null ticket can\'t be closed', function(){
+
+    $user = User::query()->where('name','=','normal')->get()[0];
+
+    $response = $this->actingAs($user)
+        ->post("/tickets/close_ticket",[ ]);
+    $response->assertOk();
+
+});
