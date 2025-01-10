@@ -39,7 +39,7 @@ it('database stability', function ($url) {
     $response = $this->get($url);
 
     $response->assertStatus(200);
-})->with(["/tickets/open","/tickets/closed","/users/test@example.com/tickets","/stats","/users/nobody@nothing.co.uk/tickets","/stats","/stats_page"]);
+})->with(["/tickets/open","/tickets/closed","/users/test@example.com/tickets","/users/nobody@nothing.co.uk/tickets","/stats","/stats_page"]);
 
 it('login works for real user', function() {
     $response = $this->post("/login",[
@@ -47,7 +47,7 @@ it('login works for real user', function() {
         "password"=>"normalnormal"
     ]);
     $response->assertStatus(302);
-    $this->assertHeader('location',"http://localhost");
+    $response->assertHeader('Location',"http://localhost");
 });
 
 it('Login doesn\'t work for non user', function() {
@@ -58,4 +58,49 @@ it('Login doesn\'t work for non user', function() {
     $response->assertStatus(302);
     //TODO work out why back(), doesn't return to loginhome (when it does in browser)
 });
+
+
+it('logged in user can see more stuff' , function($url){
+    $user = User::factory()->create();
+    $response = $this->actingAs($user)->get($url);
+    $response->assertOk();
+})->with(["/","/ticketform"]);
+
+
+it('admin can see even more', function(){
+    $users = User::query()->where('name','=','admin')->get();
+    $this->assertEquals($users->count(),1);
+
+    $response = $this->actingAs($users[0])->get("/");
+    $response->assertOk();
+});
+
+
+it ('admin can close tickets', function(){
+
+    $user = User::query()->where('name','=','normal')->get()[0];
+
+    $response = $this->followingRedirects()->actingAs($user)->post("/tickets/new",[
+        'subject'=>"user_ticket_test",
+        'content'=>"there is content on the user_ticket_test",
+    ]);
+    $response->assertStatus(200);
+
+    $ticket = Ticket::query()->where('subject','=',"user_ticket_test")->get()[0];
+
+    $admin = User::query()->where('name','=','admin')->get()[0];
+
+    $adminResponse = $this->actingAs($user)
+        ->post("/tickets/close_ticket",[
+            'ticket_id'=>$ticket->id,
+        ]);
+
+    $ticket = Ticket::query()->where('subject','=',"user_ticket_test")->get()[0];
+    $this->assertEquals($ticket->status,true);
+
+
+
+
+});
+
 

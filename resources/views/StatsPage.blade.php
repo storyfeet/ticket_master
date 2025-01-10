@@ -19,7 +19,7 @@
         </table>
 
         <h2>Ticket Champion</h2>
-        User with the most tickets was <strong>{{$most_tickets?->name ?: "NO_ONE"}}</strong> : {{$most_tickets?->email ?: NO_ADDRESS}}.
+        User with the most tickets was <strong>{{$most_tickets?->name ?: "NO_ONE"}}</strong> : {{$most_tickets?->email ?: "NO_ADDRESS"}}.
         <br>With : <strong>{{$most_tickets?->total ?:0}}</strong> tickets
 
         <h2>Most Recent</h2>
