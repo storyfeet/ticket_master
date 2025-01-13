@@ -10,16 +10,17 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class TicketsUpdated implements ShouldBroadcastNow;
+class TicketsUpdated implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $message;
     /**
      * Create a new event instance.
      */
     public function __construct()
     {
-        //
+        $this->message = "DUMMY_MESSAGE";
     }
 
     /**
@@ -27,10 +28,12 @@ class TicketsUpdated implements ShouldBroadcastNow;
      *
      * @return array<int, \Illuminate\Broadcasting\Channel>
      */
-    public function broadcastOn(): array
+    public function broadcastOn():Channel
     {
-        return [
-            new PrivateChannel('channel-name'),
-        ];
+        return new Channel("tickets");
+    }
+
+    public function broadcastAs():string{
+        return "updated";
     }
 }

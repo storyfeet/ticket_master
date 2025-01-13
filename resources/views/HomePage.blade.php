@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <title>Ticket Master</title>
         <link rel="stylesheet" type="text/css" href="/css/main.css" />
+        @vite('resources/js/app.js')
     </head>
     <body>
 
@@ -42,9 +43,18 @@
     </body>
 
 <script type="module">
+
+
 import * as loader from "/js/loader.js";
 
+
+
 const CSRF_TOKEN = '{{csrf_token()}}';
+
+let LastRequest = {
+    path : "/tickets/open",
+    isByUser :  false,
+};
 
 function drawTickets(location,tickets,isByUser,path){
     location.innerHTML = "";
@@ -134,6 +144,11 @@ document.getElementById("btn_tickets_by_email").onclick = async function(){
 async function loadTickets(path,isByUser){
     let fResult = await loader.loadJson(path);
     let location = document.getElementById("ticket_table");
+
+    LastRequest.path = path;
+    LastRequest.isByIser = isByUser;
+
+
     drawTickets(location,fResult.data,isByUser,path);
 
     let nextPrev = document.getElementById("next_prev_view");
@@ -147,6 +162,12 @@ loadTickets(`/users/${USER_EMAIL}/tickets`,true);
 loadTickets(`/tickets/open`,true);
 
 @endif
+
+window.Echo.channel("tickets").listen(".updated",()=>{
+    console.log("Update recieved");
+    loadTickets(LastRequest.path,LastRequest.isByUser);
+});
+
 
 </script>
 

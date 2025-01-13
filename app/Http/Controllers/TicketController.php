@@ -8,6 +8,7 @@ use App\Models\Ticket;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\HomeController;
+use App\Events\TicketsUpdated;
 
 /**
 * Handles requesrs relating to creating and viewing tickets.
@@ -38,6 +39,7 @@ class TicketController extends Controller
             ->select($this->TICKETS_USER)
             ->paginate(3);
 
+
         return $tickets;
     }
 
@@ -51,6 +53,7 @@ class TicketController extends Controller
             ->orderByDesc('tickets.updated_at')
             ->select($this->TICKETS_USER)
             ->paginate(3);
+
 
         return $tickets;
     }
@@ -134,6 +137,7 @@ class TicketController extends Controller
             'status'=>false,
         ]);
 
+        event(new TicketsUpdated());
         return redirect('/')->with([
             'message'=>"Ticket Created " . $subject,
         ]);
@@ -161,6 +165,8 @@ class TicketController extends Controller
                 ->where('user','=',$user->id)
                 ->update(['status'=>1]);
         }
+
+        event(new TicketsUpdated());
 
         return ["count"=>$update];
 
