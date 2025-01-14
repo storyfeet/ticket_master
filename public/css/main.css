@@ -11,8 +11,14 @@
     background:#ffbbbb;
 }
 
+.language_box{
+    float:right;
+    font-size:large;
+}
 
 div {
     border : 1px solid black;
     padding : 5px;
 }
+
+

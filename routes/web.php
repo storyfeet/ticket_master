@@ -1,13 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Middleware\LanguageMiddleware;
 // The home page of the webste.
 // This acts as dashboard whether logged in or not.
 // But if logged in, there are a few extra options available.
 Route::get('/',
         'App\Http\Controllers\HomeController@home'
-    );
+    )->middleware(LanguageMiddleware::class);
 
 //Returns the login form so users can log in
 Route::get('/loginhome',
@@ -66,4 +66,7 @@ Route::get('/stats_page',
            'App\Http\Controllers\TicketController@statsPage'
     );
 
+Route::post('/language/switch',
+        'App\Http\Controllers\LanguageController@switchLanguage'
+);
 

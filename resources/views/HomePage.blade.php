@@ -7,7 +7,7 @@
         @vite('resources/js/app.js')
     </head>
     <body>
-
+        @include('LanguageSelect')
         <h1>Ticket Master</h1>
         @isset($message)
             <p>{{$message}}</p>
