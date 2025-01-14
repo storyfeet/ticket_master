@@ -16,24 +16,24 @@
             <p>Welcome : <strong>{{$user->name}}</strong></p>
             <p><a href="/ticketform">Raise New Ticket</a>
             &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
-            <a href="stats_page">View Stats</a>
+            <a href="stats_page">{{__('messages.view_stats')}}</a>
             &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
-            <a href="/logout">Log Out</a></p>
+            <a href="/logout">{{__('messages.logout')}}</a></p>
         @else
-            <p><a href="/loginhome">Login</a> to create tickets.
+            <p><a href="/loginhome">{{__('messages.login')}}</a> {{__('messages.to_raise_tickets')}}
             &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
-            Or <a href="/stats_page">View Stats</a></p>
+            {{__('messages.or')}} <a href="/stats_page">{{__('messages.view_stats')}}</a></p>
         @endif
 
         <div>
-            <p>View Tickets</p>
-            <button id="btn_open_tickets">Open Tickets</button>
-            <button id="btn_closed_tickets">Closed Tickets</button>
+            <p>{{__('messages.view_tickets')}}</p>
+            <button id="btn_open_tickets">{{__('messages.the_open_tickets')}}</button>
+            <button id="btn_closed_tickets">{{__('messages.the_closed_tickets')}}</button>
             @isset($user)
-            <button id="btn_my_tickets">My Tickets</button>
+            <button id="btn_my_tickets">{{__('messages.my_tickets')}}</button>
             @endisset
             &nbsp;&nbsp; <input type="text" id="txt_email" />
-            <button id="btn_tickets_by_email">Tickets By Email</button>
+            <button id="btn_tickets_by_email">{{__('messages.select_by_email')}}</button>
             <div id="next_prev_view"></div>
             <table id="ticket_table">
             </div>
