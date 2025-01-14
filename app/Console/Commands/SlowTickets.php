@@ -29,7 +29,7 @@ class SlowTickets extends Command
     protected $description = 'Generate new tickets once per minute until stop-tickets is called ';
 
     /**
-     * Execute the console command.
+     * Add a new lorum ipsum ticket to the database every 60 seconds while running.
      */
     public function handle():void
     {
@@ -47,11 +47,9 @@ class SlowTickets extends Command
             sleep(60);
 
             $stc = DB::table('globalflags')->where('id','slow_tickets_continue')->get();
-            Log::debug("stc : " . $stc->count());
             if ($stc->count() ==0) return;
             if ($stc[0]->value == false ) return;
         }
 
-        Log::debug("Slow tickets reach end");
     }
 }
