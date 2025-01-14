@@ -25,6 +25,9 @@ To get everything running follow the steps below:
 
 * Seed the database: ```vendor/bin/sail artisan migrate:fresh --seed```
 
+* Start the Reverb Event Broadcaster: ```vendor/bin/sail artisan reverb:start```
+
+
 Using Console Commands
 --------------
 
@@ -34,6 +37,8 @@ To run the background tasks to create and resolve tickets use the following comm
 
 ```vender/bin/sail artisan app:slow-tickets```
 
+This can will create a new ticket every minute with lorum ipsum text
+
 If you disown the thread (with &) you can stop the process with:
 
 ```vendor/bin/sail artisan app:stop-tickets```
@@ -41,6 +46,8 @@ If you disown the thread (with &) you can stop the process with:
 ### To Resolve Tickets
 
 ```vender/bin/sail artisan app:process-tickets```
+
+This will create a thread that marks a ticket as complete every 5 minutes.
 
 If you disown the thread (with &) you can stop the process with:
 
@@ -58,7 +65,7 @@ localhost/users/{email}/tickets
 localhost/stats
 ```
 
-The routes: ```tickets/open```,```tickets/closed```,and ```users/{email}/tickets```: Will return a paginated JSON page in the same format.  The ```data``` element, will contain a list of up the three elements. The ```next_page_url```, how to get the following page.
+The routes: ```tickets/open```,```tickets/closed```,and ```users/{email}/tickets```: Will return a paginated JSON page in the same format as each other.  The ```data``` element, will contain a list of up the three elements. The ```next_page_url```, how to get the following page.
 
 The route: ```stats``` will list useful details about how the server is being used. This is not paginated
 
@@ -69,10 +76,10 @@ From the browser : ```localhost``` will return a homepage, where you can select 
 
 You will also see a text input and a "Tickets by Email" Button. If you input a user email, and select this, it will bring up the list of that users tickets, paginated as before.
 
-The app will show tickets to all users, but will only allow the appropriate people to make/close tickets.
+The app will show tickets publically, but will only allow the appropriate people to make/close tickets.
 
-Normal Users can Create and Close Tickets their own tickets.
-Admin Users can also close other people's tickets.
+* Normal Users can Create and Close Tickets their own tickets.
+* Admin Users can also close other people's tickets.
 
 After the database is seeded, there will be 2 users available:
 
@@ -90,6 +97,8 @@ If they click on "my tickets" They will see a list of their own tickets.
 If the ticket is open, there will be a button to close, it.
 
 Admin Users may close any open ticket, the page should refresh automatically.
+
+If a new ticket is created/closed, this will create an TicketUpdated Event, which will send dummy data to the client. The client will then automatically refresh tickets they are currently looking at.
 
 
 
