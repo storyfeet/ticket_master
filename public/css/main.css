@@ -13,7 +13,11 @@
 
 .language_box{
     float:right;
-    font-size:large;
+    font-size:120%;
+}
+
+strong{
+    font-size : 120%;
 }
 
 div {

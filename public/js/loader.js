@@ -42,13 +42,13 @@ export function ticketBuilder(messages) {
     result.drawTicket = (parent, tk) => {
         let status = tk.status ? messages.status_closed : messages.status_open;
         let tClass = tk.status ? "closed_ticket" : "open_ticket";
-        let infoline = `${tk.ticket_id} (${status}): ${tk.subject} `;
+        let infoline = `${tk.ticket_id} (${status}): <strong>${tk.subject}</strong> `;
         let userline = `${tk.user_id}: ${tk.name} - ${tk.email}`;
 
         let dateline = `${messages.created_at} : ${tk.created_at}. ${messages.last_update}: ${tk.updated_at} `;
 
         let div = elem('td', { className: tClass });
-        div.appendChild(elem('p', { innerText: infoline }))
+        div.appendChild(elem('p', { innerHTML: infoline }))
         div.appendChild(elem('p', { innerText: userline }))
         div.appendChild(elem('p', { innerText: tk.content }))
         div.appendChild(elem('p', { innerText: dateline }))
