@@ -10,6 +10,8 @@ return [
     "to_raise_tickets"=>"以创建支持票",
     "raise_new_ticket"=>"创建新票据",
     "or" => "或者",
+    "status_closed" => "开放的",
+    "status_open" => "关闭了",
     "view_stats"=> "查看统计数据",
     "view_tickets" => "查看支持票",
     "the_open_tickets" => "开放的",
