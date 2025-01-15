@@ -2,11 +2,12 @@
 <html>
     <head>
         <meta charset="utf-8"/>
-        <title>New Ticket</title>
+        <title>{{__('messages.new_ticket')}}</title>
         <link rel="stylesheet" type="text/css" href="/css/main.css" />
     </head>
     <body>
-        <h1>New Ticket : {{$user->name}}</h1>
+        @include('LanguageSelect')
+        <h1>{{__('messages.new_ticket')}} : {{$user->name}}</h1>
         @if ($errors->any())
             <div class="error_list">
             <ul>
@@ -18,11 +19,11 @@
         @endif
         <form action="/tickets/new" method="post">
             @csrf
-            Subject:<br>
+            <label>{{__('messages.subject')}}:</label><br>
             <input type="text" name="subject"/><br>
-            Content: <br>
+            <label>{{__('messages.content')}}:</label> <br>
             <textarea name="content" cols="40" rows="5"></textarea><br>
-            <input type="submit" value="Raise Ticket"/>
+            <input type="submit" value="{{__('messages.raise_new_ticket')}}"/>
 
         </form>
     </body>

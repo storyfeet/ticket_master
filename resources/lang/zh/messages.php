@@ -1,17 +1,27 @@
 <?php
 
 return [
+    "ticket_master"=>"票务主管",
     "login"=>"登录",
-    "logout"=>"Logout",
+    "logout"=>"登出",
+    "email_address"=>"电子邮件",
+    "password" => "密码",
+    "new_ticket"=>"新票",
     "to_raise_tickets"=>"以创建支持票",
+    "raise_new_ticket"=>"创建新票据",
     "or" => "或者",
     "view_stats"=> "查看统计数据",
     "view_tickets" => "查看支持票",
     "the_open_tickets" => "开放的",
     "the_closed_tickets" => "已关闭的",
+    "close_ticket" => "关闭票",
     "select_by_email" => "邮件选择",
     "my_tickets" => "我的",
     "next" => "下一张",
     "previous" => "上一张",
     "users_tickets" => "用户票",
+    "welcome" => "欢迎",
+    "subject" => "主题",
+    "content" => "内容",
+    "dummy_site" => "这是一个虚拟网站，我通常不会发布用户详细信息，但为了方便使用。可用的登录信息如下：",
 ];

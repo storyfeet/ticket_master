@@ -13,8 +13,8 @@
             <p>{{$message}}</p>
         @endisset
         @if (isset($user))
-            <p>Welcome : <strong>{{$user->name}}</strong></p>
-            <p><a href="/ticketform">Raise New Ticket</a>
+            <p>{{__('messages.welcome')}} : <strong>{{$user->name}}</strong></p>
+            <p><a href="/ticketform">{{__('messages.raise_new_ticket')}}</a>
             &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
             <a href="stats_page">{{__('messages.view_stats')}}</a>
             &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;

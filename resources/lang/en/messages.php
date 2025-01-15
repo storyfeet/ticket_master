@@ -1,9 +1,14 @@
 <?php
 
 return [
+    "ticket_master" => "Ticket Master",
     "login"=>"Login",
     "logout"=>"Logout",
+    "email_address"=>"Email",
+    "password" => "Password",
+    "new_ticket"=>"New Ticket",
     "to_raise_tickets"=>"to raise tickets",
+    "raise_new_ticket"=>"Raise new ticket",
     "or" => "or",
     "view_stats"=> "view stats",
     "view_tickets" => "View Tickets",
@@ -19,4 +24,8 @@ return [
     "created_at" => "Created at",
     "last_update" => "Last Update",
     "close_ticket" => "Close Ticket",
+    "welcome" => "Welcome",
+    "subject" => "Subject",
+    "content" => "Content",
+    "dummy_site" => "This is a dummy website, I would not normally post user details, but for ease of use. The available logins are:"
 ];

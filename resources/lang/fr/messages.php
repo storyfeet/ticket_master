@@ -1,9 +1,14 @@
 <?php
 
 return [
+    "Ticket Master"=>"Ticket Master",
     "login"=>"Connectez-vous",
-    "logout"=>"Logout",
+    "logout"=>"Déconnectez vous",
+    "email_address"=>"Email",
+    "password" => "Mot de Passe",
+    "new_ticket"=>"Nouveau Ticket",
     "to_raise_tickets"=>"pour créer des tickets",
+    "raise_new_ticket"=>"Créer un nouveau ticket",
     "or" => "ou",
     "view_stats"=> "voir les statistiques",
     "view_tickets" => "Voir les tickets",
@@ -19,4 +24,8 @@ return [
     "created_at" => "Créé à",
     "last_update" => "Dernière mise à jour",
     "close_ticket" => "Fermer le ticket",
+    "welcome" => "Bienvenue",
+    "subject" => "Sujet",
+    "content" => "Contenu",
+    "dummy_site" => "Il s'agit d'un site Web fictif. Normalement, je ne publie pas les détails des utilisateurs, mais pour plus de facilité d'utilisation. Les identifiants disponibles sont :",
 ];

@@ -6,7 +6,8 @@
         <link rel="stylesheet" type="text/css" href="/css/main.css" />
     </head>
     <body>
-        <h1>Ticket Master - Login</h1>
+        @include('LanguageSelect')
+        <h1>{{__('messages.ticket_master')}} - {{__('messages.login')}}</h1>
         @if ($errors->any())
             <div class="error_list">
             <ul>
@@ -19,14 +20,14 @@
         @endif
         <form action="login" method="post">
             @csrf
-            Email : <input name="email" type="text" value="{{old('email')}}"/><br>
-            Password : <input name="password" type="password"/><br>
+            <label>{{__('messages.email_address')}}</label> : <input name="email" type="text" value="{{old('email')}}"/><br>
+            <label>{{__('messages.password')}}</label> : <input name="password" type="password"/><br>
             <input type="submit" value="login"/>
         </form>
 
 <br><br>
         <div>
-            <p>This is a dummy webpage, the two available logins are :</p>
+            <p>{{__('messages.dummy_site')}}</p>
             <p>normal : normal@tickets.com : normalnormal</p>
             <p>admin : admin@tickets.com : adminadmin</p>
 

@@ -12,7 +12,7 @@ Route::get('/',
 //Returns the login form so users can log in
 Route::get('/loginhome',
         'App\Http\Controllers\HomeController@loginhome'
-)->name('login');
+)->name('login')->middleware(LanguageMiddleware::class);
 
 // Logs a user into the system.
 Route::post('/login',
@@ -28,7 +28,7 @@ Route::get('/logout',
 // Auth is managed inside the controller as user name is needed.
 Route::get('/ticketform',
         'App\Http\Controllers\HomeController@ticketform'
-);
+)->middleware(LanguageMiddleware::class);
 
 // Allows a logged in user to create a new ticket
 Route::post('/tickets/new',
