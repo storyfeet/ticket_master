@@ -23,5 +23,7 @@ return [
     "welcome" => "欢迎",
     "subject" => "主题",
     "content" => "内容",
+    "created_at" => "创建于",
+    "last_update" => "最后更新于",
     "dummy_site" => "这是一个虚拟网站，我通常不会发布用户详细信息，但为了方便使用。可用的登录信息如下：",
 ];
