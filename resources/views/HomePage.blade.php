@@ -47,6 +47,18 @@
 
 import * as loader from "/js/loader.js";
 
+const MESSAGES = {
+    "next" : "{{__('messages.next')}}",
+    "previous" : "{{__('messages.previous')}}",
+    "users_tickets": "{!!__('messages.users_tickets')!!}",
+    "status_closed" : "{{__('messages.status_closed')}}",
+    "status_open" : "{{__('messages.status_open')}}",
+    "created_at" : "{{__('messages.created_at')}}",
+    "last_update" : "{{__('messages.last_update')}}",
+    "close_ticket" : "{{__('messages.close_ticket')}}",
+}
+const builder = loader.ticketBuilder(MESSAGES);
+
 
 
 const CSRF_TOKEN = '{{csrf_token()}}';
@@ -56,21 +68,22 @@ let LastRequest = {
     isByUser :  false,
 };
 
+
 function drawTickets(location,tickets,isByUser,path){
     location.innerHTML = "";
     for(let i in tickets){
         let t = tickets[i];
 
         let row = document.createElement("tr");
-        loader.drawTicket(row,t);
+        builder.drawTicket(row,t);
         if (!isByUser){
-            loader.drawUserLink(row,t,async()=>{
+            builder.drawUserLink(row,t,async()=>{
                 console.log("Loading user tickets");
                 loadTickets(`users/${t.email}/tickets`,true);
             });
         }
         if (t.status == 0 && (t.user_id == USER_ID || IS_ADMIN) ){
-            loader.drawCloser(row,async()=>{
+            builder.drawCloser(row,async()=>{
                 let r = await loader.closeTicket(t.ticket_id,CSRF_TOKEN);
                 if (r.error) {
                     console.log(r)
@@ -87,20 +100,20 @@ function drawTickets(location,tickets,isByUser,path){
 function setNextPrev(location,data,byUser){
     location.innerHTML = "";
     if (data.prev_page_url) {
-        let btn = loader.elem("button", {
+        let btn = builder.elem("button", {
             onclick: async ()=>{
                 await loadTickets(data.prev_page_url,byUser);
             },
-            innerHTML:"Previous"
+            innerHTML:MESSAGES.previous,
         });
         location.appendChild(btn);
     }
     if (data.next_page_url) {
-        let btn = loader.elem("button", {
+        let btn = builder.elem("button", {
             onclick: async ()=>{
                 await loadTickets(data.next_page_url,byUser);
             },
-            innerHTML:"Next"
+            innerHTML:MESSAGES.next,
         });
         location.appendChild(btn);
     }
@@ -159,7 +172,7 @@ async function loadTickets(path,isByUser){
 @if(isset($user))
 loadTickets(`/users/${USER_EMAIL}/tickets`,true);
 @else
-loadTickets(`/tickets/open`,true);
+loadTickets(`/tickets/open`,false);
 
 @endif
 

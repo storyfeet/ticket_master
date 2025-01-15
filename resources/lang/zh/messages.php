@@ -11,4 +11,7 @@ return [
     "the_closed_tickets" => "已关闭的",
     "select_by_email" => "邮件选择",
     "my_tickets" => "我的",
+    "next" => "下一张",
+    "previous" => "上一张",
+    "users_tickets" => "用户票",
 ];
