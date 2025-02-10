@@ -5,7 +5,7 @@
         <title>Ticket Master</title>
         <link rel="stylesheet" type="text/css" href="/css/main.css" />
         @viteReactRefresh
-        @vite('resources/js/app/jsx')
+        @vite('resources/js/app.jsx')
     </head>
     <body>
         <div id="app"></div>
