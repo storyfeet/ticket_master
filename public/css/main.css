@@ -1,4 +1,13 @@
 
+.ticket_list td {
+    padding:5px;
+    border:1px solid white;
+}
+
+.ticket_content{
+    max-width:60vw;
+}
+
 .open_ticket , .closed_ticket{
     padding:5px;
     margin:5px;

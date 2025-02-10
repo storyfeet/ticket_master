@@ -6,16 +6,16 @@ export default function TicketList() {
     let [ticketList, setTicketList] = useState([]);
 
     useEffect(async () => {
-        let jsres = await loader.loadJson("/tickets/open");
+        let jsres = await loader.loadJson("/users/normal@tickets.com/tickets");
         console.log(jsres);
-        setTicketList(jsres.data);
+        setTicketList(jsres);
     }, [])
 
     let tlist = ticketList.data?.map((ticket, index) => (
         <Ticket ticket={ticket} index={index} />
     ));
     return (
-        <div className="ticket_div">
+        <div className="ticket_list">
             <h2>Tickets</h2>
             {tlist || "No Tickets"}
         </div>
