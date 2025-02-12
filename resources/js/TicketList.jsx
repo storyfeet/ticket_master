@@ -4,27 +4,32 @@ import * as loader from "./loader";
 
 export default function TicketList() {
     let [ticketList, setTicketList] = useState([]);
+    let [byUser, setByUser] = useState(false);
     let [path, setPath] = useState("/tickets/open");
 
 
+    async function setPage({ newPath, byUser }) {
+        console.log("pageGetter : path = ", newPath);
+        let jsres = await loader.loadJson(newPath);
+        console.log(jsres);
+        console.log("setTicketList", setTicketList);
+        setByUser(Boolean(byUser));
+        setTicketList(jsres);
+        setPath(newPath);
+    }
+
     useEffect(() => {
-        (async () => {
-            console.log("pageGetter : path = ", path);
-            let jsres = await loader.loadJson(path);
-            console.log(jsres);
-            console.log("setTicketList", setTicketList);
-            setTicketList(jsres);
-        })();
-    }, [path])
+        setPage({ newPath: path, byUser: false });
+    }, [])
 
     function PageButton({ dir, dpath }) {
         return (
-            <button onClick={() => setPath(dpath)} disabled={dpath === null}>{dir}</button>
+            <button onClick={() => setPage({ newPath: dpath, byUser: byUser })} disabled={dpath === null}>{dir}</button>
         );
     }
 
     let tlist = ticketList.data?.map((ticket, index) => (
-        <Ticket key={index} ticket={ticket} pager={(p) => setPath(p)} />
+        <Ticket key={index} ticket={ticket} pager={setPage} isByUser={byUser} />
     ));
     return (
         <div className="ticket_list">

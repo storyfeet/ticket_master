@@ -16,7 +16,7 @@ export default function Ticket({ ticket, isByUser, canEdit, pager }) {
                 <a onClick={() => {
                     let path = `/users/${ticket.email}/tickets`;
                     console.log("GetUser clicked : ", path);
-                    pager(path)
+                    pager({ newPath: path, byUser: true });
                 }}>Get User's Tickets</a>
             </td>}
             {canEdit && <td></td>}
