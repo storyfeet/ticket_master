@@ -1,8 +1,8 @@
 
-export default function Ticket({ index, ticket, isByUser, canEdit }) {
+export default function Ticket({ ticket, isByUser, canEdit, pager }) {
 
     return (
-        <tr key={index} className={ticket.status ? "closed_ticket" : "open_ticket"} >
+        <tr className={ticket.status ? "closed_ticket" : "open_ticket"} >
             <td><b>{ticket.name}</b>
                 <br />{ticket.email}
                 <br />{ticket.status ? "Closed" : "Open"}
@@ -12,9 +12,15 @@ export default function Ticket({ index, ticket, isByUser, canEdit }) {
                 {ticket.created_at}<br />
                 {ticket.updated_at}
             </td>
-            {!isByUser && <td><button>Get User's Tickets</button></td>}
+            {!isByUser && <td>
+                <a onClick={() => {
+                    let path = `/users/${ticket.email}/tickets`;
+                    console.log("GetUser clicked : ", path);
+                    pager(path)
+                }}>Get User's Tickets</a>
+            </td>}
             {canEdit && <td></td>}
 
-        </tr>
+        </tr >
     );
 }
