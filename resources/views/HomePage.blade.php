@@ -11,5 +11,8 @@
         <div id="app"></div>
 
     </body>
+    <script>
+        window.CSRF_TOKEN = '{{csrf_token()}}';
+    </script>
 
 </html>
