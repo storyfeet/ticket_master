@@ -1,4 +1,7 @@
 
-./sail up &>/dev/null & disown
-./sail artisan reverb:start &> /dev/null & disown
-./sail npm run dev &>/dev/null & disown
+./sail up &
+sleep 5
+./sail artisan reverb:start &
+sleep 3
+./sail npm run dev &
+sleep 3
