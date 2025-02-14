@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use App\Models\Role;
 use Illuminate\Validation\ValidationException;
 
@@ -81,7 +82,6 @@ class HomeController extends Controller
     }
 
     public function loginJSON(){
-
         //TODO unfinished function
         try{
             validator(request()->all(),[
@@ -90,10 +90,20 @@ class HomeController extends Controller
             ]
             )->validate();
         }catch (ValidationException $e){
-            return [error=>$e];
+            return ['errors'=>$e->errors()];
         }
 
-        return [success=>"yey"];
+        if (! auth()->attempt(request()->only(['email','password']))){
+            return ['errors'=>['credentials'=>'Login Credentials not correct']];
+        }
+
+
+        $user = Auth::user();
+        $isAdmin = $this->isAdmin($user);
+        return ['name'=> $user->name ,
+            'email'=> $user->email,
+            'isAdmin' => $isAdmin,
+        ];
     }
 
 

@@ -13,6 +13,8 @@
     </body>
     <script>
         window.CSRF_TOKEN = '{{csrf_token()}}';
+        window.CSRF_FORM = '@csrf';
+        window.LOGIN = @json()
     </script>
 
 </html>
