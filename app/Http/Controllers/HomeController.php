@@ -24,7 +24,7 @@ class HomeController extends Controller
             ->count() > 0;
     }
 
-    public function userInfo():array{
+    public function userInfo(){
         $user = Auth::user();
         if ($user === null) return null;
         $isAdmin = $this->isAdmin($user);

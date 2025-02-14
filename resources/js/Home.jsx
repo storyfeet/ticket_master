@@ -3,7 +3,7 @@ import TicketList from "./TicketList";
 import LoginForm from "./Login";
 
 export default function Home() {
-    let [user, setUser] = useState(null)
+    let [user, setUser] = useState(window.USER_INFO)
 
     return (
         <>
