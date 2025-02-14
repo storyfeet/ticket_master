@@ -100,7 +100,7 @@ class HomeController extends Controller
         }
 
         if (! auth()->attempt(request()->only(['email','password']))){
-            return ['errors'=>['credentials'=>'Login Credentials not correct']];
+            return ['errors'=>['credentials'=>['Login credentials not correct']]];
         }
 
         return $this->userInfo();

@@ -1,8 +1,8 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { postCsrfJson } from "./loader";
 
 export default function LoginForm({ user, userSetter }) {
-
+    let [errors, setErrors] = useState(null);
     let rEmail = useRef();
     let rPass = useRef();
     async function handleSubmitLogin(e) {
@@ -21,12 +21,14 @@ export default function LoginForm({ user, userSetter }) {
             "email": rEmail.current.value,
             "password": rPass.current.value,
         });
+        if (login?.errors) {
+            setErrors(login.errors);
+            return true;
+        }
 
         if (!login?.errors) {
             userSetter(login);
         }
-
-
 
         return true;
     }
@@ -39,8 +41,18 @@ export default function LoginForm({ user, userSetter }) {
         return (
             <form onSubmit={handleSubmitLogin} >
                 <input type="hidden" name="_token" value={window.CSRF_TOKEN} />
-                <label>Email : <input ref={rEmail} type="text" name="email" /></label><br />
-                <label>Password : <input ref={rPass} type="password" name="password" /></label>
+                {(errors?.email?.map(
+                    (val, index) => (<p key={index} className="error">{val}</p>)))}
+                <label className={errors?.email && "error"}>
+                    Email : <input ref={rEmail} type="text" name="email" />
+                </label><br />
+                {(errors?.password?.map(
+                    (val, index) => (<p key={index} className="error">{val}</p>)))}
+                <label className={errors?.password && "error"}>
+                    Password : <input ref={rPass} type="password" name="password" />
+                </label><br />
+                {(errors?.credentials?.map(
+                    (val, index) => (<p key={index} className="error">{val}</p>)))}
                 <input type="submit" value="Login" />
             </form>
         );

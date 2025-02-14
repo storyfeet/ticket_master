@@ -13,3 +13,10 @@ button[disabled]{
     background:grey;
 }
 
+.error {
+    color:red;
+}
+.error input {
+    border: 1px solid red;
+}
+
