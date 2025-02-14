@@ -1,4 +1,5 @@
-
+sudo systemctl start docker
+sleep 4
 ./sail up &
 sleep 5
 ./sail artisan reverb:start &
