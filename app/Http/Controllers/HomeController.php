@@ -24,24 +24,30 @@ class HomeController extends Controller
             ->count() > 0;
     }
 
+    public function userInfo():array{
+        $user = Auth::user();
+        if ($user === null) return null;
+        $isAdmin = $this->isAdmin($user);
+        return [
+            'id'=>$user->id,
+            'name'=> $user->name ,
+            'email'=> $user->email,
+            'isAdmin' => $isAdmin,
+        ];
+    }
+
 
     /**
     * Check the user's logged in status and
     * return the appropriate home-page
     */
     public function home(){
-        $arr = [];
-        $user = Auth::user();
-        if ($user != Null){
-            $arr["user"] = $user;
-            if ($this->isAdmin($user)){
-                $arr["is_admin"] = true;
-            }
-        }
+        $arr = ['userInfo' => $this->userInfo()];
         $mes = session()->get('message');
         if ($mes != Null){
             $arr["message"] = $mes;
         }
+
         return view('HomePage',$arr);
     }
 
@@ -97,13 +103,7 @@ class HomeController extends Controller
             return ['errors'=>['credentials'=>'Login Credentials not correct']];
         }
 
-
-        $user = Auth::user();
-        $isAdmin = $this->isAdmin($user);
-        return ['name'=> $user->name ,
-            'email'=> $user->email,
-            'isAdmin' => $isAdmin,
-        ];
+        return $this->userInfo();
     }
 
 

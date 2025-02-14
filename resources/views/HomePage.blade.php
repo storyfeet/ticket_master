@@ -14,7 +14,7 @@
     <script>
         window.CSRF_TOKEN = '{{csrf_token()}}';
         window.CSRF_FORM = '@csrf';
-        window.LOGIN = @json()
+        window.USER_INFO = @json($userInfo)
     </script>
 
 </html>
