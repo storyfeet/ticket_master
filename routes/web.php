@@ -19,6 +19,10 @@ Route::post('/login',
         'App\Http\Controllers\HomeController@login'
 );
 
+Route::post('/loginjson',
+        'App\Http\Controllers\HomeController@loginJSON'
+);
+
 // Logs any user out of the system.
 Route::get('/logout',
         'App\Http\Controllers\HomeController@logout'

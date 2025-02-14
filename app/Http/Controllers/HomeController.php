@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Role;
+use Illuminate\Validation\ValidationException;
 
 /**
  * Home Controller manages the simple details of the homepage, and
@@ -78,6 +79,24 @@ class HomeController extends Controller
 
         return redirect('/');
     }
+
+    public function loginJSON(){
+
+        //TODO unfinished function
+        try{
+            validator(request()->all(),[
+                'email' => ['required','email'],
+                'password' => ['required']
+            ]
+            )->validate();
+        }catch (ValidationException $e){
+            return [error=>$e];
+        }
+
+        return [success=>"yey"];
+    }
+
+
 
     /**
     * Handle the logout request and return the user to the public homepage
