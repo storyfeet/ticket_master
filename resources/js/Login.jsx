@@ -8,12 +8,16 @@ export default function LoginForm({ user, userSetter }) {
     async function handleSubmitLogin(e) {
         e.preventDefault();
 
+        let newErrors = {};
+
         if (rEmail.current.value == "") {
-            alert("No Email for login");
-            return true;
+            newErrors.email = ["No Email provided"];
         }
         if (rPass.current.value == "") {
-            alert("No Password for login");
+            newErrors.password = ["No Password provided"];
+        }
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors)
             return true;
         }
 
