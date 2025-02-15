@@ -1,6 +1,8 @@
 import { useState, useRef } from "react";
 import TicketList from "./TicketList";
+import ErrView from "./ErrView";
 export function Panel({ user }) {
+
 
     let [basePath, basePathSetter] = useState(null);
     let [canGetUser, canGetUserSetter] = useState(false);
@@ -17,6 +19,7 @@ export function Panel({ user }) {
 
     return (
         <>
+            {errs && <ErrView errs={errs} errSetter={errSetter} />}
             {user.isAdmin && <AdminPanel baseSetter={baseSet} errs={errs} errSetter={errSetter} />}
             < UserPanel user={user} baseSetter={baseSet} />
             {basePath && <TicketList basePath={basePath} baseSetter={baseSet} canGetUser={canGetUser} />}

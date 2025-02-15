@@ -20,3 +20,6 @@ button[disabled]{
     border: 1px solid red;
 }
 
+input {
+    border:1px solid grey;
+}
