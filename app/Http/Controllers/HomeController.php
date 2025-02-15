@@ -33,24 +33,6 @@ class HomeController extends Controller
         return view('HomePage',$arr);
     }
 
-    /**
-    * Return the view for the login form
-    */
-    public function loginhome(){
-        return view('LoginPage');
-    }
-
-    /**
-    * Return the view for users to create tickets.
-    * User must be logged in to see this form
-    */
-    public function ticketform(){
-        $user = Auth::user();
-        if ($user != Null){
-            return view('TicketForm',["user"=>$user]);
-        }
-        return redirect('/');
-    }
 
     /**
     * Handle the login request.
