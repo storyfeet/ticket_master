@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import TicketList from "./TicketList";
-import ErrView from "./ErrView";
+import { ErrInput, ErrListView } from "./ErrView";
 export function Panel({ user }) {
 
 
@@ -19,7 +19,7 @@ export function Panel({ user }) {
 
     return (
         <>
-            {errs && <ErrView errs={errs} errSetter={errSetter} />}
+            {errs && <ErrListView errs={errs} errSetter={errSetter} />}
             {user.isAdmin && <AdminPanel baseSetter={baseSet} errs={errs} errSetter={errSetter} />}
             < UserPanel user={user} baseSetter={baseSet} />
             {basePath && <TicketList basePath={basePath} baseSetter={baseSet} canGetUser={canGetUser} />}
@@ -44,8 +44,9 @@ export function AdminPanel({ baseSetter, errs, errSetter }) {
             <button onClick={baseSetter("/admin/get_open", true)}>Open Tickets</button>
             <button onClick={baseSetter("/admin/get_closed", true)}>Closed Tickets</button>
             <div>
-                {errs?.email && <label className="error">{errs.email}</label>}
-                <input className={errs?.email && "error"} ref={emailRef} /><button onClick={handleTicketsByEmail} >Tickets By Email</button>
+                <ErrInput label="Email:" type="text"
+                    name="email" inRef={emailRef} err={errs?.email} />
+                <button onClick={handleTicketsByEmail} >Tickets By Email</button>
             </div>
         </div >
     );

@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { postCsrfJson } from "./loader";
+import { ErrInput } from "./ErrView";
 
 export default function LoginForm({ user, userSetter }) {
     let [errors, setErrors] = useState(null);
@@ -45,19 +46,12 @@ export default function LoginForm({ user, userSetter }) {
         return (
             <form onSubmit={handleSubmitLogin} >
                 <input type="hidden" name="_token" value={window.CSRF_TOKEN} />
-                {(errors?.email?.map(
-                    (val, index) => (<p key={index} className="error">{val}</p>)))}
-                <label className={errors?.email && "error"}>
-                    Email : <input ref={rEmail} type="text" name="email" />
-                </label><br />
-                {(errors?.password?.map(
-                    (val, index) => (<p key={index} className="error">{val}</p>)))}
-                <label className={errors?.password && "error"}>
-                    Password : <input ref={rPass} type="password" name="password" />
-                </label><br />
-                {(errors?.credentials?.map(
-                    (val, index) => (<p key={index} className="error">{val}</p>)))}
-                <input type="submit" value="Login" />
+                <ErrInput name="email" label="Email" type="text"
+                    inRef={rEmail} err={errors?.email} /><br />
+                <ErrInput name="password" label="Password" type="password"
+                    inRef={rPass} err={errors?.password} /><br />
+                <ErrInput value="Login" type="submit" err={errors?.credentials}
+                /><br />
             </form>
         );
     }
