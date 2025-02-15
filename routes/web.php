@@ -6,59 +6,59 @@ use App\Http\Middleware\LanguageMiddleware;
 // This acts as dashboard whether logged in or not.
 // But if logged in, there are a few extra options available.
 Route::get('/',
-        'App\Http\Controllers\HomeController@home'
-    )->middleware(LanguageMiddleware::class);
+    'App\Http\Controllers\HomeController@home'
+)->middleware(LanguageMiddleware::class);
 
-//Returns the login form so users can log in
-Route::get('/loginhome',
-        'App\Http\Controllers\HomeController@loginhome'
-)->name('login')->middleware(LanguageMiddleware::class);
 
 // Logs a user into the system.
 Route::post('/login',
-        'App\Http\Controllers\HomeController@login'
-);
-
-Route::post('/loginjson',
-        'App\Http\Controllers\HomeController@loginJSON'
+    'App\Http\Controllers\HomeController@loginJSON'
 );
 
 // Logs any user out of the system.
 Route::get('/logout',
-        'App\Http\Controllers\HomeController@logout'
+   'App\Http\Controllers\HomeController@logout'
 );
 
-// A webpage that allows users to create a new ticket.
-// Auth is managed inside the controller as user name is needed.
-Route::get('/ticketform',
-        'App\Http\Controllers\HomeController@ticketform'
-)->middleware(LanguageMiddleware::class);
 
-// Allows a logged in user to create a new ticket
-Route::post('/tickets/new',
-        'App\Http\Controllers\TicketController@newTicket'
-)->middleware('auth');
-
-// If the user has the authority, will close the requested ticket
-Route::post('/tickets/close_ticket',
-        'App\Http\Controllers\TicketController@closeTicket'
-)->middleware('auth');
 
 
 // A paginated Json response showing all open tickets
-Route::get('/tickets/open',
-        'App\Http\Controllers\TicketController@open'
-    );
+Route::get('/admin/get_open',
+    'App\Http\Controllers\AdminController@getOpen'
+);
 
 // A paginated Json response showing all closed tickets
-Route::get('/tickets/closed',
-        'App\Http\Controllers\TicketController@closed'
-    );
+Route::get('/admin/get_closed',
+    'App\Http\Controllers\AdminController@getClosed'
+);
+
+// Close the ticket from the admin perspective
+Route::post('/admin/close_ticket',
+    'App\Http\Controllers\AdminController@closeTicket'
+)->middleware('auth');
 
 // A paginated Json response showing all tickets associated with a user
-Route::get('/users/{email}/tickets',
-           'App\Http\Controllers\TicketController@user'
-    );
+Route::get('/admin/get_user_tickets/{email}',
+   'App\Http\Controllers\AdminController@getUser'
+);
+
+Route::get('/user/get_all',
+            'App\Http\Controllers\UserController@getAll');
+
+// Allows a logged in user to create a new ticket
+Route::post('/user/new_ticket',
+    'App\Http\Controllers\UserController@newTicket'
+)->middleware('auth');
+
+// If the user has the authority, will close the requested ticket
+Route::post('/user/close_ticket',
+        'App\Http\Controllers\UserController@closeTicket'
+)->middleware('auth');
+
+
+
+
 
 // A Json page showing site stats
 Route::get('/stats',

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use App\Models\Role;
 use Illuminate\Validation\ValidationException;
 
 /**
@@ -17,24 +16,7 @@ class HomeController extends Controller
     /**
     * Return whether or not the user is an admin
     */
-    public static function isAdmin($user):bool{
-        return Role::query()
-            ->where('user','=',$user->id)
-            ->where('role','=','admin')
-            ->count() > 0;
-    }
 
-    public function userInfo(){
-        $user = Auth::user();
-        if ($user === null) return null;
-        $isAdmin = $this->isAdmin($user);
-        return [
-            'id'=>$user->id,
-            'name'=> $user->name ,
-            'email'=> $user->email,
-            'isAdmin' => $isAdmin,
-        ];
-    }
 
 
     /**
@@ -42,7 +24,7 @@ class HomeController extends Controller
     * return the appropriate home-page
     */
     public function home(){
-        $arr = ['userInfo' => $this->userInfo()];
+        $arr = ['userInfo' => UserController::userInfo()];
         $mes = session()->get('message');
         if ($mes != Null){
             $arr["message"] = $mes;
@@ -103,7 +85,7 @@ class HomeController extends Controller
             return ['errors'=>['credentials'=>['Login credentials not correct']]];
         }
 
-        return $this->userInfo();
+        return UserController::userInfo();
     }
 
 

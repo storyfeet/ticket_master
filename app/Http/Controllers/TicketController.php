@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 
 use Illuminate\Http\Request;
-use App\Models\Ticket;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\HomeController;
@@ -16,7 +15,7 @@ use App\Events\TicketsUpdated;
 class TicketController extends Controller
 {
     // This selection list is the format for all three ticket collection requests.
-    protected $TICKETS_USER = [
+    public const TICKETS_USER = [
             'tickets.id as ticket_id',
             'tickets.user as user_id',
             'users.name',
@@ -28,49 +27,7 @@ class TicketController extends Controller
             'tickets.updated_at',
 
         ];
-    /**
-    * Return the list of open tickets paginated
-    */
-    public function open(){
-        $tickets = Ticket::query()
-            ->where('status',false)
-            ->join('users','tickets.user','=','users.id')
-            ->orderByDesc('tickets.updated_at')
-            ->select($this->TICKETS_USER)
-            ->paginate(3);
 
-
-        return $tickets;
-    }
-
-    /**
-    * Return the list of closed tickets paginated
-    */
-    public function closed(){
-        $tickets = Ticket::query()
-            ->join('users','tickets.user','=','users.id')
-            ->where('status',true)
-            ->orderByDesc('tickets.updated_at')
-            ->select($this->TICKETS_USER)
-            ->paginate(3);
-
-
-        return $tickets;
-    }
-
-    /**
-    * return the list of tickets associated with a single user,
-    */
-    public function user($email){
-
-        $tickets = DB::table('tickets')
-            ->join('users','tickets.user','=','users.id')
-            ->where('users.email',$email)
-            ->orderByDesc('tickets.updated_at')
-            ->select($this->TICKETS_USER)
-            ->paginate(3);
-        return $tickets;
-    }
 
     /**
     * Return a set of useful stats about the application
