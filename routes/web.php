@@ -41,7 +41,7 @@ Route::post('/admin/close_ticket',
 
 // A paginated Json response showing all tickets associated with a user
 Route::get('/admin/get_user_tickets/{email}',
-   'App\Http\Controllers\AdminController@getUser'
+   'App\Http\Controllers\AdminController@getUserTickets'
 )->middleware(AdminMiddleware::class);
 
 Route::get('/user/get_all',
