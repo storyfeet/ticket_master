@@ -2,25 +2,23 @@ import Ticket from "./Ticket";
 import { useState, useEffect } from "react";
 import * as loader from "./loader";
 
-export default function TicketList() {
+export default function TicketList({ basePath, byUser, baseSetter }) {
     let [ticketList, setTicketList] = useState([]);
-    let [byUser, setByUser] = useState(false);
-    let [path, setPath] = useState("/tickets/open");
+    //let [path, setPath] = useState(basePath);
 
-
-    async function setPage({ newPath, byUser }) {
+    async function setPage({ newPath }) {
         console.log("pageGetter : path = ", newPath);
         let jsres = await loader.loadJson(newPath);
         console.log(jsres);
         console.log("setTicketList", setTicketList);
-        setByUser(Boolean(byUser));
         setTicketList(jsres);
-        setPath(newPath);
+        //   setPath(newPath);
     }
-
     useEffect(() => {
-        setPage({ newPath: path, byUser: false });
-    }, [])
+        setPage({ newPath: basePath });
+    }, [basePath])
+
+
 
     function PageButton({ dir, dpath }) {
         return (
