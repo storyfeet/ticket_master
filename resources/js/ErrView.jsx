@@ -23,7 +23,7 @@ function ErrView({ etype, err }) {
     )
 }
 
-export function ErrInput({ label, name, type, inRef, err, value }) {
+export function ErrInput({ label, name, type = "text", inRef, err, value }) {
     return (
         <>
             {
@@ -35,5 +35,19 @@ export function ErrInput({ label, name, type, inRef, err, value }) {
             </label>
         </>
     );
+}
+
+export function ErrTextArea({ label, name, rows, cols, inRef, err, value }) {
+    return (
+        <>
+            {
+                (err?.map(
+                    (val, index) => (<p key={index} className="error">{val}</p>)))
+            }
+            <label className={err && "error"}>
+                {label} : <textarea ref={inRef} rows={rows} cols={cols} name={name} value={value} />
+            </label>
+        </>
+    )
 }
 
