@@ -21,7 +21,7 @@ export default function LoginForm({ user, userSetter }) {
             return true;
         }
 
-        let login = await postCsrfJson("/loginjson", {
+        let login = await postCsrfJson("/login", {
             "email": rEmail.current.value,
             "password": rPass.current.value,
         });

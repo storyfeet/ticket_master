@@ -24,8 +24,8 @@ export function AdminPanel({ baseSetter }) {
 
     return (
         <div className="admin_panel">
-            <button onClick={baseSetter("/tickets/open")}>Open Tickets</button>
-            <button onClick={baseSetter("/tickets/closed")}>Closed Tickets</button>
+            <button onClick={baseSetter("/admin/get_open")}>Open Tickets</button>
+            <button onClick={baseSetter("/admin/get_closed")}>Closed Tickets</button>
             <button >Tickets By Email</button>
         </div >
     );
