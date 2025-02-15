@@ -1,5 +1,5 @@
 
-export default function Ticket({ ticket, isByUser, canEdit, pager }) {
+export default function Ticket({ ticket, canGetUser, baseSetter }) {
 
     return (
         <tr className={ticket.status ? "closed_ticket" : "open_ticket"} >
@@ -12,14 +12,11 @@ export default function Ticket({ ticket, isByUser, canEdit, pager }) {
                 {ticket.created_at}<br />
                 {ticket.updated_at}
             </td>
-            {!isByUser && <td>
-                <a onClick={() => {
-                    let path = `/users/${ticket.email}/tickets`;
-                    console.log("GetUser clicked : ", path);
-                    pager({ newPath: path, byUser: true });
-                }}>Get User's Tickets</a>
+            {canGetUser && <td>
+                <a onClick={baseSetter(`/admin/get_user_tickets/${ticket.email}`)} >
+                    Get User's Tickets
+                </a>
             </td>}
-            {canEdit && <td></td>}
 
         </tr >
     );

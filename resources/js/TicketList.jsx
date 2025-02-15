@@ -2,9 +2,8 @@ import Ticket from "./Ticket";
 import { useState, useEffect } from "react";
 import * as loader from "./loader";
 
-export default function TicketList({ basePath, byUser, baseSetter }) {
+export default function TicketList({ basePath, canGetUser, baseSetter }) {
     let [ticketList, setTicketList] = useState([]);
-    //let [path, setPath] = useState(basePath);
 
     async function setPage({ newPath }) {
         console.log("pageGetter : path = ", newPath);
@@ -12,7 +11,6 @@ export default function TicketList({ basePath, byUser, baseSetter }) {
         console.log(jsres);
         console.log("setTicketList", setTicketList);
         setTicketList(jsres);
-        //   setPath(newPath);
     }
     useEffect(() => {
         setPage({ newPath: basePath });
@@ -22,12 +20,12 @@ export default function TicketList({ basePath, byUser, baseSetter }) {
 
     function PageButton({ dir, dpath }) {
         return (
-            <button onClick={() => setPage({ newPath: dpath, byUser: byUser })} disabled={dpath === null}>{dir}</button>
+            <button onClick={() => setPage({ newPath: dpath })} disabled={dpath === null}>{dir}</button>
         );
     }
 
     let tlist = ticketList.data?.map((ticket, index) => (
-        <Ticket key={index} ticket={ticket} pager={setPage} isByUser={byUser} />
+        <Ticket key={index} ticket={ticket} baseSetter={baseSetter} canGetUser={canGetUser} />
     ));
     return (
         <div className="ticket_list">
