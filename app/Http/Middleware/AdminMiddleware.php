@@ -14,14 +14,14 @@ class AdminMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next):Response
     {
         $user = Auth::user();
         if ($user === null){
-            return ['errors'=>['login'=>['Not logged In']]];
+            return response(['errors'=>['login'=>['Not logged In']]],403);
         }
         if ( ! AdminController::isAdmin($user)){
-            return ['errors'=>['admin'=>['Not an Admin user']]];
+            return response(['errors'=>['admin'=>['Not an Admin user']]],403);
         }
         return $next($request);
     }
