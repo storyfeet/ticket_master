@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\LanguageMiddleware;
+use App\Http\Middleware\AdminMiddleware;
 // The home page of the webste.
 // This acts as dashboard whether logged in or not.
 // But if logged in, there are a few extra options available.
@@ -26,25 +27,31 @@ Route::get('/logout',
 // A paginated Json response showing all open tickets
 Route::get('/admin/get_open',
     'App\Http\Controllers\AdminController@getOpen'
-);
+)->middleware(AdminMiddleware::class);
 
 // A paginated Json response showing all closed tickets
 Route::get('/admin/get_closed',
     'App\Http\Controllers\AdminController@getClosed'
-);
+)->middleware(AdminMiddleware::class);
 
 // Close the ticket from the admin perspective
 Route::post('/admin/close_ticket',
     'App\Http\Controllers\AdminController@closeTicket'
-)->middleware('auth');
+)->middleware(AdminMiddleware::class);
 
 // A paginated Json response showing all tickets associated with a user
 Route::get('/admin/get_user_tickets/{email}',
    'App\Http\Controllers\AdminController@getUser'
-);
+)->middleware(AdminMiddleware::class);
 
 Route::get('/user/get_all',
             'App\Http\Controllers\UserController@getAll');
+
+Route::get('/user/get_open',
+            'App\Http\Controllers\UserController@getOpen');
+
+Route::get('/user/get_closed',
+            'App\Http\Controllers\UserController@getClosed');
 
 // Allows a logged in user to create a new ticket
 Route::post('/user/new_ticket',

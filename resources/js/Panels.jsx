@@ -13,7 +13,7 @@ export function Panel({ user }) {
     return (
         <>
             {user.isAdmin && <AdminPanel baseSetter={baseSet} />}
-            {!user.isAdmin && < UserPanel user={user} baseSetter={baseSet} />}
+            < UserPanel user={user} baseSetter={baseSet} />
             {basePath && <TicketList basePath={basePath} />}
         </>
     );
@@ -32,11 +32,12 @@ export function AdminPanel({ baseSetter }) {
 }
 
 
-export function UserPanel({ user }) {
+export function UserPanel({ baseSetter }) {
     return (
         <div className="user_panel">
-            <button >My Open Tickets</button>
-            <button >My Closed Tickets</button>
+            <button onClick={baseSetter("/user/get_all")}>My Tickets</button>
+            <button onClick={baseSetter("/user/get_open")}>My Open Tickets</button>
+            <button onClick={baseSetter("/user/get_closed")}>My Closed Tickets</button>
         </div>
     );
 }
