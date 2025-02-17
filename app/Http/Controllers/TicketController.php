@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\HomeController;
 use App\Events\TicketsUpdated;
+use App\Models\Ticket;
+use Illuminate\Validation\ValidationException;
 
 /**
 * Handles requesrs relating to creating and viewing tickets.
@@ -81,10 +82,16 @@ class TicketController extends Controller
     */
     public function newTicket() {
         $user = Auth::user();
-        validator([
-            'subject' => ['required'],
-            'content' => ['required']
-        ])->validate();
+        try {
+
+            request()->validate([
+                'subject' => ['required'],
+                'content' => ['required']
+            ]);
+
+        }catch (ValidationException $e){
+            return response(["errors"=>$e->errors()],400);
+        }
 
         $subject = request()->post('subject');
         Ticket::factory()->create([
@@ -95,9 +102,8 @@ class TicketController extends Controller
         ]);
 
         event(new TicketsUpdated());
-        return redirect('/')->with([
-            'message'=>"Ticket Created " . $subject,
-        ]);
+
+        return response(["Ticket Created"],200);
     }
 
     /**

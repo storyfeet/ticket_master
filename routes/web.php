@@ -55,7 +55,7 @@ Route::get('/user/get_closed',
 
 // Allows a logged in user to create a new ticket
 Route::post('/user/new_ticket',
-    'App\Http\Controllers\UserController@newTicket'
+    'App\Http\Controllers\TicketController@newTicket'
 )->middleware('auth');
 
 // If the user has the authority, will close the requested ticket
