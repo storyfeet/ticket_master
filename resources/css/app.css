@@ -20,6 +20,7 @@ button[disabled]{
     border: 1px solid red;
 }
 
-input {
+input ,textarea{
     border:1px solid grey;
+    margin:3px;
 }

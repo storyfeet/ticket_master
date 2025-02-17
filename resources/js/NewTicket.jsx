@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { postCsrfJson } from "./loader";
-import { ErrInput, ErrTextArea } from "./ErrView";
+import { ErrListView, ErrInput, ErrTextArea } from "./ErrView";
 
 
 export function NewTicket() {
@@ -8,7 +8,7 @@ export function NewTicket() {
     let messBox = useRef();
     let subBox = useRef();
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
 
         e.preventDefault();
         let newErrs = {};
@@ -24,7 +24,18 @@ export function NewTicket() {
         } else {
             errSetter(null)
         }
+
+        let res = await postCsrfJson("/user/new_ticket", {
+            subject: subBox.current.value,
+            content: messBox.current.value,
+        });
+
+        if (res.errors) {
+            errSetter(res.errors);
+        }
+
         //TODO
+        //Blank ticket form on complete
         return true;
 
     }
@@ -32,10 +43,11 @@ export function NewTicket() {
     return (
         <form onSubmit={handleSubmit}>
             <h2>New Ticket</h2>
-            <ErrInput label="Subject" name="subject" type="text" inRef={subBox} err={errs?.subject} />
+            {errs && <ErrListView errs={errs} errSetter={errSetter} />}
+            <ErrInput label="Subject" name="subject" type="text" inRef={subBox} err={errs?.subject} /><br />
 
-            <ErrTextArea label="Content" name="content" inRef={messBox} cols={50} rows={7} err={errs?.content} />
-            <input type="submit" />
+            <ErrTextArea label="Content" name="content" inRef={messBox} cols={50} rows={7} err={errs?.content} /><br />
+            <input type="submit" value="Create Ticket" />
         </form>
     );
 }
