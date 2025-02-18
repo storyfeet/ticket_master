@@ -1,5 +1,5 @@
 
-export default function Ticket({ ticket, canGetUser, baseSetter }) {
+export default function Ticket({ ticket, canGetUser, goTicketsC }) {
 
     return (
         <tr className={ticket.status ? "closed_ticket" : "open_ticket"} >
@@ -13,7 +13,7 @@ export default function Ticket({ ticket, canGetUser, baseSetter }) {
                 {ticket.updated_at}
             </td>
             {canGetUser && <td>
-                <a onClick={baseSetter(`/admin/get_user_tickets/${ticket.email}`)} >
+                <a onClick={goTicketsC(`/admin/get_user_tickets/${ticket.email}`)} >
                     Get User's Tickets
                 </a>
             </td>}

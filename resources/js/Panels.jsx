@@ -2,34 +2,49 @@ import { useState, useRef } from "react";
 import TicketList from "./TicketList";
 import { ErrInput, ErrListView } from "./ErrView";
 import { NewTicket } from "./NewTicket";
+import { DISPLAY_MODE } from "./util";
+
+
+
 export function Panel({ user }) {
+
 
 
     let [basePath, basePathSetter] = useState(null);
     let [canGetUser, canGetUserSetter] = useState(false);
     let [errs, errSetter] = useState(null)
+    let [displayMode, displaySetter] = useState(DISPLAY_MODE.NONE)
 
-    function baseSet(newPath, canGetUser = false) {
+
+    //ends in C to mark closure
+    function goTicketsC(newPath, canGetUser = false) {
         return () => {
             errSetter(null);
 
             basePathSetter(newPath);
             canGetUserSetter(canGetUser);
+            displaySetter(DISPLAY_MODE.TICKETS);
         }
+    }
+    function goNewTicket() {
+        displaySetter(DISPLAY_MODE.NEW_TICKET);
     }
 
     return (
         <>
             {errs && <ErrListView errs={errs} errSetter={errSetter} />}
-            {user.isAdmin && <AdminPanel baseSetter={baseSet} errs={errs} errSetter={errSetter} />}
-            < UserPanel user={user} baseSetter={baseSet} />
-            {basePath && <TicketList basePath={basePath} baseSetter={baseSet} canGetUser={canGetUser} />}
-            <NewTicket />
+            {user.isAdmin && <AdminPanel goTicketsC={goTicketsC} errs={errs} errSetter={errSetter} />}
+            < UserPanel user={user} goTicketsF={goTicketsC} goNewTicket={goNewTicket} />
+            {basePath && displayMode === DISPLAY_MODE.TICKETS &&
+                <TicketList basePath={basePath} goTicketsC={goTicketsC} canGetUser={canGetUser} />}
+            {displayMode === DISPLAY_MODE.NEW_TICKET &&
+                <NewTicket />}
+
         </>
     );
 }
 
-export function AdminPanel({ baseSetter, errs, errSetter }) {
+export function AdminPanel({ goTicketsC, errs, errSetter }) {
     let emailRef = useRef();
 
     function handleTicketsByEmail() {
@@ -38,13 +53,13 @@ export function AdminPanel({ baseSetter, errs, errSetter }) {
             errSetter({ "email": ["Please provide Email Address"] });
             return;
         }
-        baseSetter(`/admin/get_user_tickets/${email}`)();
+        goTicketsC(`/admin/get_user_tickets/${email}`)();
 
     }
     return (
         <div className="admin_panel">
-            <button onClick={baseSetter("/admin/get_open", true)}>Open Tickets</button>
-            <button onClick={baseSetter("/admin/get_closed", true)}>Closed Tickets</button>
+            <button onClick={goTicketsC("/admin/get_open", true)}>Open Tickets</button>
+            <button onClick={goTicketsC("/admin/get_closed", true)}>Closed Tickets</button>
             <div>
                 <ErrInput label="Email:" type="text"
                     name="email" inRef={emailRef} err={errs?.email} />
@@ -55,12 +70,13 @@ export function AdminPanel({ baseSetter, errs, errSetter }) {
 }
 
 
-export function UserPanel({ baseSetter }) {
+export function UserPanel({ goTicketsF, goNewTicket }) {
     return (
         <div className="user_panel">
-            <button onClick={baseSetter("/user/get_all")}>My Tickets</button>
-            <button onClick={baseSetter("/user/get_open")}>My Open Tickets</button>
-            <button onClick={baseSetter("/user/get_closed")}>My Closed Tickets</button>
+            <button onClick={goTicketsF("/user/get_all")}>My Tickets</button>
+            <button onClick={goTicketsF("/user/get_open")}>My Open Tickets</button>
+            <button onClick={goTicketsF("/user/get_closed")}>My Closed Tickets</button>
+            <button onClick={goNewTicket}>Create New Ticket</button>
         </div>
     );
 }
