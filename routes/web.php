@@ -64,7 +64,9 @@ Route::post('/user/close_ticket',
 )->middleware('auth');
 
 
-
+Route::post('/user/new_ticket_message',
+    'App\Http\Controllers\TicketController@newTicketMessage'
+)->middleware('auth');
 
 
 // A Json page showing site stats

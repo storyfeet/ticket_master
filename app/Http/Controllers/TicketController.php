@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\HomeController;
 use App\Events\TicketsUpdated;
 use App\Models\Ticket;
+use App\Models\TicketMessage;
 use Illuminate\Validation\ValidationException;
+use App\Helpers\err_response;
 
 /**
 * Handles requesrs relating to creating and viewing tickets.
@@ -118,7 +119,7 @@ class TicketController extends Controller
                 "request"=>request()->all(),
             ];
         }
-        if( HomeController::isAdmin($user)){
+        if( AdminController::isAdmin($user)){
             $update = Ticket::query()
                 ->where('id','=',$id)
                 ->update(['status'=>1]);
@@ -133,6 +134,47 @@ class TicketController extends Controller
 
         return ["count"=>$update];
 
+
+    }
+
+    function newTicketMessage(){
+        try {
+            request()->validate([
+                'message'=>['required'],
+                'ticket_id'=>['required','number'],
+            ]);
+        }catch (ValidationException $e){
+            return response(400,['errors'=>$e->errors()]);
+        }
+        $ticket = Ticket::query()
+            ->where('id','=',request()->get('ticket_id'))
+            ->first();
+        if ($ticket == null) {
+            return response(400,['errors'=>['ticket'=>["Ticket Doesn't exist"]]]);
+        }
+        if ($ticket->status == 1) {
+            return response(403,['errors'=>['ticket'=>["Ticket Already Closed"]]]);
+        }
+
+        $user = Auth::user();
+        $canMessage = false;
+        if ($user->id == $ticket->user_id){
+            $canMessage = true;
+        }
+        if (AdminContrller->isAdmin($user)){
+            $canMessage = true;
+        }
+        if (! $canMessage){
+            return err_response(403,'auth','Only ticket creator or admin may add message');
+        }
+
+        TicketMessage::factory()->create([
+            'ticket_id' => $ticket->id,
+            'user_id' => $user->id,
+            'message' => request()->get('message'),
+        ]);
+
+        return response(200,['status'=>'Message Created']);
 
     }
 
