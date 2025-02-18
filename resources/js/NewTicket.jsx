@@ -3,7 +3,7 @@ import { postCsrfJson } from "./loader";
 import { ErrListView, ErrInput, ErrTextArea } from "./ErrView";
 
 
-export function NewTicket() {
+export function NewTicket({ goTicketsC }) {
     let [errs, errSetter] = useState(null);
     let messBox = useRef();
     let subBox = useRef();
@@ -33,9 +33,8 @@ export function NewTicket() {
         if (res.errors) {
             errSetter(res.errors);
         }
+        goTicketsC("/user/get_open")();
 
-        //TODO
-        //Blank ticket form on complete
         return true;
 
     }

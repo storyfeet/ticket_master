@@ -38,7 +38,7 @@ export function Panel({ user }) {
             {basePath && displayMode === DISPLAY_MODE.TICKETS &&
                 <TicketList basePath={basePath} goTicketsC={goTicketsC} canGetUser={canGetUser} />}
             {displayMode === DISPLAY_MODE.NEW_TICKET &&
-                <NewTicket />}
+                <NewTicket goTicketsC={goTicketsC} />}
 
         </>
     );
