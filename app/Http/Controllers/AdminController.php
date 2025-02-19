@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Role;
 use App\Models\Ticket;
-use Illuminate\Validation\ValidationException;
 
 class AdminController extends Controller {
 
