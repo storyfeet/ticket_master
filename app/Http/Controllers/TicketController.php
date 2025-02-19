@@ -10,7 +10,7 @@ use App\Models\Ticket;
 use App\Models\TicketMessage;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
-use App\Helpers\{isAdmin,canEdit,errResponse};
+use App\Helpers\Helper;
 
 /**
 * Handles requesrs relating to creating and viewing tickets.
@@ -120,7 +120,7 @@ class TicketController extends Controller
                 "request"=>request()->all(),
             ];
         }
-        if( isAdmin($user)){
+        if( Helper::isAdmin($user)){
             $update = Ticket::query()
                 ->where('id','=',$id)
                 ->update(['status'=>1]);
@@ -142,7 +142,7 @@ class TicketController extends Controller
         try {
             request()->validate([
                 'message'=>['required'],
-                'ticket_id'=>['required','number'],
+                'ticket_id'=>['required'],
             ]);
         }catch (ValidationException $e){
             return response(400,['errors'=>$e->errors()]);
@@ -151,15 +151,15 @@ class TicketController extends Controller
             ->where('id','=',request()->get('ticket_id'))
             ->first();
         if ($ticket == null) {
-            return errResponse(400,'ticket',"Ticket Doesn't exist");
+            return Helper::errResponse(400,'ticket',"Ticket Doesn't exist");
         }
         if ($ticket->status == 1) {
-            return errResponse(403,'ticket',"Ticket Already Closed");
+            return Helper::errResponse(403,'ticket',"Ticket Already Closed");
         }
 
         $user = Auth::user();
-        if (! canEdit($user,$ticket)){
-            return errResponse(403,'auth','Only ticket creator or admin may add message');
+        if (! Helper::canEdit($user,$ticket)){
+            return Helper::errResponse(403,'auth','Only ticket creator or admin may add message');
         }
 
         TicketMessage::factory()->create([
@@ -167,18 +167,17 @@ class TicketController extends Controller
             'user_id' => $user->id,
             'message' => request()->get('message'),
         ]);
-
-        return response(200,['status'=>'Message Created']);
+        return response(['status'=>'Message Created'],200);
 
     }
 
     function getTicketMessages():Response{
         try {
             request()->validate([
-                'ticket_id'=>['required','number'],
+                'ticket_id'=>['required'],
             ]);
         }catch (ValidationException $e){
-            return response(400,['errors'=>$e->errors()]);
+            return response(['errors'=>$e->errors()],400);
         }
 
         $ticketId = request()->get('ticket_id');
@@ -186,11 +185,11 @@ class TicketController extends Controller
             ->where('id','=',$ticketId)
             ->first();
         if ($ticket == null) {
-            return errResponse(400,'ticket',"Ticket Doesn't exist");
+            return Helper::errResponse(400,'ticket',"Ticket Doesn't exist");
         }
         $user = Auth::user();
-        if (! canEdit($user,$ticket)){
-            return errResponse(403,'auth','Only ticket creator or admin may view ticket messages');
+        if (! Helper::canEdit($user,$ticket)){
+            return Helper::errResponse(403,'auth','Only ticket creator or admin may view ticket messages');
         }
 
         return response(TicketMessage::query()

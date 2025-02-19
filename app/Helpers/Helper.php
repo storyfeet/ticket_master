@@ -8,8 +8,8 @@ class Helper{
 
     public static function errResponse($status,$title,$message):Response{
         return response(
+            $status,
             [ 'errors'=>[$title => [$message] ] ],
-            $status
         );
     }
 
@@ -25,7 +25,7 @@ class Helper{
         if ($user->id == $ticket->user_id){
             return true;
         }
-        if (isAdmin($user)){
+        if (Helper::isAdmin($user)){
             return true;
         }
         return false;
