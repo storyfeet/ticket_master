@@ -8,12 +8,6 @@ use Illuminate\Validation\ValidationException;
 
 class AdminController extends Controller {
 
-    public static function isAdmin($user):bool{
-        return Role::query()
-            ->where('user','=',$user->id)
-            ->where('role','=','admin')
-            ->count() > 0;
-    }
 
     /**
     * Return the list of open tickets paginated

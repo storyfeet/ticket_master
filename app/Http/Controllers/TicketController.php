@@ -9,7 +9,7 @@ use App\Events\TicketsUpdated;
 use App\Models\Ticket;
 use App\Models\TicketMessage;
 use Illuminate\Validation\ValidationException;
-use App\Helpers\err_response;
+use App\Helpers\{isAdmin,canEdit,errResponse};
 
 /**
 * Handles requesrs relating to creating and viewing tickets.
@@ -119,7 +119,7 @@ class TicketController extends Controller
                 "request"=>request()->all(),
             ];
         }
-        if( AdminController::isAdmin($user)){
+        if( isAdmin($user)){
             $update = Ticket::query()
                 ->where('id','=',$id)
                 ->update(['status'=>1]);
@@ -150,22 +150,15 @@ class TicketController extends Controller
             ->where('id','=',request()->get('ticket_id'))
             ->first();
         if ($ticket == null) {
-            return response(400,['errors'=>['ticket'=>["Ticket Doesn't exist"]]]);
+            return errResponse(400,'ticket',"Ticket Doesn't exist");
         }
         if ($ticket->status == 1) {
-            return response(403,['errors'=>['ticket'=>["Ticket Already Closed"]]]);
+            return errResponse(403,'ticket',"Ticket Already Closed");
         }
 
         $user = Auth::user();
-        $canMessage = false;
-        if ($user->id == $ticket->user_id){
-            $canMessage = true;
-        }
-        if (AdminContrller->isAdmin($user)){
-            $canMessage = true;
-        }
-        if (! $canMessage){
-            return err_response(403,'auth','Only ticket creator or admin may add message');
+        if (! canEdit($user,$ticket)){
+            return errResponse(403,'auth','Only ticket creator or admin may add message');
         }
 
         TicketMessage::factory()->create([
@@ -177,5 +170,7 @@ class TicketController extends Controller
         return response(200,['status'=>'Message Created']);
 
     }
+
+
 
 }

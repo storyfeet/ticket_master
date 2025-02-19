@@ -3,13 +3,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\Ticket;
+use App\Helpers\Helper;
+
 
 class UserController extends Controller{
 
     public static function userInfo(){
         $user = Auth::user();
         if ($user === null) return null;
-        $isAdmin = AdminController::isAdmin($user);
+        $isAdmin = Helper::isAdmin($user);
         return [
             'id'=>$user->id,
             'name'=> $user->name ,
