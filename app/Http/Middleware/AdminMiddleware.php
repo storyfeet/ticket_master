@@ -5,7 +5,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\AdminController;
+use App\Helpers\Helper;
 
 class AdminMiddleware
 {
@@ -18,10 +18,10 @@ class AdminMiddleware
     {
         $user = Auth::user();
         if ($user === null){
-            return response(['errors'=>['login'=>['Not logged In']]],403);
+            return Helper::errResponse(403,'login','Not logged In');
         }
-        if ( ! AdminController::isAdmin($user)){
-            return response(['errors'=>['admin'=>['Not an Admin user']]],403);
+        if ( ! Helper::isAdmin($user) ){
+            return Helper::errResponse(403,'admin','Not an Admin user');
         }
         return $next($request);
     }
