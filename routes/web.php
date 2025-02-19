@@ -68,6 +68,10 @@ Route::post('/user/new_ticket_message',
     'App\Http\Controllers\TicketController@newTicketMessage'
 )->middleware('auth');
 
+Route::post('/user/get_ticket_messages',
+    'App\Http\Controllers\TicketController@getTicketMessages'
+)->middleware('auth');
+
 
 // A Json page showing site stats
 Route::get('/stats',

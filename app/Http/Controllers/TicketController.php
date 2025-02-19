@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Events\TicketsUpdated;
 use App\Models\Ticket;
 use App\Models\TicketMessage;
+use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use App\Helpers\{isAdmin,canEdit,errResponse};
 
@@ -73,7 +74,7 @@ class TicketController extends Controller
     /**
      * Create a nicer view of the stats data
      */
-    public function statsPage(){
+    public function statsPage():Response{
         return view('StatsPage',$this->stats());
     }
 
@@ -81,7 +82,7 @@ class TicketController extends Controller
     * Create a new ticket based on the post data recieved.
     * Associated with the new user
     */
-    public function newTicket() {
+    public function newTicket() :Response{
         $user = Auth::user();
         try {
 
@@ -110,7 +111,7 @@ class TicketController extends Controller
     /**
     * Check the user has the authority to close a ticket, then close it.
     */
-    public function closeTicket(){
+    public function closeTicket():Response{
         $user = Auth::user();
         $id = request()->post('ticket_id');
         if ($id == NULL ){
@@ -137,7 +138,7 @@ class TicketController extends Controller
 
     }
 
-    function newTicketMessage(){
+    function newTicketMessage():Response{
         try {
             request()->validate([
                 'message'=>['required'],
@@ -169,6 +170,33 @@ class TicketController extends Controller
 
         return response(200,['status'=>'Message Created']);
 
+    }
+
+    function getTicketMessages():Response{
+        try {
+            request()->validate([
+                'ticket_id'=>['required','number'],
+            ]);
+        }catch (ValidationException $e){
+            return response(400,['errors'=>$e->errors()]);
+        }
+
+        $ticketId = request()->get('ticket_id');
+        $ticket = Ticket::query()
+            ->where('id','=',$ticketId)
+            ->first();
+        if ($ticket == null) {
+            return errResponse(400,'ticket',"Ticket Doesn't exist");
+        }
+        $user = Auth::user();
+        if (! canEdit($user,$ticket)){
+            return errResponse(403,'auth','Only ticket creator or admin may view ticket messages');
+        }
+
+        return response(TicketMessage::query()
+            ->where('ticket_id','=',$ticketId)
+            ->orderBy('created_at')
+            ->get(),200);
     }
 
 
