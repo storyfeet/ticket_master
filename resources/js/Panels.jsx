@@ -3,6 +3,7 @@ import TicketList from "./TicketList";
 import { ErrInput, ErrListView } from "./ErrView";
 import { NewTicket } from "./NewTicket";
 import { DISPLAY_MODE } from "./util";
+import { EditTicket } from "./EditTicket";
 
 
 
@@ -14,6 +15,7 @@ export function Panel({ user }) {
     let [canGetUser, canGetUserSetter] = useState(false);
     let [errs, errSetter] = useState(null)
     let [displayMode, displaySetter] = useState(DISPLAY_MODE.NONE)
+    let [currentTicket, currentTicketSetter] = useState(null)
 
 
     //ends in C to mark closure
@@ -30,15 +32,24 @@ export function Panel({ user }) {
         displaySetter(DISPLAY_MODE.NEW_TICKET);
     }
 
+    function goEditTicket(ticket) {
+        console.log("goEditTicket", ticket);
+        currentTicketSetter(ticket);
+        displaySetter(DISPLAY_MODE.EDIT_TICKET);
+    }
+
     return (
         <>
             {errs && <ErrListView errs={errs} errSetter={errSetter} />}
             {user.isAdmin && <AdminPanel goTicketsC={goTicketsC} errs={errs} errSetter={errSetter} />}
             < UserPanel user={user} goTicketsF={goTicketsC} goNewTicket={goNewTicket} />
             {basePath && displayMode === DISPLAY_MODE.TICKETS &&
-                <TicketList basePath={basePath} goTicketsC={goTicketsC} canGetUser={canGetUser} />}
+                <TicketList basePath={basePath} goEditTicket={goEditTicket}
+                    goTicketsC={goTicketsC} canGetUser={canGetUser} />}
             {displayMode === DISPLAY_MODE.NEW_TICKET &&
                 <NewTicket goTicketsC={goTicketsC} />}
+            {currentTicket && displayMode === DISPLAY_MODE.EDIT_TICKET &&
+                <EditTicket ticket={currentTicket} user={user} />}
 
         </>
     );

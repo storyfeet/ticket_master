@@ -2,7 +2,7 @@ import Ticket from "./Ticket";
 import { useState, useEffect } from "react";
 import * as loader from "./loader";
 
-export default function TicketList({ basePath, canGetUser, goTicketsC }) {
+export default function TicketList({ basePath, canGetUser, goTicketsC, goEditTicket }) {
     let [ticketList, setTicketList] = useState([]);
 
     async function setPage({ newPath }) {
@@ -25,7 +25,8 @@ export default function TicketList({ basePath, canGetUser, goTicketsC }) {
     }
 
     let tlist = ticketList.data?.map((ticket, index) => (
-        <Ticket key={index} ticket={ticket} goTicketsC={goTicketsC} canGetUser={canGetUser} />
+        <Ticket key={index} ticket={ticket}
+            goTicketsC={goTicketsC} canGetUser={canGetUser} goEditTicket={goEditTicket} />
     ));
     return (
         <div className="ticket_list">

@@ -1,5 +1,5 @@
 
-export default function Ticket({ ticket, canGetUser, goTicketsC }) {
+export default function Ticket({ ticket, canGetUser, goTicketsC, goEditTicket }) {
 
     return (
         <tr className={ticket.status ? "closed_ticket" : "open_ticket"} >
@@ -12,10 +12,13 @@ export default function Ticket({ ticket, canGetUser, goTicketsC }) {
                 {ticket.created_at}<br />
                 {ticket.updated_at}
             </td>
-            {canGetUser && <td>
+            {canGetUser && goTicketsC && <td>
                 <a onClick={goTicketsC(`/admin/get_user_tickets/${ticket.email}`)} >
                     Get User's Tickets
                 </a>
+            </td>}
+            {goEditTicket && <td>
+                <button onClick={() => { goEditTicket(ticket) }} >Edit Ticket</button>
             </td>}
 
         </tr >
