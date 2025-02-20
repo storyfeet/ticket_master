@@ -57,26 +57,29 @@ function NewTicketMessage({ loadMessages, ticket }) {
     let mesRef = useRef();
     let [errs, errSetter] = useState(null);
 
-    function handleSubmit(e) {
-        e.preventDefault();
-        (async () => {
-            let res = await postCsrfJson("/user/new_ticket_message", { ticket_id: ticket.ticket_id, message: mesRef.current.value });
+    function handleSubmitC(close) {
+        return (e) => {
+            e.preventDefault();
+            (async () => {
+                let res = await postCsrfJson("/user/new_ticket_message", { ticket_id: ticket.ticket_id, message: mesRef.current.value, close: close });
 
-            if (res.errors) {
-                errSetter(res.errors);
-                return;
-            }
-            errSetter(null)
-            loadMessages();
-            mesRef.current.value = "";
-        })();
-        return true;
+                if (res.errors) {
+                    errSetter(res.errors);
+                    return;
+                }
+                errSetter(null)
+                loadMessages();
+                mesRef.current.value = "";
+            })();
+            return true;
+        }
     }
     return (
-        <form onSubmit={handleSubmit}>
+        <form >
             <ErrTextArea label="Message" name="message"
                 rows={4} cols={50} inRef={mesRef} err={errs?.message} />
-            <input type="submit" value="Send Message" />
+            <button onClick={handleSubmitC(false)}>Send Message</button>
+            <button onClick={handleSubmitC(true)}>Close With Message</button>
 
         </form>
     );
