@@ -8,8 +8,8 @@ class Helper{
 
     public static function errResponse($status,$title,$message):Response{
         return response(
-            $status,
             [ 'errors'=>[$title => [$message] ] ],
+            $status,
         );
     }
 
@@ -22,7 +22,7 @@ class Helper{
     }
 
     public static function canEdit($user,$ticket):bool{
-        if ($user->id == $ticket->user_id){
+        if ($user->id == $ticket->user){
             return true;
         }
         if (Helper::isAdmin($user)){
