@@ -155,7 +155,7 @@ class TicketController extends Controller
                 'ticket_id'=>['required'],
             ]);
         }catch (ValidationException $e){
-            return response(400,['errors'=>$e->errors()]);
+            return response(['errors'=>$e->errors()],400);
         }
         $ticket = Ticket::query()
             ->where('id','=',request()->get('ticket_id'))
