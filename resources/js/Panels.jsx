@@ -49,7 +49,7 @@ export function Panel({ user }) {
             {displayMode === DISPLAY_MODE.NEW_TICKET &&
                 <NewTicket goTicketsC={goTicketsC} />}
             {currentTicket && displayMode === DISPLAY_MODE.EDIT_TICKET &&
-                <EditTicket ticket={currentTicket} user={user} />}
+                <EditTicket ticket={currentTicket} ticketSetter={currentTicketSetter} user={user} />}
 
         </>
     );

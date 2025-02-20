@@ -129,8 +129,14 @@ class TicketController extends Controller
         event(new TicketsUpdated());
 
         return ["count"=>$update];
+    }
 
-
+    public function getWholeTicket($ticket_id):Ticket{
+        return Ticket::query()
+            ->select(self::TICKETS_USER)
+            ->where('tickets.id','=',$ticket_id)
+            ->join('users','users.id','=','tickets.user')
+            ->first();
     }
 
     function newTicketMessage():Response{
@@ -165,7 +171,11 @@ class TicketController extends Controller
 
         if (request()->boolean('close')){
             $this->closeTicket($ticket->id);
-            return response(['status'=>'Ticket closed with message'],200);
+            $tk = $this->getWholeTicket($ticket->id);
+            return response([
+                'status'=>'Ticket closed with message',
+                'ticket'=>$ticket,
+            ],200);
         }
         return response(['status'=>'Message Created'],200);
 
@@ -194,7 +204,7 @@ class TicketController extends Controller
 
         return response(TicketMessage::query()
             ->join('users','ticket_messages.user_id','=','users.id')
-            ->select(TicketController::MESSAGE_USER)
+            ->select(self::MESSAGE_USER)
             ->where('ticket_id','=',$ticketId)
             ->orderBy('created_at')
             ->get(),200);

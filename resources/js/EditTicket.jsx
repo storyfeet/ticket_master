@@ -3,7 +3,7 @@ import { postCsrfJson } from "./loader";
 import { ErrTextArea } from "./ErrView";
 import Ticket from "./Ticket";
 
-export function EditTicket({ user, ticket }) {
+export function EditTicket({ user, ticket, ticketSetter }) {
     let [messages, messagesSetter] = useState([]);
     let [errs, errSetter] = useState(null);
 
@@ -17,6 +17,9 @@ export function EditTicket({ user, ticket }) {
             return;
         }
         messagesSetter(dat);
+        if (dat.ticket) {
+            ticketSetter(dat.ticket);
+        }
 
     }
     useEffect(() => {
