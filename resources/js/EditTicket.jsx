@@ -45,6 +45,8 @@ function TicketMessage({ user, message }) {
     return (
         <div className={user.id === message.user_id ? "ticket_message user" : "ticket_message"
         }>
+            <span className="top_left">{message.author_name}</span>
+            <span className="top_right">{message.created_at}</span>
             <p>{message.message}</p>
         </div >
     );

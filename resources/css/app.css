@@ -24,3 +24,14 @@ input ,textarea{
     border:1px solid grey;
     margin:3px;
 }
+
+.ticket_message{
+    position:relative;
+}
+
+.top_right{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+
+}
