@@ -43,7 +43,7 @@ export function EditTicket({ user, ticket }) {
 
 function TicketMessage({ user, message }) {
     return (
-        <div className={user.id === message.user_id ? "ticket_message user" : "ticket_message"
+        <div className={user.id === message.author_id ? "ticket_message user" : "ticket_message"
         }>
             <span className="top_left">{message.author_name}</span>
             <span className="top_right">{message.created_at}</span>
@@ -52,15 +52,21 @@ function TicketMessage({ user, message }) {
     );
 }
 
-function NewTicketMessage({ errs, loadMessages, ticket }) {
+function NewTicketMessage({ loadMessages, ticket }) {
     //export function ErrTextArea({ label, name, rows, cols, inRef, err, value }) {
     let mesRef = useRef();
+    let [errs, errSetter] = useState(null);
 
     function handleSubmit(e) {
         e.preventDefault();
         (async () => {
-            await postCsrfJson("/user/new_ticket_message", { ticket_id: ticket.ticket_id, message: mesRef.current.value });
+            let res = await postCsrfJson("/user/new_ticket_message", { ticket_id: ticket.ticket_id, message: mesRef.current.value });
 
+            if (res.errors) {
+                errSetter(res.errors);
+                return;
+            }
+            errSetter(null)
             loadMessages();
             mesRef.current.value = "";
         })();
