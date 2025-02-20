@@ -119,27 +119,12 @@ class TicketController extends Controller
     }
 
     /**
-    * Check the user has the authority to close a ticket, then close it.
+    * close a ticket.  Make sure authorisation is checked before calling this
     */
-    public function closeTicket():Response{
-        $user = Auth::user();
-        $id = request()->post('ticket_id');
-        if ($id == NULL ){
-            return [
-                "error"=>"No ticket_id provided",
-                "request"=>request()->all(),
-            ];
-        }
-        if( Helper::isAdmin($user)){
-            $update = Ticket::query()
-                ->where('id','=',$id)
-                ->update(['status'=>1]);
-        }else{
-            $update = Ticket::query()
-                ->where('id','=',$id)
-                ->where('user','=',$user->id)
-                ->update(['status'=>1]);
-        }
+    public function closeTicket($ticket_id){
+        $update = Ticket::query()
+            ->where('id','=',$ticket_id)
+            ->update(['status'=>1]);
 
         event(new TicketsUpdated());
 
@@ -177,6 +162,11 @@ class TicketController extends Controller
             'user_id' => $user->id,
             'message' => request()->get('message'),
         ]);
+
+        if (request()->boolean('close')){
+            $this->closeTicket($ticket->id);
+            return response(['status'=>'Ticket closed with message'],200);
+        }
         return response(['status'=>'Message Created'],200);
 
     }

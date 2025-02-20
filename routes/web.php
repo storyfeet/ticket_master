@@ -34,10 +34,6 @@ Route::get('/admin/get_closed',
     'App\Http\Controllers\AdminController@getClosed'
 )->middleware(AdminMiddleware::class);
 
-// Close the ticket from the admin perspective
-Route::post('/admin/close_ticket',
-    'App\Http\Controllers\AdminController@closeTicket'
-)->middleware(AdminMiddleware::class);
 
 // A paginated Json response showing all tickets associated with a user
 Route::get('/admin/get_user_tickets/{email}',
