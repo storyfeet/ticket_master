@@ -28,8 +28,18 @@ class TicketController extends Controller
             'tickets.status',
             'tickets.created_at',
             'tickets.updated_at',
-
         ];
+
+    public const MESSAGE_USER = [
+        'ticket_messages.id as message_id',
+        'ticket_messages.ticket_id as ticket_id',
+        'ticket_messages.user_id as author_id',
+        'ticket_messages.message',
+        'ticket_messages.created_at',
+        'ticket_messages.updated_at',
+        'users.name as author_name',
+
+    ];
 
 
     /**
@@ -193,6 +203,8 @@ class TicketController extends Controller
         }
 
         return response(TicketMessage::query()
+            ->join('users','ticket_messages.user_id','=','users.id')
+            ->select(TicketController::MESSAGE_USER)
             ->where('ticket_id','=',$ticketId)
             ->orderBy('created_at')
             ->get(),200);
