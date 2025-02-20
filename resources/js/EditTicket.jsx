@@ -59,9 +59,10 @@ function NewTicketMessage({ errs, loadMessages, ticket }) {
     function handleSubmit(e) {
         e.preventDefault();
         (async () => {
-            postCsrfJson("/user/new_ticket_message", { ticket_id: ticket.ticket_id, message: mesRef.current.value });
+            await postCsrfJson("/user/new_ticket_message", { ticket_id: ticket.ticket_id, message: mesRef.current.value });
 
             loadMessages();
+            mesRef.current.value = "";
         })();
         return true;
     }
