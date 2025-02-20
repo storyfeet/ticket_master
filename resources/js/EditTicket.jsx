@@ -31,7 +31,7 @@ export function EditTicket({ user, ticket }) {
     return (
         <div>
             <h2>Ticket Editor</h2>
-            <Ticket ticket={ticket} />
+            <table><tbody><Ticket ticket={ticket} /></tbody></table>
             {messageBox}
             {!ticket.status && <NewTicketMessage errs={errs} loadMessages={loadMessages} ticket={ticket} />}
         </div>
