@@ -17,9 +17,6 @@ export function EditTicket({ user, ticket, ticketSetter }) {
             return;
         }
         messagesSetter(dat);
-        if (dat.ticket) {
-            ticketSetter(dat.ticket);
-        }
 
     }
     useEffect(() => {
@@ -36,7 +33,7 @@ export function EditTicket({ user, ticket, ticketSetter }) {
             <h2>Ticket Editor</h2>
             <table><tbody><Ticket ticket={ticket} /></tbody></table>
             {messageBox}
-            {!ticket.status && <NewTicketMessage errs={errs} loadMessages={loadMessages} ticket={ticket} />}
+            {!ticket.status && <NewTicketMessage errs={errs} loadMessages={loadMessages} ticket={ticket} ticketSetter={ticketSetter} />}
         </div>
     );
 
@@ -55,7 +52,7 @@ function TicketMessage({ user, message }) {
     );
 }
 
-function NewTicketMessage({ loadMessages, ticket }) {
+function NewTicketMessage({ loadMessages, ticket, ticketSetter }) {
     //export function ErrTextArea({ label, name, rows, cols, inRef, err, value }) {
     let mesRef = useRef();
     let [errs, errSetter] = useState(null);
@@ -69,6 +66,9 @@ function NewTicketMessage({ loadMessages, ticket }) {
                 if (res.errors) {
                     errSetter(res.errors);
                     return;
+                }
+                if (res.ticket) {
+                    ticketSetter(res.ticket);
                 }
                 errSetter(null)
                 loadMessages();
