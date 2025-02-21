@@ -137,6 +137,7 @@ class TicketController extends Controller
             ->where('tickets.id','=',$ticket_id)
             ->join('users','users.id','=','tickets.user')
             ->first();
+
     }
 
     function newTicketMessage():Response{
@@ -174,7 +175,7 @@ class TicketController extends Controller
             $tk = $this->getWholeTicket($ticket->id);
             return response([
                 'status'=>'Ticket closed with message',
-                'ticket'=>$ticket,
+                'ticket'=>$tk,
             ],200);
         }
         return response(['status'=>'Message Created'],200);
