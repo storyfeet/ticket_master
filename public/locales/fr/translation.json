@@ -1,4 +1,52 @@
 {
-    "greeting":"Bonjour"
-}
+    "btn-get_users_tickets":"Cherchez les Tickets d'utilisatuer",
+    "btn-view_ticket":"Voir le ticket",
 
+    "dir-next":"Prochain",
+    "dir-prev":"Précédente",
+    "dir-first":"Premier",
+    "dir-last":"Dernier",
+
+    "err-email_required": "L'email est obligatoire",
+    "err-invalid_credentials":"Les informations d'identification ne sont pas valides",
+    "err-not_authorised_to_access_ticket":"Pas autorisé à accéder à ce ticket",
+    "err-not_logged_in":"Pas connecté",
+    "err-not_admin_user":"Pas un utilisateur administrateur",
+
+    "err-ticket_already_closed":"Ticket daja fermé",
+    "err-ticket_content_required":"Ticket contenu est obligatoire",
+    "err-ticket_does_not_exist":"Ticket n'exist pas",
+    "err-ticket_subject_required":"Ticket sujet est obligatoire",
+
+
+    "event-message_created":"Message créé",
+    "event-ticket_closed_with_message":"Ticket fermé avec message",
+    "event-ticket_created": "Ticket créé",
+
+
+    "lab-subject":"Sujet",
+    "lab-content":"Contenu",
+
+    "stat-open":"Ouvert",
+    "stat-closed":"Fermé",
+    "stat-no_tickets":"Aucun ticket",
+
+
+
+    "ticket":"Ticket",
+    "email":"Email",
+    "ticket_slave":"Esclave de Ticket",
+    "greeting":"Bonjour",
+    "welcome":"Bienvenue",
+    "send_message":"Envoyez Message",
+    "close_with_message":"Fermez avec Message",
+    "open_tickets":"Tickets ouverts",
+    "closed_tickets":"Tickets fermés",
+    "tickets_by_email":"Tickets par Email",
+    "my_tickets":"Mes Tickets",
+    "my_open_tickets":"Mes Tickets ouverts",
+    "my_closed_tickets":"Mes Tickets fermés",
+    "create_new_ticket":"Créer un nouveau ticket",
+    "create_ticket":"Créer Ticket",
+    "new_ticket":"Nouveau Ticket"
+}
