@@ -1,6 +1,7 @@
 {
     "btn-get_users_tickets":"Get Users Tickets",
     "btn-view_ticket":"View Ticket",
+    "btn-logout":"Logout",
 
     "dir-next":"Next",
     "dir-prev":"Prev",
@@ -12,6 +13,7 @@
     "err-not_authorised_to_access_ticket":"Not Authorised to access Ticket",
     "err-not_logged_in":"Not logged in",
     "err-not_admin_user":"Not an Admin User",
+    "err-password_required":"Email is Required",
 
     "err-ticket_already_closed":"Ticket Already Closed",
     "err-ticket_content_required":"Ticket Content is Required",

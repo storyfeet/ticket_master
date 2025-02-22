@@ -14,10 +14,10 @@ export default function LoginForm({ user, userSetter }) {
         let newErrors = {};
 
         if (rEmail.current.value == "") {
-            newErrors.email = ["no_email_provided"];
+            newErrors.email = ["err-email_required"];
         }
         if (rPass.current.value == "") {
-            newErrors.password = ["no_password_provided"];
+            newErrors.password = ["err-password_required"];
         }
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors)
@@ -58,6 +58,6 @@ export default function LoginForm({ user, userSetter }) {
         );
     }
     return (
-        <h2>{t("welcome")} {user.name}  <a href="/logout" >Logout</a></h2>
+        <h2>{t("welcome")} {user.name}  <a href="/logout" >{t("btn-logout")}</a></h2>
     );
 }

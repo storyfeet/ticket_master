@@ -1,6 +1,7 @@
 {
     "btn-get_users_tickets":"Cherchez les Tickets d'utilisatuer",
     "btn-view_ticket":"Voir le ticket",
+    "btn-logout":"Déconnecter",
 
     "dir-next":"Prochain",
     "dir-prev":"Précédente",
@@ -12,6 +13,7 @@
     "err-not_authorised_to_access_ticket":"Pas autorisé à accéder à ce ticket",
     "err-not_logged_in":"Pas connecté",
     "err-not_admin_user":"Pas un utilisateur administrateur",
+    "err-password_required":"Mot de passe est obligatoire",
 
     "err-ticket_already_closed":"Ticket daja fermé",
     "err-ticket_content_required":"Ticket contenu est obligatoire",
