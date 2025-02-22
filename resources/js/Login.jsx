@@ -1,21 +1,23 @@
 import { useRef, useState } from "react";
 import { postCsrfJson } from "./loader";
 import { ErrInput } from "./ErrView";
+import { useTranslation } from "react-i18next";
 
 export default function LoginForm({ user, userSetter }) {
     let [errors, setErrors] = useState(null);
     let rEmail = useRef();
     let rPass = useRef();
+    let { t } = useTranslation();
     async function handleSubmitLogin(e) {
         e.preventDefault();
 
         let newErrors = {};
 
         if (rEmail.current.value == "") {
-            newErrors.email = ["No Email provided"];
+            newErrors.email = ["no_email_provided"];
         }
         if (rPass.current.value == "") {
-            newErrors.password = ["No Password provided"];
+            newErrors.password = ["no_password_provided"];
         }
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors)
@@ -56,6 +58,6 @@ export default function LoginForm({ user, userSetter }) {
         );
     }
     return (
-        <h2>Welcome {user.name}  <a href="/logout" >Logout</a></h2>
+        <h2>{t("welcome")} {user.name}  <a href="/logout" >Logout</a></h2>
     );
 }

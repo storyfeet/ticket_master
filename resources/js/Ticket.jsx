@@ -1,11 +1,14 @@
 
+import { useTranslation } from "react-i18next";
+
 export default function Ticket({ ticket, canGetUser, goTicketsC, goEditTicket }) {
+    let { t } = useTranslation();
 
     return (
         <tr className={ticket.status ? "closed_ticket" : "open_ticket"} >
             <td><b>{ticket.name}</b>
                 <br />{ticket.email}
-                <br />{ticket.status ? "Closed" : "Open"}
+                <br />{ticket.status ? t("stat-closed") : t("stat-open")}
             </td>
             <td className="ticket_content"><b>{ticket.subject}</b><br />{ticket.content}</td>
             <td>
@@ -14,11 +17,11 @@ export default function Ticket({ ticket, canGetUser, goTicketsC, goEditTicket })
             </td>
             {canGetUser && goTicketsC && <td>
                 <a onClick={goTicketsC(`/admin/get_user_tickets/${ticket.email}`)} >
-                    Get User's Tickets
+                    {t("btn-get_users_tickets")}
                 </a>
             </td>}
             {goEditTicket && <td>
-                <button onClick={() => { goEditTicket(ticket) }} >Edit Ticket</button>
+                <button onClick={() => { goEditTicket(ticket) }} >{t("btn-view_ticket")}</button>
             </td>}
 
         </tr >

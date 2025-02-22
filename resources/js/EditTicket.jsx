@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { postCsrfJson } from "./loader";
 import { ErrTextArea } from "./ErrView";
 import Ticket from "./Ticket";
+import { useTranslation } from "react-i18next";
 
 export function EditTicket({ user, ticket, ticketSetter }) {
     let [messages, messagesSetter] = useState([]);
@@ -56,6 +57,7 @@ function NewTicketMessage({ loadMessages, ticket, ticketSetter }) {
     //export function ErrTextArea({ label, name, rows, cols, inRef, err, value }) {
     let mesRef = useRef();
     let [errs, errSetter] = useState(null);
+    let { t } = useTranslation();
 
     function handleSubmitC(close) {
         return (e) => {
@@ -81,8 +83,8 @@ function NewTicketMessage({ loadMessages, ticket, ticketSetter }) {
         <form >
             <ErrTextArea label="Message" name="message"
                 rows={4} cols={50} inRef={mesRef} err={errs?.message} />
-            <button onClick={handleSubmitC(false)}>Send Message</button>
-            <button onClick={handleSubmitC(true)}>Close With Message</button>
+            <button onClick={handleSubmitC(false)}>{t("send_message")}</button>
+            <button onClick={handleSubmitC(true)}>{t("close_with_message")}</button>
 
         </form>
     );

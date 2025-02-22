@@ -4,6 +4,7 @@ import { ErrInput, ErrListView } from "./ErrView";
 import { NewTicket } from "./NewTicket";
 import { DISPLAY_MODE } from "./util";
 import { EditTicket } from "./EditTicket";
+import { useTranslation } from "react-i18next";
 
 
 
@@ -57,11 +58,12 @@ export function Panel({ user }) {
 
 export function AdminPanel({ goTicketsC, errs, errSetter }) {
     let emailRef = useRef();
+    let { t } = useTranslation();
 
     function handleTicketsByEmail() {
         let email = emailRef.current.value;
         if (!email) {
-            errSetter({ "email": ["Please provide Email Address"] });
+            errSetter({ "email": ["err_email_required"] });
             return;
         }
         goTicketsC(`/admin/get_user_tickets/${email}`)();
@@ -69,12 +71,12 @@ export function AdminPanel({ goTicketsC, errs, errSetter }) {
     }
     return (
         <div className="admin_panel">
-            <button onClick={goTicketsC("/admin/get_open", true)}>Open Tickets</button>
-            <button onClick={goTicketsC("/admin/get_closed", true)}>Closed Tickets</button>
+            <button onClick={goTicketsC("/admin/get_open", true)}>{t("open_tickets")}</button>
+            <button onClick={goTicketsC("/admin/get_closed", true)}>{t("closed_tickets")}</button>
             <div>
-                <ErrInput label="Email:" type="text"
+                <ErrInput label="email" type="text"
                     name="email" inRef={emailRef} err={errs?.email} />
-                <button onClick={handleTicketsByEmail} >Tickets By Email</button>
+                <button onClick={handleTicketsByEmail} >{t("tickets_by_email")}</button>
             </div>
         </div >
     );
@@ -82,12 +84,14 @@ export function AdminPanel({ goTicketsC, errs, errSetter }) {
 
 
 export function UserPanel({ goTicketsF, goNewTicket }) {
+    let { t } = useTranslation();
+
     return (
         <div className="user_panel">
-            <button onClick={goTicketsF("/user/get_all")}>My Tickets</button>
-            <button onClick={goTicketsF("/user/get_open")}>My Open Tickets</button>
-            <button onClick={goTicketsF("/user/get_closed")}>My Closed Tickets</button>
-            <button onClick={goNewTicket}>Create New Ticket</button>
+            <button onClick={goTicketsF("/user/get_all")}>{t("my_tickets")}</button>
+            <button onClick={goTicketsF("/user/get_open")}>{t("my_open_tickets")}</button>
+            <button onClick={goTicketsF("/user/get_closed")}>{t("my_closed_tickets")}</button>
+            <button onClick={goNewTicket}>{t("create_new_ticket")}</button>
         </div>
     );
 }

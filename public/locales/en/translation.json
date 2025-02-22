@@ -1,3 +1,36 @@
 {
-    "greeting":"Hello"
+    "btn-get_users_tickets":"Get Users Tickets",
+    "btn-view_ticket":"View Ticket",
+
+    "dir-next":"Next",
+    "dir-prev":"Prev",
+    "dir-first":"First",
+    "dir-last":"Last",
+
+    "err-email_required":"Email is Required",
+    "err-ticket_content_required":"Ticket Content is Required",
+    "err-ticket_subject_required":"Ticket Subject is Required",
+
+    "stat-open":"Open",
+    "stat-closed":"Closed",
+    "stat-no_tickets":"No Tickets",
+
+    "lab-subject":"Subject",
+    "lab-content":"Content",
+
+    "email":"Email",
+    "ticket_slave":"Ticket Slave",
+    "greeting":"Hello",
+    "welcome":"Welcome",
+    "send_message":"Send Message",
+    "close_with_message":"Close with Message",
+    "open_tickets":"Open Tickets",
+    "closed_tickets":"Closed Tickets",
+    "tickets_by_email":"Tickets by Email",
+    "my_tickets":"My Tickets",
+    "my_open_tickets":"My Open Tickets",
+    "my_closed_tickets":"My Closed Tickets",
+    "create_new_ticket":"Create New Ticket",
+    "create_ticket":"Create Ticket",
+    "new_ticket":"New Ticket"
 }

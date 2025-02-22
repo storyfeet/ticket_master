@@ -1,22 +1,24 @@
 import { useRef, useState } from "react";
 import { postCsrfJson } from "./loader";
 import { ErrListView, ErrInput, ErrTextArea } from "./ErrView";
+import { useTranslation } from "react-i18next";
 
 
 export function NewTicket({ goTicketsC }) {
     let [errs, errSetter] = useState(null);
     let messBox = useRef();
     let subBox = useRef();
+    let { t } = useTranslation();
 
     async function handleSubmit(e) {
 
         e.preventDefault();
         let newErrs = {};
         if (!messBox.current.value) {
-            newErrs.content = ["Please provide some content/context for your ticket"];
+            newErrs.content = ["err-ticket_content_required"];
         }
         if (!subBox.current.value) {
-            newErrs.subject = ["Please provide a subject for your ticket"];
+            newErrs.subject = ["err-ticket_subject_required"];
         }
         if (Object.keys(newErrs).length > 0) {
             errSetter(newErrs)
@@ -41,12 +43,12 @@ export function NewTicket({ goTicketsC }) {
 
     return (
         <form onSubmit={handleSubmit}>
-            <h2>New Ticket</h2>
+            <h2>{t("new_ticket")}</h2>
             {errs && <ErrListView errs={errs} errSetter={errSetter} />}
-            <ErrInput label="Subject" name="subject" type="text" inRef={subBox} err={errs?.subject} /><br />
+            <ErrInput label="lab-subject" name="subject" type="text" inRef={subBox} err={errs?.subject} /><br />
 
-            <ErrTextArea label="Content" name="content" inRef={messBox} cols={50} rows={7} err={errs?.content} /><br />
-            <input type="submit" value="Create Ticket" />
+            <ErrTextArea label="lab-content" name="content" inRef={messBox} cols={50} rows={7} err={errs?.content} /><br />
+            <input type="submit" value={t("create_ticket")} />
         </form>
     );
 }
