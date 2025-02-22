@@ -63,7 +63,7 @@ export function AdminPanel({ goTicketsC, errs, errSetter }) {
     function handleTicketsByEmail() {
         let email = emailRef.current.value;
         if (!email) {
-            errSetter({ "email": ["err_email_required"] });
+            errSetter({ "email": ["err-email_required"] });
             return;
         }
         goTicketsC(`/admin/get_user_tickets/${email}`)();
