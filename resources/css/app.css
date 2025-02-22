@@ -47,3 +47,7 @@ input ,textarea{
     right: 0px;
 
 }
+
+.language_select{
+    float:right;
+}
