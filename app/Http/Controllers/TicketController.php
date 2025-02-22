@@ -115,7 +115,7 @@ class TicketController extends Controller
 
         event(new TicketsUpdated());
 
-        return response(["Ticket Created"],200);
+        return response(["event-ticket_created"],200);
     }
 
     /**
@@ -153,15 +153,15 @@ class TicketController extends Controller
             ->where('id','=',request()->get('ticket_id'))
             ->first();
         if ($ticket == null) {
-            return Helper::errResponse(400,'ticket',"Ticket Doesn't exist");
+            return Helper::errResponse(400,'ticket',"err-ticket_does_not_exist");
         }
         if ($ticket->status == 1) {
-            return Helper::errResponse(403,'ticket',"Ticket Already Closed");
+            return Helper::errResponse(403,'ticket',"err-ticket_already_closed");
         }
 
         $user = Auth::user();
         if (! Helper::canEdit($user,$ticket)){
-            return Helper::errResponse(403,'auth','Only ticket creator or admin may add message');
+            return Helper::errResponse(403,'auth','err-not_authorised_to_access_ticket');
         }
 
         TicketMessage::factory()->create([
@@ -174,11 +174,11 @@ class TicketController extends Controller
             $this->closeTicket($ticket->id);
             $tk = $this->getWholeTicket($ticket->id);
             return response([
-                'status'=>'Ticket closed with message',
+                'status'=>'event-ticket_closed_with_message',
                 'ticket'=>$tk,
             ],200);
         }
-        return response(['status'=>'Message Created'],200);
+        return response(['status'=>'event-message_created'],200);
 
     }
 
@@ -196,11 +196,11 @@ class TicketController extends Controller
             ->where('id','=',$ticketId)
             ->first();
         if ($ticket == null) {
-            return Helper::errResponse(400,'ticket',"Ticket Doesn't exist");
+            return Helper::errResponse(400,'ticket',"err-ticket_does_not_exist");
         }
         $user = Auth::user();
         if (! Helper::canEdit($user,$ticket)){
-            return Helper::errResponse(403,'auth','Only ticket creator or admin may view ticket messages');
+            return Helper::errResponse(403,'auth','err-not_authorised_to_access_ticket');
         }
 
         return response(TicketMessage::query()
@@ -210,7 +210,5 @@ class TicketController extends Controller
             ->orderBy('created_at')
             ->get(),200);
     }
-
-
 
 }

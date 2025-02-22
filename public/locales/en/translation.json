@@ -8,16 +8,32 @@
     "dir-last":"Last",
 
     "err-email_required":"Email is Required",
+    "err-invalid_credentials":"Invalid Credentials",
+    "err-not_authorised_to_access_ticket":"Not Authorised to access Ticket",
+    "err-not_logged_in":"Not logged in",
+    "err-not_admin_user":"Not an Admin User",
+
+    "err-ticket_already_closed":"Ticket Already Closed",
     "err-ticket_content_required":"Ticket Content is Required",
+    "err-ticket_does_not_exist":"Ticket Does not Exist",
     "err-ticket_subject_required":"Ticket Subject is Required",
+
+
+    "event-message_created":"Message Created",
+    "event-ticket_closed_with_message":"Ticket Closed with Message",
+    "event-ticket_created": "Ticket Created",
+
+
+    "lab-subject":"Subject",
+    "lab-content":"Content",
 
     "stat-open":"Open",
     "stat-closed":"Closed",
     "stat-no_tickets":"No Tickets",
 
-    "lab-subject":"Subject",
-    "lab-content":"Content",
 
+
+    "ticket":"Ticket",
     "email":"Email",
     "ticket_slave":"Ticket Slave",
     "greeting":"Hello",

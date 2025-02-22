@@ -18,10 +18,10 @@ class AdminMiddleware
     {
         $user = Auth::user();
         if ($user === null){
-            return Helper::errResponse(403,'login','Not logged In');
+            return Helper::errResponse(403,'login','err-not_logged_in');
         }
         if ( ! Helper::isAdmin($user) ){
-            return Helper::errResponse(403,'admin','Not an Admin user');
+            return Helper::errResponse(403,'admin','err-not_admin_user');
         }
         return $next($request);
     }

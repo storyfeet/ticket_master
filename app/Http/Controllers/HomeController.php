@@ -13,9 +13,6 @@ use Illuminate\Validation\ValidationException;
 class HomeController extends Controller
 {
 
-    /**
-    * Return whether or not the user is an admin
-    */
 
 
 
@@ -45,7 +42,7 @@ class HomeController extends Controller
         )->validate();
 
         if (! auth()->attempt(request()->only(['email','password']))){
-            return redirect()->back()->withErrors(["email" => "Invalid Credentials"]);
+            return redirect()->back()->withErrors(["email" => "err-invalid_credentials"]);
         }
 
         return redirect('/');
@@ -64,7 +61,7 @@ class HomeController extends Controller
         }
 
         if (! auth()->attempt(request()->only(['email','password']))){
-            return ['errors'=>['credentials'=>['Login credentials not correct']]];
+            return ['errors'=>['credentials'=>['err-invalid_credentials']]];
         }
 
         return UserController::userInfo();
