@@ -21,7 +21,7 @@ Setup a login route for ajax based login.
 
 Solve how to get localisation onto the front-end, so that a single page React app can switch languages.
 
-(Target: Wed 19/2) 
+(Complete - 22 /2 )(Target: Wed 19/2) 
 
 ### Messages Table
 
@@ -39,5 +39,6 @@ Have logged in users listening specifically for messages on their tickets with r
 Add throttling mechanisms
 
 ### Admin Ticket Filtering
+
 Allow admins to view all tickets which they have responded to, and those which have no current response.
 
