@@ -3,6 +3,7 @@ import LoginForm from "./Login";
 import { Panel } from "./Panels";
 import { useTranslation } from "react-i18next";
 import { LanguageSelector } from "./LanguageSelect";
+import {UpdateView} from "./UpdateView.jsx";
 
 export default function Home() {
     let [user, setUser] = useState(window.USER_INFO)
@@ -27,6 +28,7 @@ export default function Home() {
     return (
         <>
             <LanguageSelector />
+            {updates && <UpdateView updates={updates} setUpdates={setUpdates}/>}
             <h1>{t("ticket_slave")}</h1>
             <LoginForm user={user} userSetter={setUser} />
             {user && <Panel user={user} />}
