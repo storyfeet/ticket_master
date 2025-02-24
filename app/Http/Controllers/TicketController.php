@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 
+use App\Events\TicketsUpdated;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use App\Events\TicketsUpdated;
+use App\Events\MyTicketUpdated;
 use App\Models\Ticket;
 use App\Models\TicketMessage;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use App\Helpers\Helper;
 
@@ -112,7 +114,6 @@ class TicketController extends Controller
             'content'=>request()->post('content'),
             'status'=>false,
         ]);
-
         event(new TicketsUpdated());
 
         return response(["event-ticket_created"],200);
@@ -126,7 +127,6 @@ class TicketController extends Controller
             ->where('id','=',$ticket_id)
             ->update(['status'=>1]);
 
-        event(new TicketsUpdated());
 
         return ["count"=>$update];
     }
@@ -170,6 +170,10 @@ class TicketController extends Controller
             'message' => request()->get('message'),
         ]);
 
+        Log::debug("Updated ticket : ".$ticket->id);
+        event(new TicketsUpdated());
+        event(new MyTicketUpdated($ticket->user,$ticket));
+
         if (request()->boolean('close')){
             $this->closeTicket($ticket->id);
             $tk = $this->getWholeTicket($ticket->id);
@@ -178,8 +182,9 @@ class TicketController extends Controller
                 'ticket'=>$tk,
             ],200);
         }
-        return response(['status'=>'event-message_created'],200);
 
+
+        return response(['status'=>'event-message_created'],200);
     }
 
     function getTicketMessages():Response{
