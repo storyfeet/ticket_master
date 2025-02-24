@@ -7,8 +7,22 @@ import {UpdateView} from "./UpdateView.jsx";
 
 export default function Home() {
     let [user, setUser] = useState(window.USER_INFO)
+    let [newUpdate,setNewUpdate] = useState(null);
     let [updates,setUpdates] = useState([]);
     let { t } = useTranslation();
+
+    useEffect(()=>{
+        if (!newUpdate) return;
+        console.log("oldUpdates",updates);
+        let nUpdates = [...updates];
+        console.log("Updated: ",newUpdate);
+        nUpdates.push(newUpdate);
+        console.log("update_list:",nUpdates)
+        setUpdates(nUpdates);
+
+    },[newUpdate]);
+
+
 
     useEffect(()=> {
         if (!user) {
@@ -18,10 +32,7 @@ export default function Home() {
         console.log("Try listening user : ",user);
         window.Echo.private(`my_tickets.${user.id}`)
             .listen(".updated",(dat)=>{
-                console.log("Updated: ",dat);
-                let nUpdates = [...updates];
-                nUpdates.push(dat);
-                setUpdates(nUpdates);
+                setNewUpdate(dat);
             });
     },[user]);
 
