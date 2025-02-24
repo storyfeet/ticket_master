@@ -36,6 +36,9 @@ Send an email to a user whenever an admin responds to their ticket
 ### Listening for own messages
 
 Have logged in users listening specifically for messages on their tickets with reverb.
+
+### Throttling
+
 Add throttling mechanisms
 
 ### Admin Ticket Filtering
