@@ -13,12 +13,12 @@ class MyTicketUpdated implements ShouldBroadcastNow{
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     var int $user_id;
-    public string $message;
+    public array $ticket;
 
     function __construct($user_id,$ticket){
 
         $this->user_id = $user_id;
-        $this->message = json_encode($ticket);
+        $this->ticket = $ticket->toArray();
     }
     function broadcastOn(){
 
@@ -26,5 +26,9 @@ class MyTicketUpdated implements ShouldBroadcastNow{
     }
     public function broadcastAs():string{
         return "updated";
+    }
+
+    public function broadcastWith() :array {
+        return $this->ticket;
     }
 }
