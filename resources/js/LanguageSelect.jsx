@@ -13,12 +13,12 @@ export function LanguageSelector() {
         i18n.changeLanguage(e.target.value);
     }
 
-    let options = languages.map((lan) => {
+    let options = languages.map((lan,index) => {
         let tx = t(lan.name);
         if (tx !== lan.native) {
             tx += "/" + lan.native;
         }
-        return (<option value={lan.code}>{tx}</option>);
+        return (<option value={lan.code} key={index}>{tx}</option>);
     });
 
     return (
