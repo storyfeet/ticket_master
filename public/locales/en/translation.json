@@ -29,6 +29,10 @@
     "lab-subject":"Subject",
     "lab-content":"Content",
 
+    "lang-english": "English",
+    "lang-french": "French",
+
+
     "stat-open":"Open",
     "stat-closed":"Closed",
     "stat-no_tickets":"No Tickets",
@@ -51,4 +55,5 @@
     "create_new_ticket":"Create New Ticket",
     "create_ticket":"Create Ticket",
     "new_ticket":"New Ticket"
+
 }

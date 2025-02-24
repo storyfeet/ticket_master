@@ -29,6 +29,10 @@
     "lab-subject":"Sujet",
     "lab-content":"Contenu",
 
+    "lang-english": "Anglais",
+    "lang-french": "Français",
+
+
     "stat-open":"Ouvert",
     "stat-closed":"Fermé",
     "stat-no_tickets":"Aucun ticket",
