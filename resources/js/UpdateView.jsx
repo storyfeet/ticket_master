@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 
 
-export function UpdateView({user}){
+export function UpdateView({user,goEditTicket}){
     let [newUpdate,setNewUpdate] = useState(null);
     let [updates,setUpdates] = useState([]);
 
@@ -39,7 +39,10 @@ export function UpdateView({user}){
     if (updates.length === 0) return <></>;
 
     let upList = updates.map((up,index) =>
-          <UpdatedTicket key={index} ticket={up} closer={closerC(index)} />
+          <UpdatedTicket key={index}
+                         ticket={up}
+                         closer={closerC(index)}
+                         goEditTicket={goEditTicket} />
         );
 
     return <div className="fixed_top">
@@ -48,13 +51,18 @@ export function UpdateView({user}){
 }
 
 
-function UpdatedTicket({ticket,closer}){
+function UpdatedTicket({ticket,closer,goEditTicket}){
     let tString = shortenDotDot(ticket.subject,25 );
     return (
         <div className="updated">
             <button className="x_close" onClick={closer}>X</button>
             <h2>Ticket Updated : {ticket.id}</h2>
             <p>{tString}</p>
+            <button className="x_close" onClick={()=>{
+                closer();
+                goEditTicket(ticket);
+            }}>⭆</button>
+
         </div>
     );
 }

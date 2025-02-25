@@ -16,7 +16,6 @@ export default function Home() {
     return (
         <>
             <LanguageSelector />
-            {<UpdateView user={user}/>}
             <h1>{t("ticket_slave")}</h1>
             <LoginForm user={user} userSetter={setUser} />
             {user && <Panel user={user} />}

@@ -5,6 +5,7 @@ import { NewTicket } from "./NewTicket";
 import { DISPLAY_MODE } from "./util";
 import { EditTicket } from "./EditTicket";
 import { useTranslation } from "react-i18next";
+import {UpdateView} from "./UpdateView.jsx";
 
 
 
@@ -41,6 +42,7 @@ export function Panel({ user }) {
 
     return (
         <>
+            <UpdateView user={user} goEditTicket={goEditTicket}/>
             {errs && <ErrListView errs={errs} errSetter={errSetter} />}
             {user.isAdmin && <AdminPanel goTicketsC={goTicketsC} errs={errs} errSetter={errSetter} />}
             < UserPanel user={user} goTicketsF={goTicketsC} goNewTicket={goNewTicket} />
