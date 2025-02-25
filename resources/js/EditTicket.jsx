@@ -10,7 +10,7 @@ export function EditTicket({ user, ticket, ticketSetter }) {
 
     async function loadMessages() {
         let dat = await postCsrfJson("/user/get_ticket_messages", {
-            "ticket_id": ticket.ticket_id,
+            "ticket_id": ticket.ticket_id || ticket.id,
         });
 
         if (dat.errors) {
