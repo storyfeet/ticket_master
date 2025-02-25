@@ -81,3 +81,8 @@ h4 {
     overflow-y: scroll;
     background-color:lightgrey;
 }
+
+.x_close{
+    border-radius:50%;
+    float:right;
+}
