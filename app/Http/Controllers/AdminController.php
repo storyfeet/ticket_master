@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Ticket;
 use App\Models\User;
-use Dotenv\Exception\ValidationException;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Hash;
+
 
 class AdminController extends Controller {
 
@@ -34,7 +35,6 @@ class AdminController extends Controller {
             ->orderByDesc('tickets.updated_at')
             ->select(TicketController::TICKETS_USER)
             ->paginate(3);
-
         return $tickets;
     }
 
@@ -42,14 +42,14 @@ class AdminController extends Controller {
     {
         try {
             request()->validate([
-                    'name' => ['required','string','max:50','unique:users.name'],
-                    'email'=>['required','email','unique:users.email'],
+                    'name' => ['required','string','max:50'],
+                    'email'=>['required','email'],
                     'password' => ['required','min:10'],
                 ]);
         }catch (ValidationException $e){
             return response(['errors'=>$e->errors()],400);
         }
-        $created = User::factory()->unverified()->create(
+        $created = User::factory()->create(
             [
                 'name' => request('name'),
                 'email' => request('email'),
