@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ticket;
+use App\Models\User;
+use Dotenv\Exception\ValidationException;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller {
 
@@ -35,6 +38,30 @@ class AdminController extends Controller {
         return $tickets;
     }
 
+    public function createUser()
+    {
+        try {
+            request()->validate([
+                    'name' => ['required','string','max:50','unique:users.name'],
+                    'email'=>['required','email','unique:users.email'],
+                    'password' => ['required'],
+                ]);
+        }catch (ValidationException $e){
+            return response(['errors'=>$e->errors()],400);
+        }
+        $created = User::factory()->unverified()->create(
+            [
+                'name' => request('name'),
+                'email' => request('email'),
+                'password' => Hash::make(request('password')),
+            ]
+        );
+        $result = ['created'=>$created];
+        //TODO consider allowing roles tobe added as needed,
+        // maybe ',' split string
+        return response($result,200);
+
+    }
     public function getUserTickets($email){
 
 

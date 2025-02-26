@@ -34,6 +34,10 @@ Route::get('/admin/get_closed',
     'App\Http\Controllers\AdminController@getClosed'
 )->middleware(AdminMiddleware::class);
 
+Route::post('admin/create_user',
+    'App\Http\Controllers\AdminController@createUser'
+)->middleware(AdminMiddleware::class);
+
 
 // A paginated Json response showing all tickets associated with a user
 Route::get('/admin/get_user_tickets/{email}',
