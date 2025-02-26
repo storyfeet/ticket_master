@@ -44,7 +44,7 @@ class AdminController extends Controller {
             request()->validate([
                     'name' => ['required','string','max:50','unique:users.name'],
                     'email'=>['required','email','unique:users.email'],
-                    'password' => ['required'],
+                    'password' => ['required','min:10'],
                 ]);
         }catch (ValidationException $e){
             return response(['errors'=>$e->errors()],400);
