@@ -42,8 +42,8 @@ class AdminController extends Controller {
     {
         try {
             request()->validate([
-                    'name' => ['required','string','max:50'],
-                    'email'=>['required','email'],
+                    'name' => ['required','string','max:50','unique:App\Models\User'],
+                    'email'=>['required','email','unique:App\Models\User'],
                     'password' => ['required','min:10'],
                 ]);
         }catch (ValidationException $e){
