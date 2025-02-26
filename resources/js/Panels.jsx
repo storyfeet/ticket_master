@@ -6,6 +6,8 @@ import { DISPLAY_MODE } from "./util";
 import { EditTicket } from "./EditTicket";
 import { useTranslation } from "react-i18next";
 import {UpdateView} from "./UpdateView.jsx";
+import {CreateUser} from "./CreateUser.jsx";
+
 
 
 
@@ -58,10 +60,24 @@ export function Panel({ user }) {
     );
 }
 
+const ADMIN_DISPLAY = {
+    NONE :0,
+    CREATE_USER :1,
+};
+
 export function AdminPanel({ goTicketsC, errs, errSetter }) {
     let emailRef = useRef();
     let { t } = useTranslation();
+    let [display,displaySetter ] = useState(ADMIN_DISPLAY.NONE);
 
+    function toggleCreateUser(){
+        if (display === ADMIN_DISPLAY.CREATE_USER){
+            displaySetter(ADMIN_DISPLAY.NONE);
+        }else {
+            displaySetter(ADMIN_DISPLAY.CREATE_USER);
+        }
+
+    }
     function handleTicketsByEmail() {
         let email = emailRef.current.value;
         if (!email) {
@@ -80,6 +96,10 @@ export function AdminPanel({ goTicketsC, errs, errSetter }) {
                     name="email" inRef={emailRef} err={errs?.email} />
                 <button onClick={handleTicketsByEmail} >{t("tickets_by_email")}</button>
             </div>
+            <button onClick={toggleCreateUser}>{
+                t(display=== ADMIN_DISPLAY.CREATE_USER ? "btn-close_create_user":"btn-go_create_user")
+            }</button>
+            {display === ADMIN_DISPLAY.CREATE_USER && <CreateUser />}
         </div >
     );
 }

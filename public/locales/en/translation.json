@@ -2,6 +2,9 @@
     "btn-get_users_tickets":"Get Users Tickets",
     "btn-view_ticket":"View Ticket",
     "btn-logout":"Logout",
+    "btn-create_user": "Create User",
+    "btn-go_create_user" : "Create a new User",
+    "btn-close_create_user" : "Close New User",
 
     "dir-next":"Next",
     "dir-prev":"Prev",
@@ -28,6 +31,9 @@
 
     "lab-subject":"Subject",
     "lab-content":"Content",
+    "lab-email": "Email",
+    "lab-password": "Password",
+    "lab-name" : "Name",
 
     "lang-english": "English",
     "lang-french": "French",
