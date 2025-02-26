@@ -62,6 +62,10 @@
     "my_closed_tickets":"My Closed Tickets",
     "create_new_ticket":"Create New Ticket",
     "create_ticket":"Create Ticket",
-    "new_ticket":"New Ticket"
+    "new_ticket":"New Ticket",
+
+    "The name has already been taken.": "The name has already been taken!",
+    "The email has already been taken.": "The email has already been taken!",
+    "The password field must be at least 10 characters.": "The password field must be at least 10 characters!"
 
 }

@@ -28,6 +28,9 @@
 
     "lab-subject":"Sujet",
     "lab-content":"Contenu",
+    "lab-email": "Email",
+    "lab-password": "Mot de passe",
+    "lab-name" : "Nom",
 
     "lang-english": "Anglais",
     "lang-french": "Français",
@@ -54,5 +57,10 @@
     "my_closed_tickets":"Mes Tickets fermés",
     "create_new_ticket":"Créer un nouveau ticket",
     "create_ticket":"Créer Ticket",
-    "new_ticket":"Nouveau Ticket"
+    "new_ticket":"Nouveau Ticket",
+
+    "The name has already been taken.": "Le nom est deja utilizé!",
+    "The email has already been taken.": "Le email est deja utilizé!",
+    "The password field must be at least 10 characters.": "Le mot de passe doit comporter 10 caractères!"
+
 }
