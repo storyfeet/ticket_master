@@ -63,21 +63,41 @@ export function Panel({ user }) {
 const ADMIN_DISPLAY = {
     NONE :0,
     CREATE_USER :1,
+    EMAIL_FILTER : 2,
 };
 
 export function AdminPanel({ goTicketsC, errs, errSetter }) {
-    let emailRef = useRef();
     let { t } = useTranslation();
     let [display,displaySetter ] = useState(ADMIN_DISPLAY.NONE);
 
-    function toggleCreateUser(){
-        if (display === ADMIN_DISPLAY.CREATE_USER){
+    function toggleDisplay(mode){
+        if (display === mode){
             displaySetter(ADMIN_DISPLAY.NONE);
         }else {
-            displaySetter(ADMIN_DISPLAY.CREATE_USER);
+            displaySetter(mode);
         }
-
     }
+    return (
+        <div className="admin_panel">
+            <button onClick={goTicketsC("/admin/get_open", true)}>{t("open_tickets")}</button>
+            <button onClick={goTicketsC("/admin/get_closed", true)}>{t("closed_tickets")}</button>
+
+            <button onClick={()=>{toggleDisplay(ADMIN_DISPLAY.CREATE_USER)}}>{
+                t(display=== ADMIN_DISPLAY.CREATE_USER ? "btn-close_create_user":"btn-go_create_user")
+            }</button>
+            <button onClick={()=>{toggleDisplay(ADMIN_DISPLAY.EMAIL_FILTER)}}>{
+                t(display=== ADMIN_DISPLAY.EMAIL_FILTER ? "btn-close_email_filter":"btn-go_email_filter")
+            }</button>
+            {display === ADMIN_DISPLAY.CREATE_USER && <CreateUser />}
+            {display === ADMIN_DISPLAY.EMAIL_FILTER && <EmailFilter goTicketsC={goTicketsC} />}
+        </div >
+    );
+}
+
+export function EmailFilter({goTicketsC}){
+    let emailRef = useRef();
+    let [errs,errSetter] = useState(null);
+    let {t} = useTranslation();
     function handleTicketsByEmail() {
         let email = emailRef.current.value;
         if (!email) {
@@ -87,23 +107,13 @@ export function AdminPanel({ goTicketsC, errs, errSetter }) {
         goTicketsC(`/admin/get_user_tickets/${email}`)();
 
     }
-    return (
-        <div className="admin_panel">
-            <button onClick={goTicketsC("/admin/get_open", true)}>{t("open_tickets")}</button>
-            <button onClick={goTicketsC("/admin/get_closed", true)}>{t("closed_tickets")}</button>
-            <div>
-                <ErrInput label="email" type="text"
-                    name="email" inRef={emailRef} err={errs?.email} />
-                <button onClick={handleTicketsByEmail} >{t("tickets_by_email")}</button>
-            </div>
-            <button onClick={toggleCreateUser}>{
-                t(display=== ADMIN_DISPLAY.CREATE_USER ? "btn-close_create_user":"btn-go_create_user")
-            }</button>
-            {display === ADMIN_DISPLAY.CREATE_USER && <CreateUser />}
-        </div >
-    );
-}
 
+    return <div>
+        <ErrInput label="email" type="text"
+                  name="email" inRef={emailRef} err={errs?.email} />
+        <button onClick={handleTicketsByEmail} >{t("tickets_by_email")}</button>
+    </div>;
+}
 
 export function UserPanel({ goTicketsF, goNewTicket }) {
     let { t } = useTranslation();

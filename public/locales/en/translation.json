@@ -4,7 +4,9 @@
     "btn-logout":"Logout",
     "btn-create_user": "Create User",
     "btn-go_create_user" : "Create a new User",
-    "btn-close_create_user" : "Close New User",
+    "btn-close_create_user" : "Close User Creator",
+    "btn-go_email_filter" : "Filter by Email",
+    "btn-close_email_filter" : "Close Email Filter",
 
     "dir-next":"Next",
     "dir-prev":"Prev",
