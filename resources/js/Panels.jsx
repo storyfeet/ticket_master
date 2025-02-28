@@ -7,6 +7,7 @@ import { EditTicket } from "./EditTicket";
 import { useTranslation } from "react-i18next";
 import {UpdateView} from "./UpdateView.jsx";
 import {CreateUser} from "./CreateUser.jsx";
+import {AdvancedFilter} from "./AdvancedFilter";
 
 
 
@@ -64,6 +65,7 @@ const ADMIN_DISPLAY = {
     NONE :0,
     CREATE_USER :1,
     EMAIL_FILTER : 2,
+    ADVANCED_FILTER : 3,
 };
 
 export function AdminPanel({ goTicketsC, errs, errSetter }) {
@@ -81,15 +83,18 @@ export function AdminPanel({ goTicketsC, errs, errSetter }) {
         <div className="admin_panel">
             <button onClick={goTicketsC("/admin/get_open", true)}>{t("open_tickets")}</button>
             <button onClick={goTicketsC("/admin/get_closed", true)}>{t("closed_tickets")}</button>
-
-            <button onClick={()=>{toggleDisplay(ADMIN_DISPLAY.CREATE_USER)}}>{
-                t(display=== ADMIN_DISPLAY.CREATE_USER ? "btn-close_create_user":"btn-go_create_user")
-            }</button>
             <button onClick={()=>{toggleDisplay(ADMIN_DISPLAY.EMAIL_FILTER)}}>{
                 t(display=== ADMIN_DISPLAY.EMAIL_FILTER ? "btn-close_email_filter":"btn-go_email_filter")
             }</button>
+            <button onClick={()=>{toggleDisplay(ADMIN_DISPLAY.ADVANCED_FILTER)}}>{
+                t(display=== ADMIN_DISPLAY.ADVANCED_FILTER ? "btn-close_advanced_filter":"btn-go_advanced_filter")
+            }</button>
+            <button onClick={()=>{toggleDisplay(ADMIN_DISPLAY.CREATE_USER)}}>{
+                t(display=== ADMIN_DISPLAY.CREATE_USER ? "btn-close_create_user":"btn-go_create_user")
+            }</button>
             {display === ADMIN_DISPLAY.CREATE_USER && <CreateUser />}
             {display === ADMIN_DISPLAY.EMAIL_FILTER && <EmailFilter goTicketsC={goTicketsC} />}
+            {display === ADMIN_DISPLAY.ADVANCED_FILTER && <AdvancedFilter goTicketsC={goTicketsC}/>}
         </div >
     );
 }
