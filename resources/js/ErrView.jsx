@@ -24,7 +24,7 @@ function ErrView({ etype, err }) {
     )
 }
 
-export function ErrInput({ label, name, type = "text", inRef, err, value }) {
+export function ErrInput({ label, name, type = "text", inRef, err, value,defValue }) {
     let { t } = useTranslation();
     return (
         <>
