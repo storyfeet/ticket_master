@@ -44,6 +44,10 @@ Route::get('/admin/get_user_tickets/{email}',
    'App\Http\Controllers\AdminController@getUserTickets'
 )->middleware(AdminMiddleware::class);
 
+Route::get('/admin/get_advanced_tickets',
+    'App\Http\Controllers\AdminController@getAdvancedTickets'
+)->middleware(AdminMiddleware::class);
+
 Route::get('/user/get_all',
             'App\Http\Controllers\UserController@getAll');
 

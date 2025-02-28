@@ -75,6 +75,36 @@ class AdminController extends Controller {
 
         return $tickets;
     }
+
+    public function getAdvancedTickets(){
+
+        try {
+            request()->validate([
+                'per_page'=>['nullable','integer','min:1'],
+            ]);
+        }catch (ValidationException $e){
+            return response(['errors'=>$e->errors()],400);
+        }
+        $query = Ticket::query()
+            ->join('users','tickets.user','=','users.id');
+        $req = request()->all();
+
+        if ( isset($req['user_like']) ){
+            $query = $query->where(function($query) use($req){
+                return $query->where('users.email','like','%'.$req['user_like'].'%')
+                    ->orWhere('users.name','like','%'.$req['user_like'].'%');
+            });
+        }
+
+        $perPage = 3;
+        if (isset($req['per_page'])) {
+            $perPage = (int) $req['per_page'];
+        }
+        return $query->select(TicketController::TICKETS_USER)
+            ->paginate($perPage);
+
+
+    }
 }
 
 
