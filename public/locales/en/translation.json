@@ -1,5 +1,6 @@
 {
     "btn-get_users_tickets":"Get Users Tickets",
+    "btn-get_tickets": "Get Tickets",
     "btn-view_ticket":"View Ticket",
     "btn-logout":"Logout",
     "btn-create_user": "Create User",
@@ -7,6 +8,9 @@
     "btn-close_create_user" : "Close User Creator",
     "btn-go_email_filter" : "Filter by Email",
     "btn-close_email_filter" : "Close Email Filter",
+    "btn-go_advanced_filter" : "Advanced Filter",
+    "btn-close_advanced_filter" : "Close Advanced Filter",
+
 
     "dir-next":"Next",
     "dir-prev":"Prev",
@@ -30,12 +34,13 @@
     "event-ticket_closed_with_message":"Ticket Closed with Message",
     "event-ticket_created": "Ticket Created",
 
-
-    "lab-subject":"Subject",
+    "lab-by_user" : "By User",
     "lab-content":"Content",
     "lab-email": "Email",
-    "lab-password": "Password",
     "lab-name" : "Name",
+    "lab-password": "Password",
+    "lab-subject":"Subject",
+    "lab-tickets_per_page": "Tickets Per Page",
 
     "lang-english": "English",
     "lang-french": "French",
@@ -45,6 +50,7 @@
     "stat-closed":"Closed",
     "stat-no_tickets":"No Tickets",
 
+    "title-advanced_filter": "Advanced Filter",
 
 
     "ticket":"Ticket",
