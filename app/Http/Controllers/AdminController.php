@@ -87,12 +87,19 @@ class AdminController extends Controller {
         }
         $query = Ticket::query()
             ->join('users','tickets.user','=','users.id');
+
         $req = request()->all();
 
         if ( isset($req['user_like']) ){
             $query = $query->where(function($query) use($req){
                 return $query->where('users.email','like','%'.$req['user_like'].'%')
                     ->orWhere('users.name','like','%'.$req['user_like'].'%');
+            });
+        }
+        if ( isset($req['content_like']) ){
+            $query = $query->where(function($query) use($req){
+                return $query->where('tickets.subject','like','%'.$req['content_like'].'%')
+                    ->orWhere('tickets.content','like','%'.$req['content_like'].'%');
             });
         }
 
