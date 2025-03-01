@@ -5,11 +5,23 @@ namespace App\Http\Controllers;
 use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 
 
 class AdminController extends Controller {
 
+    const ORDER_BY = [
+        'user' => 'users.name',
+        'email' =>'users.email',
+        'subject' => 'tickets.subject',
+        'content' => 'tickets.content',
+        'created' => 'tickets.created_at',
+        'updated' => 'tickets.updated_at',
+        ];
+    const CAN_ORDER_BY = [
+        'user','email','subject','content','created','updated',
+    ];
 
     /**
     * Return the list of open tickets paginated
@@ -81,6 +93,7 @@ class AdminController extends Controller {
         try {
             request()->validate([
                 'per_page'=>['nullable','integer','min:1'],
+                'order_by'=>['nullable',Rule::in(self::CAN_ORDER_BY)],
             ]);
         }catch (ValidationException $e){
             return response(['errors'=>$e->errors()],400);
@@ -101,6 +114,17 @@ class AdminController extends Controller {
                 return $query->where('tickets.subject','like','%'.$req['content_like'].'%')
                     ->orWhere('tickets.content','like','%'.$req['content_like'].'%');
             });
+        }
+
+        $orderBy = "tickets.updated_at";
+        if (isset($req['order_by'])){
+            $orderBy = self::ORDER_BY[$req['order_by']] ?? $orderBy;
+        }
+
+        if (request()->boolean('ascending')){
+            $query = $query->orderBy($orderBy);
+        }else {
+            $query = $query->orderByDesc($orderBy);
         }
 
         $perPage = 3;
