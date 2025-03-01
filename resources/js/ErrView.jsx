@@ -54,3 +54,25 @@ export function ErrTextArea({ label, name, rows, cols, inRef, err, value }) {
     )
 }
 
+export function ErrSelect({ label, name, inRef, err, value ,options,defValue}) {
+    let { t } = useTranslation();
+
+    let opList = Object.keys(options).reduce((acc,k,index)=>{
+        acc.push(<option value={k} key={index}>{t(options[k])}</option>);
+        return acc;
+    },[]);
+    return (
+        <>
+            {
+                (err?.map(
+                    (val, index) => (<p key={index} className="error">{t(val)}</p>)))
+            }
+            <label className={err && "error"}>
+                {t(label)} :
+                <select ref={inRef} name={name} value={value} defaultValue={defValue} >
+                    {opList}
+                </select>
+            </label>
+        </>
+    );
+}
