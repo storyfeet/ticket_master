@@ -20,9 +20,11 @@ export default function TicketList({ basePath, canGetUser, goTicketsC, goEditTic
 
 
 
-    function PageButton({ dir, dpath }) {
+    function PageButton({ dir, pNum , disabled}) {
+        let qAmp = basePath.includes("?") ? "&" : "?";
+        let newPath = `${basePath}${qAmp}page=${pNum}`;
         return (
-            <button onClick={() => setPage({ newPath: dpath })} disabled={dpath === null}>{t(dir)}</button>
+            <button onClick={() => setPage({ newPath: newPath })} disabled={disabled}>{t(dir)}</button>
         );
     }
 
@@ -33,10 +35,14 @@ export default function TicketList({ basePath, canGetUser, goTicketsC, goEditTic
     return (
         <div className="ticket_list">
             <h2>Tickets</h2>
-            <PageButton dir="dir-first" dpath={ticketList.first_page_url} />
-            <PageButton dir="dir-prev" dpath={ticketList.prev_page_url} />
-            <PageButton dir="dir-next" dpath={ticketList.next_page_url} />
-            <PageButton dir="dir-last" dpath={ticketList.last_page_url} />
+            <PageButton dir="dir-first" pNum={1}
+                        disabled={ticketList.current_page === 1}/>
+            <PageButton dir="dir-prev" pNum={ticketList.current_page -1}
+                        disabled={ticketList.current_page === 1}/>
+            <PageButton dir="dir-next" pNum={ticketList.current_page +1}
+                        disabled={ticketList.current_page === ticketList.last_page}/>
+            <PageButton dir="dir-last" pNum={ticketList.last_page}
+                        disabled={ticketList.current_page === ticketList.last_page}/>
             <table>
                 <tbody>
                     {tlist || <tr><td>{t("stat-no_tickets")}</td></tr>}
