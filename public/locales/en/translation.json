@@ -34,13 +34,23 @@
     "event-ticket_closed_with_message":"Ticket Closed with Message",
     "event-ticket_created": "Ticket Created",
 
+    "lab-ascending_order": "Ascending Order",
     "lab-by_user" : "By User",
+    "lab-by_content" : "By Subject/Content",
     "lab-content":"Content",
     "lab-email": "Email",
     "lab-name" : "Name",
+    "lab-order_by" : "Order By",
+    "lab-order_by_user" : "User",
+    "lab-order_by_email" : "Email",
+    "lab-order_by_subject" : "Subject",
+    "lab-order_by_content" : "Content",
+    "lab-order_by_created" : "Created",
+    "lab-order_by_updated" : "Updated",
     "lab-password": "Password",
     "lab-subject":"Subject",
     "lab-tickets_per_page": "Tickets Per Page",
+
 
     "lang-english": "English",
     "lang-french": "French",
