@@ -49,6 +49,10 @@
     "lab-order_by_updated" : "Updated",
     "lab-password": "Password",
     "lab-subject":"Subject",
+    "lab-status" : "By Status",
+    "lab-status_open": "Open",
+    "lab-status_closed": "Closed",
+    "lab-status_any": "Any",
     "lab-tickets_per_page": "Tickets Per Page",
 
 
