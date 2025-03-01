@@ -22,6 +22,7 @@ class AdminController extends Controller {
     const CAN_ORDER_BY = [
         'user','email','subject','content','created','updated',
     ];
+    const CAN_STATUS = ["open","closed","any"];
 
     /**
     * Return the list of open tickets paginated
@@ -92,6 +93,7 @@ class AdminController extends Controller {
 
         try {
             request()->validate([
+                'status' => ['nullable',Rule::in(self::CAN_STATUS)],
                 'per_page'=>['nullable','integer','min:1'],
                 'order_by'=>['nullable',Rule::in(self::CAN_ORDER_BY)],
             ]);
@@ -116,10 +118,19 @@ class AdminController extends Controller {
             });
         }
 
+        if (strcmp($req['status']?? "" , "open") == 0 ){
+            $query = $query->where('tickets.status','=',false);
+        }
+        if (strcmp($req['status']?? "" , "closed") == 0 ){
+            $query = $query->where('tickets.status','=',true);
+        }
+
         $orderBy = "tickets.updated_at";
         if (isset($req['order_by'])){
             $orderBy = self::ORDER_BY[$req['order_by']] ?? $orderBy;
         }
+
+
 
         if (request()->boolean('ascending')){
             $query = $query->orderBy($orderBy);
