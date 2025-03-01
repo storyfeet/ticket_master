@@ -17,7 +17,7 @@ const STATUS_OPTIONS = {
     "any"    : "lab-status_any",
 }
 
-export function AdvancedFilter({goTicketsC}){
+export function AdvancedFilter({goTickets}){
     let [errs,errSetter] = useState(null);
     let userRef = useRef();
     let contentRef = useRef();
@@ -40,7 +40,7 @@ export function AdvancedFilter({goTicketsC}){
         let qdata = new URLSearchParams(data).toString();
         let path = "/admin/get_advanced_tickets?"+qdata;
         console.log("Advanced Tickets Path:",path);
-        goTicketsC(path)();
+        goTickets(path,true);
 
     }
 

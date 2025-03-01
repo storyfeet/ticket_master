@@ -1,7 +1,7 @@
 
 import { useTranslation } from "react-i18next";
 
-export default function Ticket({ ticket, canGetUser, goTicketsC, goEditTicket }) {
+export default function Ticket({ ticket, canGetUser, goTickets, goEditTicket }) {
     let { t } = useTranslation();
 
     return (
@@ -15,8 +15,8 @@ export default function Ticket({ ticket, canGetUser, goTicketsC, goEditTicket })
                 {ticket.created_at}<br />
                 {ticket.updated_at}
             </td>
-            {canGetUser && goTicketsC && <td>
-                <a onClick={goTicketsC(`/admin/get_user_tickets/${ticket.email}`)} >
+            {canGetUser && goTickets && <td>
+                <a onClick={()=>{goTickets(`/admin/get_user_tickets/${ticket.email}`)}} >
                     {t("btn-get_users_tickets")}
                 </a>
             </td>}

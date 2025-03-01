@@ -24,14 +24,11 @@ export function Panel({ user }) {
 
 
     //ends in C to mark closure
-    function goTicketsC(newPath, canGetUser = false) {
-        return () => {
+    function goTickets(newPath, canGetUser = false) {
             errSetter(null);
-
             basePathSetter(newPath);
             canGetUserSetter(canGetUser);
             displaySetter(DISPLAY_MODE.TICKETS);
-        }
     }
     function goNewTicket() {
         displaySetter(DISPLAY_MODE.NEW_TICKET);
@@ -47,13 +44,13 @@ export function Panel({ user }) {
         <>
             <UpdateView user={user} goEditTicket={goEditTicket}/>
             {errs && <ErrListView errs={errs} errSetter={errSetter} />}
-            {user.isAdmin && <AdminPanel goTicketsC={goTicketsC} errs={errs} errSetter={errSetter} />}
-            < UserPanel user={user} goTicketsF={goTicketsC} goNewTicket={goNewTicket} />
+            {user.isAdmin && <AdminPanel goTickets={goTickets} errs={errs} errSetter={errSetter} />}
+            < UserPanel user={user} goTickets={goTickets} goNewTicket={goNewTicket} />
             {basePath && displayMode === DISPLAY_MODE.TICKETS &&
                 <TicketList basePath={basePath} goEditTicket={goEditTicket}
-                    goTicketsC={goTicketsC} canGetUser={canGetUser} />}
+                    goTickets={goTickets} canGetUser={canGetUser} />}
             {displayMode === DISPLAY_MODE.NEW_TICKET &&
-                <NewTicket goTicketsC={goTicketsC} />}
+                <NewTicket goTickets={goTickets} />}
             {currentTicket && displayMode === DISPLAY_MODE.EDIT_TICKET &&
                 <EditTicket ticket={currentTicket} ticketSetter={currentTicketSetter} user={user} />}
 
@@ -68,7 +65,7 @@ const ADMIN_DISPLAY = {
     ADVANCED_FILTER : 3,
 };
 
-export function AdminPanel({ goTicketsC, errs, errSetter }) {
+export function AdminPanel({ goTickets, errs, errSetter }) {
     let { t } = useTranslation();
     let [display,displaySetter ] = useState(ADMIN_DISPLAY.NONE);
 
@@ -79,10 +76,18 @@ export function AdminPanel({ goTicketsC, errs, errSetter }) {
             displaySetter(mode);
         }
     }
+    function qGoTickets(path){
+        return ()=>{
+            displaySetter(ADMIN_DISPLAY.NONE);
+            goTickets(path,true);
+        }
+    }
     return (
         <div className="admin_panel">
-            <button onClick={goTicketsC("/admin/get_open", true)}>{t("open_tickets")}</button>
-            <button onClick={goTicketsC("/admin/get_closed", true)}>{t("closed_tickets")}</button>
+            <button onClick={qGoTickets("/admin/get_open" )}>
+                {t("open_tickets")}</button>
+            <button onClick={qGoTickets("/admin/get_closed")}>
+                {t("closed_tickets")}</button>
             <button onClick={()=>{toggleDisplay(ADMIN_DISPLAY.EMAIL_FILTER)}}>{
                 t(display=== ADMIN_DISPLAY.EMAIL_FILTER ? "btn-close_email_filter":"btn-go_email_filter")
             }</button>
@@ -93,13 +98,13 @@ export function AdminPanel({ goTicketsC, errs, errSetter }) {
                 t(display=== ADMIN_DISPLAY.CREATE_USER ? "btn-close_create_user":"btn-go_create_user")
             }</button>
             {display === ADMIN_DISPLAY.CREATE_USER && <CreateUser />}
-            {display === ADMIN_DISPLAY.EMAIL_FILTER && <EmailFilter goTicketsC={goTicketsC} />}
-            {display === ADMIN_DISPLAY.ADVANCED_FILTER && <AdvancedFilter goTicketsC={goTicketsC}/>}
+            {display === ADMIN_DISPLAY.EMAIL_FILTER && <EmailFilter goTickets={goTickets} />}
+            {display === ADMIN_DISPLAY.ADVANCED_FILTER && <AdvancedFilter goTickets={goTickets}/>}
         </div >
     );
 }
 
-export function EmailFilter({goTicketsC}){
+export function EmailFilter({goTickets}){
     let emailRef = useRef();
     let [errs,errSetter] = useState(null);
     let {t} = useTranslation();
@@ -109,7 +114,7 @@ export function EmailFilter({goTicketsC}){
             errSetter({ "email": ["err-email_required"] });
             return;
         }
-        goTicketsC(`/admin/get_user_tickets/${email}`)();
+        goTickets(`/admin/get_user_tickets/${email}`);
 
     }
 
@@ -120,14 +125,18 @@ export function EmailFilter({goTicketsC}){
     </div>;
 }
 
-export function UserPanel({ goTicketsF, goNewTicket }) {
+export function UserPanel({ goTickets, goNewTicket }) {
     let { t } = useTranslation();
-
+    function qGoTickets(path){
+        return ()=>{
+            goTickets(path);
+        }
+    }
     return (
         <div className="user_panel">
-            <button onClick={goTicketsF("/user/get_all")}>{t("my_tickets")}</button>
-            <button onClick={goTicketsF("/user/get_open")}>{t("my_open_tickets")}</button>
-            <button onClick={goTicketsF("/user/get_closed")}>{t("my_closed_tickets")}</button>
+            <button onClick={qGoTickets("/user/get_all")}>{t("my_tickets")}</button>
+            <button onClick={qGoTickets("/user/get_open")}>{t("my_open_tickets")}</button>
+            <button onClick={qGoTickets("/user/get_closed")}>{t("my_closed_tickets")}</button>
             <button onClick={goNewTicket}>{t("create_new_ticket")}</button>
         </div>
     );

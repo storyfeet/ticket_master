@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import * as loader from "./loader";
 import { useTranslation } from "react-i18next";
 
-export default function TicketList({ basePath, canGetUser, goTicketsC, goEditTicket }) {
+export default function TicketList({ basePath, canGetUser, goTickets, goEditTicket }) {
     let [ticketList, setTicketList] = useState([]);
     let { t } = useTranslation();
 
@@ -30,7 +30,7 @@ export default function TicketList({ basePath, canGetUser, goTicketsC, goEditTic
 
     let tlist = ticketList.data?.map((ticket, index) => (
         <Ticket key={index} ticket={ticket}
-            goTicketsC={goTicketsC} canGetUser={canGetUser} goEditTicket={goEditTicket} />
+            goTickets={goTickets} canGetUser={canGetUser} goEditTicket={goEditTicket} />
     ));
     return (
         <div className="ticket_list">

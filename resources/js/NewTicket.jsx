@@ -4,7 +4,7 @@ import { ErrListView, ErrInput, ErrTextArea } from "./ErrView";
 import { useTranslation } from "react-i18next";
 
 
-export function NewTicket({ goTicketsC }) {
+export function NewTicket({ goTickets }) {
     let [errs, errSetter] = useState(null);
     let messBox = useRef();
     let subBox = useRef();
@@ -35,7 +35,7 @@ export function NewTicket({ goTicketsC }) {
         if (res.errors) {
             errSetter(res.errors);
         }
-        goTicketsC("/user/get_open")();
+        goTickets("/user/get_open");
 
         return true;
 
