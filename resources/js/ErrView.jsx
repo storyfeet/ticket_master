@@ -33,7 +33,7 @@ export function ErrInput({ label, name, type = "text", inRef, err, value,defValu
                     (val, index) => (<p key={index} className="error">{t(val)}</p>)))
             }
             <label className={err && "error"}>
-                {t(label)} : <input ref={inRef} type={type} name={name} value={value} />
+                {t(label)} : <input ref={inRef} type={type} name={name} value={value} defaultValue={defValue}/>
             </label>
         </>
     );
