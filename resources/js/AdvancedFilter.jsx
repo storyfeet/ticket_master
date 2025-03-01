@@ -11,6 +11,12 @@ const ORDER_OPTIONS = {
     'updated' : 'lab-order_by_updated',
 };
 
+const STATUS_OPTIONS = {
+    "open"   : "lab-status_open",
+    "closed" : "lab-status_closed",
+    "any"    : "lab-status_any",
+}
+
 export function AdvancedFilter({goTicketsC}){
     let [errs,errSetter] = useState(null);
     let userRef = useRef();
@@ -18,6 +24,7 @@ export function AdvancedFilter({goTicketsC}){
     let perPageRef = useRef();
     let orderByRef = useRef();
     let ascendRef = useRef();
+    let statusRef = useRef();
 
     let {t} = useTranslation();
     function handleSubmit(e){
@@ -28,6 +35,7 @@ export function AdvancedFilter({goTicketsC}){
         data.per_page = perPageRef.current.value;
         data.order_by = orderByRef.current.value;
         data.ascending = ascendRef.current.checked;
+        data.status = statusRef.current.value;
 
         let qdata = new URLSearchParams(data).toString();
         let path = "/admin/get_advanced_tickets?"+qdata;
@@ -42,6 +50,8 @@ export function AdvancedFilter({goTicketsC}){
                   type="text" inRef={userRef} err={errs?.user_like} /><br />
         <ErrInput label="lab-by_content" name="content_like"
                   type="text" inRef={contentRef} err={errs?.content_like}/><br />
+        <ErrSelect label="lab-status" name={"status"} err={errs?.status}
+                   inRef={statusRef} defValue="any" options={STATUS_OPTIONS} /><br />
 
         <ErrSelect label="lab-order_by" name="order_by" err={errs?.order_by}
                    inRef={orderByRef} defValue={"updated"} options={ORDER_OPTIONS} />

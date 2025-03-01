@@ -1,7 +1,7 @@
 
-export async function postCsrfJson(path, data) {
+export async function postCsrfJson(path, data,method="post") {
     let res = await fetch(path, {
-        method: "post",
+        method: method,
         headers: {
             "X-CSRF-Token": window.CSRF_TOKEN,
             "Content-Type": "application/json",
@@ -13,12 +13,11 @@ export async function postCsrfJson(path, data) {
     return json;
 }
 
-export async function loadJson(path) {
+export async function loadJson(path,data) {
     let res = await fetch(path, {
         method: "get",
     });
-    let json = await res.json();
-    return json;
+    return await res.json();
 }
 
 export async function closeTicket(ticketId, csrf_token) {
