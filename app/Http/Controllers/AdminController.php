@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 
 class AdminController extends Controller {
@@ -76,7 +77,12 @@ class AdminController extends Controller {
 
     }
     public function getUserTickets($email){
-
+        $vd = Validator::make(['email'=>$email],
+            ['email'=>["email"]]
+        );
+        if ($vd->fails()){
+            return response(['errors'=>$vd->errors()],400);
+        }
 
 //        $email = request()->get('email');
         $tickets = Ticket::query()
@@ -144,7 +150,6 @@ class AdminController extends Controller {
         }
         return $query->select(TicketController::TICKETS_USER)
             ->paginate($perPage);
-
 
     }
 }
