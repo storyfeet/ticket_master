@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import {useState,useEffect} from "react";
 export function ErrListView({ errs, errSetter }) {
     let rErrs = Object.keys(errs).reduce((prev, curr, index) => {
         prev.push(<ErrView key={index} etype={curr} err={errs[curr]} />);
@@ -16,10 +17,42 @@ export function ErrListView({ errs, errSetter }) {
 
 function ErrView({ etype, err }) {
     let { t } = useTranslation();
+    if (etype === "err-wait"){
+        return <CountDownView err={err}/>;
+    }
     return (
-        <div>
+        <div className={"ErrView"}>
             <label>{t(etype)}</label>
             {err.map((e, index) => <p key={index}>{t(e)}</p>)}
+        </div>
+    )
+}
+
+function CountDownView({err}){
+    let {t} = useTranslation();
+    let [start] = useState( new Date().getTime());
+    let [now,nowSetter] = useState(new Date().getTime());
+
+    let toWait = Math.floor(err[0] - (now - start)/1000);
+
+    useEffect(() => {
+        setTimeout(()=>{
+            if (toWait >= 0)
+                nowSetter(new Date().getTime());
+        },1000)}
+    ,[now] );
+
+    if (toWait < 0) {
+        return <div className={"ErrView"}>
+            <label>{t("err-wait_over")}</label>
+            <p >{t("lab-wait_over")}</p>
+        </div>
+    }
+
+    return (
+        <div className={"ErrView"}>
+            <label>{t("err-wait")}</label>
+            <p >{t("lab-wait",{count:toWait})}</p>
         </div>
     )
 }

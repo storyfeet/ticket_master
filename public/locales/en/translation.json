@@ -28,7 +28,8 @@
     "err-ticket_content_required":"Ticket Content is Required",
     "err-ticket_does_not_exist":"Ticket Does not Exist",
     "err-ticket_subject_required":"Ticket Subject is Required",
-
+    "err-wait": "Wait - Hold your horses",
+    "err-wait_over": "Wait complete",
 
     "event-message_created":"Message Created",
     "event-ticket_closed_with_message":"Ticket Closed with Message",
@@ -52,6 +53,9 @@
     "lab-status" : "By Status",
     "lab-status_open": "Open",
     "lab-status_closed": "Closed",
+    "lab-wait_one": "Please wait {{count}} second",
+    "lab-wait_other" : "Please wait {{count}} seconds",
+    "lab-wait_over" : "You can try again now",
     "lab-status_any": "Any",
     "lab-tickets_per_page": "Tickets Per Page",
 
