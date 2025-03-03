@@ -2,14 +2,16 @@ import Ticket from "./Ticket";
 import { useState, useEffect } from "react";
 import * as loader from "./loader";
 import { useTranslation } from "react-i18next";
+import {ErrListView} from "./ErrView";
 
-export default function TicketList({ basePath, canGetUser, goTickets, goEditTicket }) {
+export default function TicketList({ basePath, canGetUser, goTickets, goEditTicket ,errs,errSetter}) {
     let [ticketList, setTicketList] = useState([]);
     let { t } = useTranslation();
 
     async function setPage({ newPath }) {
         console.log("pageGetter : path = ", newPath);
         let jsres = await loader.loadJson(newPath);
+        if (jsres.errors) errSetter(jsres.errors);
         console.log(jsres);
         console.log("setTicketList", setTicketList);
         setTicketList(jsres);
@@ -34,6 +36,7 @@ export default function TicketList({ basePath, canGetUser, goTickets, goEditTick
     ));
     return (
         <div className="ticket_list">
+            {errs && <ErrListView errs={errs} errSetter={errSetter} />}
             <h2>Tickets</h2>
             <PageButton dir="dir-first" pNum={1}
                         disabled={ticketList.current_page === 1}/>

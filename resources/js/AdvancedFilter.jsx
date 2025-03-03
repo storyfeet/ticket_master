@@ -15,10 +15,10 @@ const STATUS_OPTIONS = {
     "open"   : "lab-status_open",
     "closed" : "lab-status_closed",
     "any"    : "lab-status_any",
+    "error" : "Error",
 }
 
-export function AdvancedFilter({goTickets}){
-    let [errs,errSetter] = useState(null);
+export function AdvancedFilter({goTickets,errs,errSetter}){
     let userRef = useRef();
     let contentRef = useRef();
     let perPageRef = useRef();
@@ -40,7 +40,7 @@ export function AdvancedFilter({goTickets}){
         let qdata = new URLSearchParams(data).toString();
         let path = "/admin/get_advanced_tickets?"+qdata;
         console.log("Advanced Tickets Path:",path);
-        goTickets(path,true);
+        goTickets(path,true,errSetter);
 
     }
 

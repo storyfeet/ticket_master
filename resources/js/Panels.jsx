@@ -48,7 +48,8 @@ export function Panel({ user }) {
             < UserPanel user={user} goTickets={goTickets} goNewTicket={goNewTicket} />
             {basePath && displayMode === DISPLAY_MODE.TICKETS &&
                 <TicketList basePath={basePath} goEditTicket={goEditTicket}
-                    goTickets={goTickets} canGetUser={canGetUser} />}
+                    goTickets={goTickets} canGetUser={canGetUser}
+                    errs={errs} errSetter={errSetter}/>}
             {displayMode === DISPLAY_MODE.NEW_TICKET &&
                 <NewTicket goTickets={goTickets} />}
             {currentTicket && displayMode === DISPLAY_MODE.EDIT_TICKET &&
@@ -99,7 +100,8 @@ export function AdminPanel({ goTickets, errs, errSetter }) {
             }</button>
             {display === ADMIN_DISPLAY.CREATE_USER && <CreateUser />}
             {display === ADMIN_DISPLAY.EMAIL_FILTER && <EmailFilter goTickets={goTickets} />}
-            {display === ADMIN_DISPLAY.ADVANCED_FILTER && <AdvancedFilter goTickets={goTickets}/>}
+            {display === ADMIN_DISPLAY.ADVANCED_FILTER &&
+                <AdvancedFilter goTickets={goTickets} errs={errs} errSetter={errSetter}/>}
         </div >
     );
 }
