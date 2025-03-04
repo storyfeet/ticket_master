@@ -23,6 +23,10 @@ export function Panel({ user }) {
     let [displayMode, displaySetter] = useState(DISPLAY_MODE.NONE)
     let [currentTicket, currentTicketSetter] = useState(null)
 
+    function refresher(){ranslator:
+        errSetter(null);
+        refreshTicketsSetter(new Date().getTime());
+    }
 
     //ends in C to mark closure
     function goTickets(newPath, canGetUser = false) {
@@ -45,12 +49,13 @@ export function Panel({ user }) {
     return (
         <>
             <UpdateView user={user} goEditTicket={goEditTicket}/>
-            {errs && <ErrListView errs={errs} errSetter={errSetter} />}
+            {errs && <ErrListView errs={errs} errSetter={errSetter} refresher={refresher} />}
             {user.isAdmin && <AdminPanel goTickets={goTickets} errs={errs} errSetter={errSetter} />}
             < UserPanel user={user} goTickets={goTickets} goNewTicket={goNewTicket} />
             {basePath && displayMode === DISPLAY_MODE.TICKETS &&
                 <TicketList basePath={basePath} goEditTicket={goEditTicket}
-                    goTickets={goTickets} canGetUser={canGetUser} refreshTickets={refreshTickets}
+                    goTickets={goTickets} canGetUser={canGetUser}
+                    refreshTickets={refreshTickets} refresher={refresher}
                     errs={errs} errSetter={errSetter}/>}
             {displayMode === DISPLAY_MODE.NEW_TICKET &&
                 <NewTicket goTickets={goTickets} />}

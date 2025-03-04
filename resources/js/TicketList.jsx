@@ -7,7 +7,7 @@ import {ErrListView} from "./ErrView";
 export function TicketList({
                         basePath, canGetUser,
                         goTickets, goEditTicket ,
-                        refreshTickets,
+                        refreshTickets,refresher,
                         errs,errSetter}) {
     let [ticketList, setTicketList] = useState([]);
     let { t } = useTranslation();
@@ -41,7 +41,7 @@ export function TicketList({
     ));
     return (
         <div className="ticket_list">
-            {errs && <ErrListView errs={errs} errSetter={errSetter} />}
+            {errs && <ErrListView errs={errs} errSetter={errSetter} refresher={refresher}/>}
             <h2>Tickets</h2>
             <PageButton dir="dir-first" pNum={1}
                         disabled={ticketList.current_page === 1}/>

@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
 import {useState,useEffect} from "react";
-export function ErrListView({ errs, errSetter }) {
+export function ErrListView({ errs, errSetter ,refresher}) {
     let rErrs = Object.keys(errs).reduce((prev, curr, index) => {
-        prev.push(<ErrView key={index} etype={curr} err={errs[curr]} />);
+        prev.push(<ErrView key={index} etype={curr} err={errs[curr]} refresher={refresher} />);
         return prev;
     }, []);
 
@@ -15,10 +15,10 @@ export function ErrListView({ errs, errSetter }) {
 }
 
 
-function ErrView({ etype, err }) {
+function ErrView({ etype, err,refresher }) {
     let { t } = useTranslation();
     if (etype === "err-wait"){
-        return <CountDownView err={err}/>;
+        return <CountDownView err={err } refresher={refresher}/>;
     }
     return (
         <div className={"ErrView"}>
@@ -28,7 +28,7 @@ function ErrView({ etype, err }) {
     )
 }
 
-function CountDownView({err}){
+function CountDownView({err, refresher}){
     let {t} = useTranslation();
     let [start] = useState( new Date().getTime());
     let [now,nowSetter] = useState(new Date().getTime());
@@ -46,6 +46,8 @@ function CountDownView({err}){
         return <div className={"ErrView"}>
             <label>{t("err-wait_over")}</label>
             <p >{t("lab-wait_over")}</p>
+            <button onClick={refresher}>{t("btn-refresh")}</button>
+
         </div>
     }
 
