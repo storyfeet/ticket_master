@@ -4,7 +4,11 @@ import * as loader from "./loader";
 import { useTranslation } from "react-i18next";
 import {ErrListView} from "./ErrView";
 
-export default function TicketList({ basePath, canGetUser, goTickets, goEditTicket ,errs,errSetter}) {
+export function TicketList({
+                        basePath, canGetUser,
+                        goTickets, goEditTicket ,
+                        refreshTickets,
+                        errs,errSetter}) {
     let [ticketList, setTicketList] = useState([]);
     let { t } = useTranslation();
 
@@ -16,9 +20,10 @@ export default function TicketList({ basePath, canGetUser, goTickets, goEditTick
         console.log("setTicketList", setTicketList);
         setTicketList(jsres);
     }
+
     useEffect(() => {
         setPage({ newPath: basePath });
-    }, [basePath])
+    }, [basePath,refreshTickets])
 
 
 

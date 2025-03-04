@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import TicketList from "./TicketList";
+import {TicketList} from "./TicketList";
 import { ErrInput, ErrListView } from "./ErrView";
 import { NewTicket } from "./NewTicket";
 import { DISPLAY_MODE } from "./util";
@@ -17,6 +17,7 @@ export function Panel({ user }) {
 
 
     let [basePath, basePathSetter] = useState(null);
+    let [refreshTickets,refreshTicketsSetter] = useState(new Date().getTime());
     let [canGetUser, canGetUserSetter] = useState(false);
     let [errs, errSetter] = useState(null)
     let [displayMode, displaySetter] = useState(DISPLAY_MODE.NONE)
@@ -27,6 +28,7 @@ export function Panel({ user }) {
     function goTickets(newPath, canGetUser = false) {
             errSetter(null);
             basePathSetter(newPath);
+            refreshTicketsSetter(new Date().getTime());
             canGetUserSetter(canGetUser);
             displaySetter(DISPLAY_MODE.TICKETS);
     }
@@ -48,7 +50,7 @@ export function Panel({ user }) {
             < UserPanel user={user} goTickets={goTickets} goNewTicket={goNewTicket} />
             {basePath && displayMode === DISPLAY_MODE.TICKETS &&
                 <TicketList basePath={basePath} goEditTicket={goEditTicket}
-                    goTickets={goTickets} canGetUser={canGetUser}
+                    goTickets={goTickets} canGetUser={canGetUser} refreshTickets={refreshTickets}
                     errs={errs} errSetter={errSetter}/>}
             {displayMode === DISPLAY_MODE.NEW_TICKET &&
                 <NewTicket goTickets={goTickets} />}
