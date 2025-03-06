@@ -87,6 +87,9 @@ Route::post('/user/get_ticket_messages',
 )->middleware('auth');
 
 
+Route::post('/user/request_verification_email',
+    'App\Http\Controllers\UserController@requestVerificationEmail')
+    ->middleware('auth');
 // A Json page showing site stats
 Route::get('/stats',
            'App\Http\Controllers\TicketController@stats'
