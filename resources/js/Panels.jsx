@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import {UpdateView} from "./UpdateView.jsx";
 import {CreateUser} from "./CreateUser.jsx";
 import {AdvancedFilter} from "./AdvancedFilter";
+import {postCsrfJson} from "./loader.js";
 
 
 
@@ -23,7 +24,7 @@ export function Panel({ user }) {
     let [displayMode, displaySetter] = useState(DISPLAY_MODE.NONE)
     let [currentTicket, currentTicketSetter] = useState(null)
 
-    function refresher(){ranslator:
+    function refresher(){
         errSetter(null);
         refreshTicketsSetter(new Date().getTime());
     }
@@ -134,19 +135,26 @@ export function EmailFilter({goTickets}){
     </div>;
 }
 
-export function UserPanel({ goTickets, goNewTicket }) {
+export function UserPanel({user, goTickets, goNewTicket }) {
     let { t } = useTranslation();
     function qGoTickets(path){
         return ()=>{
             goTickets(path);
         }
     }
+
+    async function verify(){
+        let res = await postCsrfJson("/user/request_verification_email",{});
+        console.log(res);
+    }
+
     return (
         <div className="user_panel">
             <button onClick={qGoTickets("/user/get_all")}>{t("my_tickets")}</button>
             <button onClick={qGoTickets("/user/get_open")}>{t("my_open_tickets")}</button>
             <button onClick={qGoTickets("/user/get_closed")}>{t("my_closed_tickets")}</button>
             <button onClick={goNewTicket}>{t("create_new_ticket")}</button>
+            {!user.verified && <button onClick={verify}>{t("btn-verify_email")}</button>}
         </div>
     );
 }
