@@ -75,10 +75,6 @@ Route::post('/user/new_ticket',
     'App\Http\Controllers\TicketController@newTicket'
 )->middleware(UserMiddleware::class);
 
-// If the user has the authority, will close the requested ticket
-Route::post('/user/close_ticket',
-        'App\Http\Controllers\UserController@closeTicket'
-)->middleware(UserMiddleware::class);
 
 
 Route::post('/user/new_ticket_message',

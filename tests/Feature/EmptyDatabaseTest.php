@@ -23,7 +23,6 @@ test('user post routes fail with no user',function($url){
     "/user/new_ticket_message",
     "/user/request_verification_email",
     "/user/new_ticket",
-    "/user/close_ticket",
 ]);
 
 test('user get routes fail with no user',function($url){
