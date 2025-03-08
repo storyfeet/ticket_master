@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -57,11 +58,11 @@ class HomeController extends Controller
             ]
             )->validate();
         }catch (ValidationException $e){
-            return ['errors'=>$e->errors()];
+            return response(['errors'=>$e->errors()],400);
         }
 
         if (! auth()->attempt(request()->only(['email','password']))){
-            return ['errors'=>['credentials'=>['err-invalid_credentials']]];
+            return Helper::errResponse(403,'credentials','err-invalid_credentials');
         }
 
         return UserController::userInfo();
