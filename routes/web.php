@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\UserMiddleware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\LanguageMiddleware;
 use App\Http\Middleware\AdminMiddleware;
@@ -37,7 +38,7 @@ Route::get('/admin/get_closed',
 )->middleware(AdminMiddleware::class)
  ->middleware(ThrottleMiddleware::class);
 
-Route::post('admin/create_user',
+Route::post('/admin/create_user',
     'App\Http\Controllers\AdminController@createUser'
 )->middleware(AdminMiddleware::class)
  ->middleware(ThrottleMiddleware::class);
@@ -56,40 +57,43 @@ Route::get('/admin/get_advanced_tickets',
 
 Route::get('/user/get_all',
             'App\Http\Controllers\UserController@getAll')
+    ->middleware(UserMiddleware::class)
     ->middleware(ThrottleMiddleware::class);
 
 Route::get('/user/get_open',
             'App\Http\Controllers\UserController@getOpen')
+    ->middleware(UserMiddleware::class)
     ->middleware(ThrottleMiddleware::class);
 
 Route::get('/user/get_closed',
             'App\Http\Controllers\UserController@getClosed')
+    ->middleware(UserMiddleware::class)
     ->middleware(ThrottleMiddleware::class);
 
 // Allows a logged in user to create a new ticket
 Route::post('/user/new_ticket',
     'App\Http\Controllers\TicketController@newTicket'
-)->middleware('auth');
+)->middleware(UserMiddleware::class);
 
 // If the user has the authority, will close the requested ticket
 Route::post('/user/close_ticket',
         'App\Http\Controllers\UserController@closeTicket'
-)->middleware('auth');
+)->middleware(UserMiddleware::class);
 
 
 Route::post('/user/new_ticket_message',
     'App\Http\Controllers\TicketController@newTicketMessage'
-)->middleware('auth')
+)->middleware(UserMiddleware::class)
  ->middleware(ThrottleMiddleware::class);
 
 Route::post('/user/get_ticket_messages',
     'App\Http\Controllers\TicketController@getTicketMessages'
-)->middleware('auth');
+)->middleware(UserMiddleware::class);
 
 
 Route::post('/user/request_verification_email',
     'App\Http\Controllers\UserController@requestVerificationEmail')
-    ->middleware('auth');
+    ->middleware(UserMiddleware::class);
 
 Route::get('/verify/{email}/{code}',
 'App\Http\Controllers\UserController@verifyEmail');
