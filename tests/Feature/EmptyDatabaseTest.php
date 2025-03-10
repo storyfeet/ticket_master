@@ -14,7 +14,7 @@ beforeEach(function() {
 test("Main open paths return success",function ($url){
     $response = $this->get($url);
     $response->assertStatus(200);
-})->with(["/"]);
+})->with(["/","/stats"]);
 
 test('user post routes fail with no user',function($url){
     $response = $this->post($url);

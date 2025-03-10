@@ -97,13 +97,10 @@ Route::get('/verify/{email}/{code}',
 
 // A Json page showing site stats
 Route::get('/stats',
-           'App\Http\Controllers\TicketController@stats'
+           'App\Http\Controllers\StatsController@stats'
     );
 
-// An html page with the site stats injected.
-Route::get('/stats_page',
-           'App\Http\Controllers\TicketController@statsPage'
-    );
+
 
 Route::post('/language/switch',
         'App\Http\Controllers\LanguageController@switchLanguage'

@@ -44,51 +44,7 @@ class TicketController extends Controller
     ];
 
 
-    /**
-    * Return a set of useful stats about the application
-    */
-    public function stats(){
-        $numTickets = Ticket::query()->count();
-        $numUnprocessed = Ticket::query()->where("status",false)->count();
 
-        $ticketChamps = DB::table('tickets')
-            ->join('users','tickets.user','=','users.id')
-            ->select('users.name','users.email',DB::raw('COUNT(*) as total'))
-            ->groupBy('users.id')
-            ->orderByDesc('total')
-            ->take(1)
-            ->get();
-
-        $ticketChamp = NULL;
-        if ($ticketChamps->count() > 0){
-            $ticketChamp = $ticketChamps[0];
-        }
-
-        $lastProcesseds = Ticket::query()
-            ->where('status',true)
-            ->orderByDesc('updated_at')
-            ->take(1)
-            ->get();
-
-        $lastProcessed = NULL;
-        if ($lastProcesseds->count() > 0){
-            $lastProcessed = $lastProcesseds[0];
-        }
-
-        return [
-            'total_tickets' => $numTickets,
-            'total_unprocessed_tickets' => $numUnprocessed,
-            'most_tickets' => $ticketChamp,
-            'last_processed' => $lastProcessed,
-        ];
-    }
-
-    /**
-     * Create a nicer view of the stats data
-     */
-    public function statsPage():Response{
-        return view('StatsPage',$this->stats());
-    }
 
     /**
     * Create a new ticket based on the post data recieved.
