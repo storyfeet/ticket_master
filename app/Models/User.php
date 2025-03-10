@@ -49,4 +49,8 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    static function getByName($name){
+        return self::query()->where('name','=',$name)->first();
+    }
 }

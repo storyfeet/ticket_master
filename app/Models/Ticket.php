@@ -13,4 +13,8 @@ class Ticket extends Model
 {
     use HasFactory;
     //
+
+    static function getIdBySubject($subject){
+        return Ticket::query()->where("subject",'=',$subject)->first()->id;
+    }
 }
