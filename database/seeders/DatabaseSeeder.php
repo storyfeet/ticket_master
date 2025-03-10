@@ -32,6 +32,12 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@tickets.com',
             'password' => Hash::make("adminadmin"),
         ]);
+        User::factory()->create([
+           'name' => 'other',
+           'email' => 'other@tickets.com',
+           'password' => Hash::make("otherother"),
+        ]);
+
         $admin = User::query()->where('name','=','admin')->get();
         Role::factory()->create([
             'user'=>$admin[0]->id,
