@@ -73,16 +73,10 @@ class UserController extends Controller{
         if ($user->email_verified_at != null) {
             return Helper::errResponse(422,"err-verify","err-already-verified");
         }
-        $code = str()->random(32);
-        EmailVerificationCode::factory()->create([
-            'user_id'=>$user->id,
-            'code'=>$code,
-            'ttl_minutes'=> 15,
-        ]);
+        $url = EmailVerificationCode::createURL($user,60);
         Mail::mailer("resend")
             ->to($user)
-            ->send(new VerifyEmail($user,$code));
-        //TODO send email
+            ->send(new VerifyEmail($user,$url));
 
         return response(['status'=>'msg-check_email_for_code'],200);
     }

@@ -20,7 +20,7 @@ class VerifyEmail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(public User $user,public string $code)
+    public function __construct(public User $user,public string $url)
     {
 
     }

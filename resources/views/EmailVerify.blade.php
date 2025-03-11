@@ -9,7 +9,7 @@ Dear {{$user->name}} <br><br>
 
 Please follow the link below to verify your email:<br><br>
 
-<a href="http://localhost/verify/{{$user->email}}/{{$code}}" >http://localhost/verify/{{$user->email}}/{{$code}}</a>
+<a href="http://localhost{{$url}}" >http://localhost{{$url}}</a>
 <br><br>
 
 Thanks
