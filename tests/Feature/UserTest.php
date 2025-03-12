@@ -2,11 +2,18 @@
 
 use App\Models\Ticket;
 use App\Models\User;
-
+use Illuminate\Support\Facades\Hash;
 
 beforeEach(function () {
     $this->artisan('migrate --seed');
-    $normal = User::getByName("normal");
+
+    User::factory()->create([
+        "name"=>"newbie",
+        "email"=>"newbie@gmail.com",
+        "password"=>Hash::make('newbienewbienewbie'),
+    ]);
+
+    $normal = User::getByName("newbie");
     $this->actingAs($normal)
         ->post("/user/new_ticket",[
            "subject"=>"still_open",
@@ -34,7 +41,7 @@ beforeEach(function () {
 });
 
 it("user ticket routes find tickets",function($path,$find){
-    $normal = User::getByName("normal");
+    $normal = User::getByName("newbie");
     $response = $this->actingAs($normal)->get($path);
     $response->assertOk();
     foreach ($find as $f){
