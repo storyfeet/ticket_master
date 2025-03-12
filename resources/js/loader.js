@@ -1,7 +1,9 @@
 
-export async function postCsrfJson(path, data,method="post") {
+
+
+export async function postCsrfJson(path, data) {
     let res = await fetch(path, {
-        method: method,
+        method: "post",
         headers: {
             "X-CSRF-Token": window.CSRF_TOKEN,
             "Content-Type": "application/json",
@@ -9,8 +11,7 @@ export async function postCsrfJson(path, data,method="post") {
         body: JSON.stringify(data),
         credentials: "same-origin",
     });
-    let json = await res.json();
-    return json;
+    return await res.json();
 }
 
 export async function loadJson(path,data) {

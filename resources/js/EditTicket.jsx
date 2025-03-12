@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { postCsrfJson } from "./loader";
+import { postCsrfJson ,loadJson} from "./loader";
 import { ErrTextArea } from "./ErrView";
 import Ticket from "./Ticket";
 import { useTranslation } from "react-i18next";
@@ -9,9 +9,9 @@ export function EditTicket({ user, ticket, ticketSetter }) {
     let [errs, errSetter] = useState(null);
 
     async function loadMessages() {
-        let dat = await postCsrfJson("/user/get_ticket_messages", {
-            "ticket_id": ticket.ticket_id || ticket.id,
-        });
+        let tid = ticket.ticket_id || ticket.id;
+        let dat = await loadJson(`/user/get_ticket_messages/${tid}`,
+            {});
 
         if (dat.errors) {
             errSetter(dat.errors);

@@ -82,7 +82,7 @@ Route::post('/user/new_ticket_message',
 )->middleware(UserMiddleware::class)
  ->middleware(ThrottleMiddleware::class);
 
-Route::post('/user/get_ticket_messages',
+Route::get('/user/get_ticket_messages/{ticketId}',
     'App\Http\Controllers\TicketController@getTicketMessages'
 )->middleware(UserMiddleware::class);
 

@@ -143,16 +143,8 @@ class TicketController extends Controller
         return response(['status'=>'event-message_created'],200);
     }
 
-    function getTicketMessages():Response{
-        try {
-            request()->validate([
-                'ticket_id'=>['required'],
-            ]);
-        }catch (ValidationException $e){
-            return response(['errors'=>$e->errors()],400);
-        }
+    function getTicketMessages($ticketId):Response{
 
-        $ticketId = request()->get('ticket_id');
         $ticket = Ticket::query()
             ->where('id','=',$ticketId)
             ->first();
@@ -168,7 +160,7 @@ class TicketController extends Controller
             ->join('users','ticket_messages.user_id','=','users.id')
             ->select(self::MESSAGE_USER)
             ->where('ticket_id','=',$ticketId)
-            ->orderBy('created_at')
+            ->orderBy('ticket_messages.created_at')
             ->get(),200);
     }
 
