@@ -17,6 +17,12 @@ type Query {
       "Filters by name. Accepts SQL LIKE wildcards `%` and `_`."
       name: String @where(operator: "like")
     ): [User!]! @paginate(defaultCount: 10)
+
+    ticket(
+        id:ID @eq
+    ):Ticket @find
+
+    tickets: [Ticket!]! @all
 }
 
 "Account of a person who utilizes this application."
@@ -38,4 +44,12 @@ type User {
 
     "When the account was last updated."
     updated_at: DateTime!
+}
+
+type Ticket {
+    "Unique primary key."
+    id: ID!
+
+    "What the ticket is about"
+    subject : String!
 }
