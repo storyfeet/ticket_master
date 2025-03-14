@@ -17,4 +17,8 @@ class Ticket extends Model
     static function getIdBySubject($subject){
         return Ticket::query()->where("subject",'=',$subject)->first()->id;
     }
+
+    public function ticket_messages(){
+        return $this->hasMany(TicketMessage::class);
+    }
 }

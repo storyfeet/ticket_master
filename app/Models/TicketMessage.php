@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class TicketMessage extends Model
 {
     use HasFactory;
+
+    function ticket(){
+        return $this->belongsTo(Ticket::class);
+    }
 }

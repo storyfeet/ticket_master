@@ -58,18 +58,22 @@ type Ticket {
 
     "Explanation of the actual problem"
     content: String!
+
+    ticket_messages:[TicketMessage!]! @hasMany
 }
 
-type TicketMessage{
+type TicketMessage {
     "The Message ID"
     id: ID!
+
     "The ticket ID"
     ticket_id:ID!
+
     "The Author id"
     user_id: ID!
+
     "The message"
     message: String!
-
 }
 
 
