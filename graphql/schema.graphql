@@ -50,6 +50,26 @@ type Ticket {
     "Unique primary key."
     id: ID!
 
+    "User ID"
+    user_id: ID!
+
     "What the ticket is about"
     subject : String!
+
+    "Explanation of the actual problem"
+    content: String!
 }
+
+type TicketMessage{
+    "The Message ID"
+    id: ID!
+    "The ticket ID"
+    ticket_id:ID!
+    "The Author id"
+    user_id: ID!
+    "The message"
+    message: String!
+
+}
+
+
