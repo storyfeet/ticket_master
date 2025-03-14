@@ -16,7 +16,7 @@ class UserController extends Controller{
     public static function userInfo(){
         $user = Auth::user();
         if ($user === null) return null;
-        $isAdmin = Helper::isAdmin($user);
+        $isAdmin = $user->isAdmin();
         return [
             'id'=>$user->id,
             'name'=> $user->name ,

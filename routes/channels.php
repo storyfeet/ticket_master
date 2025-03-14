@@ -10,5 +10,5 @@ Broadcast::channel('my_tickets.{user_id}', function (User $user, $user_id) {
 });
 
 Broadcast::channel('all_tickets',function(User $user){
-   return  Helper::isAdmin($user);
+   return  $user->isAdmin();
 });

@@ -20,7 +20,7 @@ class AdminMiddleware
         if ($user === null){
             return Helper::errResponse(403,'login','err-not_logged_in');
         }
-        if ( ! Helper::isAdmin($user) ){
+        if ( ! $user->isAdmin() ){
             return Helper::errResponse(403,'admin','err-not_admin_user');
         }
         return $next($request);

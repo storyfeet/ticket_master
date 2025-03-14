@@ -53,4 +53,16 @@ class User extends Authenticatable
     static function getByName($name){
         return self::query()->where('name','=',$name)->first();
     }
+
+
+    function hasRole($role){
+        return Role::query()
+                ->where('user','=',$this->id)
+                ->where('role','=',$role)
+                ->count() > 0;
+    }
+
+    function isAdmin(){
+        return $this->hasRole('admin');
+    }
 }
