@@ -10,6 +10,8 @@
     "btn-close_email_filter" : "Close Email Filter",
     "btn-go_advanced_filter" : "Advanced Filter",
     "btn-close_advanced_filter" : "Close Advanced Filter",
+    "btn-me_as_user" : "Act as User",
+    "btn-close_me_as_user" : "Close Act as User",
     "btn-refresh" : "Refresh",
     "btn-verify_email" : "Verify Email Address",
 
