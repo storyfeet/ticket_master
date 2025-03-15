@@ -12,7 +12,7 @@ export function TicketList({
     let [ticketList, setTicketList] = useState([]);
     let { t } = useTranslation();
 
-    async function setPage({ newPath }) {
+    async function setPage( newPath ) {
         console.log("pageGetter : path = ", newPath);
         let jsres = await loader.loadJson(newPath);
         if (jsres.errors) errSetter(jsres.errors);
@@ -21,18 +21,33 @@ export function TicketList({
         setTicketList(jsres);
     }
 
+    function setPageNum(n){
+        let qAmp = basePath.includes("?") ? "&" : "?";
+        let newPath = `${basePath}${qAmp}page=${n}`;
+        setPage(newPath);
+    }
+
     useEffect(() => {
-        setPage({ newPath: basePath });
+        setPage( basePath );
     }, [basePath,refreshTickets])
 
 
 
     function PageButton({ dir, pNum , disabled}) {
-        let qAmp = basePath.includes("?") ? "&" : "?";
-        let newPath = `${basePath}${qAmp}page=${pNum}`;
         return (
-            <button onClick={() => setPage({ newPath: newPath })} disabled={disabled}>{t(dir)}</button>
+            <button onClick={()=>setPageNum(pNum)} disabled={disabled}>{t(dir)} {!disabled && ! isNaN(pNum) && `(${pNum})`}</button>
         );
+    }
+    function PageSelect({pNum,max}){
+        let ops = [];
+        for (let i =1; i <= max; i++){
+            ops.push(<option value={i} key={i}>{i===pNum && t("lab-current_page")} {i}</option>);
+        }
+        return <select
+                defaultValue={pNum}
+                onChange={(e)=>{setPageNum(e.target.value)}}
+            >{ops}
+            </select>
     }
 
     let tlist = ticketList.data?.map((ticket, index) => (
@@ -47,6 +62,7 @@ export function TicketList({
                         disabled={ticketList.current_page === 1}/>
             <PageButton dir="dir-prev" pNum={ticketList.current_page -1}
                         disabled={ticketList.current_page === 1}/>
+            <PageSelect pNum={ticketList.current_page} max={ticketList.last_page}/>
             <PageButton dir="dir-next" pNum={ticketList.current_page +1}
                         disabled={ticketList.current_page === ticketList.last_page}/>
             <PageButton dir="dir-last" pNum={ticketList.last_page}

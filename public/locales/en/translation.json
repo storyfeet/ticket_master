@@ -43,6 +43,7 @@
     "lab-by_user" : "By User",
     "lab-by_content" : "By Subject/Content",
     "lab-content":"Content",
+    "lab-current_page" : "Current",
     "lab-email": "Email",
     "lab-name" : "Name",
     "lab-order_by" : "Order By",
