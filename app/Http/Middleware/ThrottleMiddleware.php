@@ -24,7 +24,7 @@ class ThrottleMiddleware
         // you'll have to wait longer
         RateLimiter::increment($attemptId);
 
-        if (RateLimiter::tooManyAttempts($attemptId, 5)){
+        if (RateLimiter::tooManyAttempts($attemptId, 10)){
             $ttw = RateLimiter::availableIn($attemptId);
             return Helper::errResponse(429,"err-wait",$ttw);
         }
