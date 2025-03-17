@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ticket;
+use App\Models\TicketMessage;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
@@ -33,7 +35,7 @@ class AdminController extends Controller {
             ->where('status',false)
             ->join('users','tickets.user','=','users.id')
             ->orderByDesc('tickets.updated_at')
-            ->select(TicketController::TICKETS_USER)
+            ->select(Ticket::TICKETS_USER)
             ->paginate(3);
 
         return $tickets;
@@ -47,7 +49,7 @@ class AdminController extends Controller {
             ->join('users','tickets.user','=','users.id')
             ->where('status',true)
             ->orderByDesc('tickets.updated_at')
-            ->select(TicketController::TICKETS_USER)
+            ->select(Ticket::TICKETS_USER)
             ->paginate(3);
         return $tickets;
     }
@@ -89,7 +91,7 @@ class AdminController extends Controller {
             ->join('users','tickets.user','=','users.id')
             ->where('users.email','=',$email)
             ->orderByDesc('tickets.updated_at')
-            ->select(TicketController::TICKETS_USER)
+            ->select(Ticket::TICKETS_USER)
             ->paginate(3);
 
         return $tickets;
@@ -148,7 +150,7 @@ class AdminController extends Controller {
         if (isset($req['per_page'])) {
             $perPage = (int) $req['per_page'];
         }
-        return $query->select(TicketController::TICKETS_USER)
+        return $query->select(Ticket::TICKETS_USER)
             ->paginate($perPage);
 
     }

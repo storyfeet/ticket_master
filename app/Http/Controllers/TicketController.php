@@ -20,17 +20,7 @@ use App\Helpers\Helper;
 class TicketController extends Controller
 {
     // This selection list is the format for all three ticket collection requests.
-    public const TICKETS_USER = [
-            'tickets.id as ticket_id',
-            'tickets.user as user_id',
-            'users.name',
-            'users.email',
-            'tickets.subject',
-            'tickets.content',
-            'tickets.status',
-            'tickets.created_at',
-            'tickets.updated_at',
-        ];
+
 
     public const MESSAGE_USER = [
         'ticket_messages.id as message_id',
@@ -89,7 +79,7 @@ class TicketController extends Controller
 
     public function getWholeTicket($ticket_id):Ticket{
         return Ticket::query()
-            ->select(self::TICKETS_USER)
+            ->select(Ticket::TICKETS_USER)
             ->where('tickets.id','=',$ticket_id)
             ->join('users','users.id','=','tickets.user')
             ->first();

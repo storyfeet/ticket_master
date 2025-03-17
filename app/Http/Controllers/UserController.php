@@ -38,7 +38,7 @@ class UserController extends Controller{
             ->join('users','tickets.user','=','users.id')
             ->where('users.email',$email)
             ->orderByDesc('tickets.updated_at')
-            ->select(TicketController::TICKETS_USER)
+            ->select(Ticket::TICKETS_USER)
             ->paginate(3);
         return $tickets;
     }
@@ -50,7 +50,7 @@ class UserController extends Controller{
             ->where('users.email',$email)
             ->where('tickets.status','=','0')
             ->orderByDesc('tickets.updated_at')
-            ->select(TicketController::TICKETS_USER)
+            ->select(Ticket::TICKETS_USER)
             ->paginate(3);
         return $tickets;
     }
@@ -63,7 +63,7 @@ class UserController extends Controller{
             ->where('users.email',$email)
             ->where('tickets.status','=','1')
             ->orderByDesc('tickets.updated_at')
-            ->select(TicketController::TICKETS_USER)
+            ->select(Ticket::TICKETS_USER)
             ->paginate(3);
         return $tickets;
     }
