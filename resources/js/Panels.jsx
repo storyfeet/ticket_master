@@ -54,7 +54,7 @@ export function Panel({ user }) {
             {user.isAdmin &&
                 <AdminPanel goTickets={goTickets} errs={errs} errSetter={errSetter}
                 mode={adminMode} modeSetter={adminModeSetter} displaySetter={displaySetter}/>}
-            {!user.isAdmin || adminMode === ADMIN_DISPLAY.ME &&
+            {(!user.isAdmin || adminMode === ADMIN_DISPLAY.ME) &&
                 < UserPanel user={user} goTickets={goTickets} goNewTicket={goNewTicket} />}
             {basePath && displayMode === DISPLAY_MODE.TICKETS &&
                 <TicketList basePath={basePath} goEditTicket={goEditTicket}
