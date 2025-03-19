@@ -9,6 +9,8 @@ import {UpdateView} from "./UpdateView.jsx";
 import {CreateUser} from "./CreateUser.jsx";
 import {AdvancedFilter} from "./AdvancedFilter";
 import {postCsrfJson} from "./loader.js";
+import {postCsrfJson} from "./loader";
+import {QueryForm} from "./QueryForm";
 
 
 
@@ -76,6 +78,8 @@ const ADMIN_DISPLAY = {
     EMAIL_FILTER : 2,
     ADVANCED_FILTER : 3,
     ME : 4,
+    QUERY:5,
+
 };
 
 export function AdminPanel({ goTickets, errs, errSetter,mode,modeSetter,displaySetter }) {
@@ -118,10 +122,14 @@ export function AdminPanel({ goTickets, errs, errSetter,mode,modeSetter,displayS
             <button onClick={modeAndClear(ADMIN_DISPLAY.CREATE_USER)}>{
                 t(mode=== ADMIN_DISPLAY.CREATE_USER ? "btn-close_create_user":"btn-go_create_user")
             }</button>
+            <button onClick={modeAndClear(ADMIN_DISPLAY.QUERY)}>{
+                t(mode=== ADMIN_DISPLAY.QUERY ? "btn-close_free_query":"btn-free_query")
+            }</button>
             {mode === ADMIN_DISPLAY.CREATE_USER && <CreateUser />}
             {mode === ADMIN_DISPLAY.EMAIL_FILTER && <EmailFilter goTickets={goTickets} />}
             {mode === ADMIN_DISPLAY.ADVANCED_FILTER &&
                 <AdvancedFilter goTickets={goTickets} errs={errs} errSetter={errSetter}/>}
+            {mode == ADMIN_DISPLAY.QUERY && <QueryForm/>}
         </div >
     );
 }
