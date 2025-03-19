@@ -1,6 +1,6 @@
-import {loadJson} from "./loader";
+import {loadSafeJson} from "./loader";
 import {useRef,useState} from "react";
-
+import {TreeFold} from "./TreeFold.jsx";
 export function QueryForm(){
     let pathRef = useRef();
     let [content,contentSetter] = useState();
@@ -8,9 +8,9 @@ export function QueryForm(){
     function handleSubmit(e){
         e.preventDefault();
         (async ()=> {
-            let res = await fetch(pathRef.current.value);
-            let s = await res.text();
-            contentSetter(s);
+            let res = await loadSafeJson(pathRef.current.value);
+            //let s = await res.text();
+            contentSetter(res);
         })();
 
     }
@@ -21,7 +21,7 @@ export function QueryForm(){
             <input type="submit" />
         </form>
         <div>
-            <code>{content}</code>
+            <TreeFold data={content}/>
         </div>
     </>
 

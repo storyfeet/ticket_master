@@ -21,6 +21,21 @@ export async function loadJson(path,data) {
     return await res.json();
 }
 
+export async function loadSafeJson(path){
+    let res = await fetch(path,{method:"get"});
+    let t = await res.text();
+    try {
+        return JSON.parse(t);
+    }catch (e){
+        return {
+            "errors": {
+                "json":String(e),
+                "err":t,
+            }
+        }
+    }
+}
+
 export async function closeTicket(ticketId, csrf_token) {
     let formData = new FormData();
     formData.append('ticket_id', ticketId);
