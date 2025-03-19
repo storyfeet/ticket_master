@@ -8,7 +8,6 @@ import { useTranslation } from "react-i18next";
 import {UpdateView} from "./UpdateView.jsx";
 import {CreateUser} from "./CreateUser.jsx";
 import {AdvancedFilter} from "./AdvancedFilter";
-import {postCsrfJson} from "./loader.js";
 import {postCsrfJson} from "./loader";
 import {QueryForm} from "./QueryForm";
 
@@ -108,6 +107,9 @@ export function AdminPanel({ goTickets, errs, errSetter,mode,modeSetter,displayS
         <div className="admin_panel">
             <button onClick={modeAndClear(ADMIN_DISPLAY.ME)}>
                 {t(mode === ADMIN_DISPLAY.ME ? "btn-close_me_as_user": "btn-me_as_user")}
+            </button>
+            <button onClick={qGoTickets("/admin/get_duty_tickets")}>
+                {t("btn-duty_tickets")}
             </button>
             <button onClick={qGoTickets("/admin/get_open" )}>
                 {t("open_tickets")}</button>

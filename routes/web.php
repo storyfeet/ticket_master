@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Middleware\JsonErrMiddleware;
 use App\Http\Middleware\UserMiddleware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\LanguageMiddleware;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\ThrottleMiddleware;
+
 // The home page of the webste.
 // This acts as dashboard whether logged in or not.
 // But if logged in, there are a few extra options available.
@@ -49,6 +51,12 @@ Route::get('/admin/get_user_tickets/{email}',
    'App\Http\Controllers\AdminController@getUserTickets'
 )->middleware(AdminMiddleware::class)
  ->middleware(ThrottleMiddleware::class);
+
+Route::get('/admin/get_duty_tickets',
+    'App\Http\Controllers\AdminController@getDutyTickets'
+)->middleware(AdminMiddleware::class)
+->middleware(ThrottleMiddleware::class);
+
 
 Route::get('/admin/get_advanced_tickets',
     'App\Http\Controllers\AdminController@getAdvancedTickets'

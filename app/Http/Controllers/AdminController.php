@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Ticket;
 use App\Models\TicketMessage;
 use App\Models\User;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Rule;
@@ -153,6 +154,47 @@ class AdminController extends Controller {
         return $query->select(Ticket::TICKETS_USER)
             ->paginate($perPage);
 
+    }
+
+
+    /** A duty ticket is a ticket that the admin has
+     * responded to, but is still open, and whose most
+     * recent message is from the user.
+     */
+    public function getDutyTickets()
+    {
+        $admin = Auth::user();
+        $sql = "";
+        try {
+            $myMessages = TicketMessage::query()
+                ->select("ticket_id")
+                ->where("user_id","=",$admin->id)
+                ->groupBy("ticket_id");
+
+            $lastUser = TicketMessage::lastUserForMessages();
+            $query = Ticket::query()
+                ->where("status", "=", false)
+                ->joinSub($myMessages,'my_messages', function($join){
+                    $join->on("my_messages.ticket_id","=","tickets.id");
+                })
+                ->joinSub($lastUser,'last_messages', function($join){
+                    $join->on("last_messages.ticket_id","=","tickets.id")
+                        ->on("last_messages.user_id","=","tickets.user");
+                })
+                ->join("users","users.id","=","tickets.user")
+                ->select(Ticket::TICKETS_USER + ["last_messages.user_id"]);
+
+            $sql = $query->toSql();
+            return $query->paginate(3);
+
+        } catch (Exception $exception){
+            return response(['errors'=>[
+                "message"=>[$exception->getMessage()],
+                "trace"=>$exception->getTrace(),
+                "query" => [$sql],
+                ]
+            ],400);
+        }
     }
 }
 
