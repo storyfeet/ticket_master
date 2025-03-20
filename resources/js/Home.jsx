@@ -15,7 +15,9 @@ export default function Home() {
 
     return (
         <>
+            {user && <button className="right_float" onClick={()=>{window.location="/logout"}}>{t("btn-logout")}</button>}
             <LanguageSelector />
+
             <h1>{t("ticket_slave")}</h1>
             <LoginForm user={user} userSetter={setUser} />
             {user && <Panel user={user} />}

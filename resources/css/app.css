@@ -50,7 +50,13 @@ input ,textarea{
 
 .language_select{
     float:right;
+    margin:0 10px;
 }
+
+.right_float{
+    float:right;
+}
+
 
 h1 {
     font-size:200%;

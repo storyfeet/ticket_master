@@ -58,6 +58,6 @@ export default function LoginForm({ user, userSetter }) {
         );
     }
     return (
-        <h2>{t("welcome")} {user.name}  <a href="/logout" >{t("btn-logout")}</a></h2>
+        <h2>{t("welcome")} {user.name} </h2>
     );
 }
