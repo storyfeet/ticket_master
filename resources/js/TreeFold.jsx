@@ -3,6 +3,10 @@ export function TreeFold({data}){
     switch (typeof data){
         case "object":
             return <ObjectFold data={data}/>
+        case "string":
+            if (data.startsWith("<!DOCTYPE html>"))
+                return <StringFold s={data}/>
+            return data;
         default:
             return String(data);
     }
@@ -33,4 +37,28 @@ function KeyFold({k,v}){
         {show && <TreeFold data={v}/>}
         <br/>
     </>;
+}
+
+const ST_MODE = {
+    RAW:"raw",
+    FRAME:"frame",
+    BODY:"body",
+}
+
+function StringFold({s}){
+    let [stMode,stModeSetter] = useState(ST_MODE.RAW);
+
+    return <div>
+    <select defaultValue={stMode} onChange={(e)=>stModeSetter(e.target.value)}>
+        <option value={ST_MODE.RAW}>Raw</option>
+        <option value={ST_MODE.FRAME}>Frame</option>
+        <option value={ST_MODE.BODY}>Body</option>
+    </select><br/>
+        {stMode === ST_MODE.RAW && s}
+        {stMode === ST_MODE.FRAME && <iframe sandbox="" srcDoc={s}></iframe>}
+        {stMode === ST_MODE.BODY &&
+            "<body" + s.split(/<body(.*)<\/body>(.*)/s)[1]+"</body>"
+        }
+    </div>;
+
 }
