@@ -196,6 +196,29 @@ class AdminController extends Controller {
             ],400);
         }
     }
+
+    /*
+     * A Fresh Ticket is one where no one else has responded
+     */
+    public function getFreshTickets(){
+        // $adminMessages = TicketMessage::query()
+        //    ->joinSub(User::adminUsers(),"admins",
+        //       function($join){
+        //            return $join->on("ticket_messages.user","=","admins.id");
+        //    });
+
+        return Ticket::query()
+            ->select(Ticket::TICKETS_USER)
+            ->orderByDesc('tickets.updated_at')
+            ->leftJoin("ticket_messages", function($join){
+               $join->on('ticket_messages.ticket_id','=','tickets.id')
+                   ->on('ticket_messages.user_id','<>','tickets.user');
+            })->where('ticket_messages.id' ,'=',null )
+            ->join("users","users.id","=","tickets.user")
+            ->where("tickets.status",false)
+            ->paginate(3);
+
+    }
 }
 
 

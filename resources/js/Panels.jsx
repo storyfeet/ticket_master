@@ -111,6 +111,9 @@ export function AdminPanel({ goTickets, errs, errSetter,mode,modeSetter,displayS
             <button onClick={qGoTickets("/admin/get_duty_tickets")}>
                 {t("btn-duty_tickets")}
             </button>
+            <button onClick={qGoTickets("/admin/get_fresh_tickets")}>
+                {t("btn-fresh_tickets")}
+            </button>
             <button onClick={qGoTickets("/admin/get_open" )}>
                 {t("open_tickets")}</button>
             <button onClick={qGoTickets("/admin/get_closed")}>

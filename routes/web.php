@@ -57,6 +57,11 @@ Route::get('/admin/get_duty_tickets',
 )->middleware(AdminMiddleware::class)
 ->middleware(ThrottleMiddleware::class);
 
+Route::get('/admin/get_fresh_tickets',
+    'App\Http\Controllers\AdminController@getFreshTickets'
+)->middleware(AdminMiddleware::class)
+    ->middleware(ThrottleMiddleware::class);
+
 
 Route::get('/admin/get_advanced_tickets',
     'App\Http\Controllers\AdminController@getAdvancedTickets'
