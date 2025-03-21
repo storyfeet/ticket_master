@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\VerifyEmail;
+use App\Models\TicketMessage;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -104,6 +105,27 @@ class UserController extends Controller{
             ->update(["email_verified_at"=>now()]);
 
         return view("email_verified");
+    }
+
+    public function getSinceLast(){
+        /** @var User $user */
+        $user = Auth::user();
+        return $this->getSince($user->lastAction());
+    }
+    public function getSince($date){
+        $user = Auth::user();
+        $lastUsers = TicketMessage::lastUserForMessages();
+        return Ticket::query()
+            ->where("tickets.user","=",$user->id)
+            ->joinSub($lastUsers,"last_users",function($join) use($date,$user){
+                return $join->on("last_users.ticket_id","=","tickets.id")
+                    ->where("last_users.updated_at",">",$date)
+                    ->where("last_users.user_id","<>",$user->id);
+            })
+            ->join("users","users.id","=","tickets.user")
+            ->orderBy("last_users.updated_at")
+            ->paginate(3);
+
 
     }
 }

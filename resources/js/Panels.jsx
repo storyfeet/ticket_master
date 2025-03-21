@@ -134,7 +134,7 @@ export function AdminPanel({ goTickets, errs, errSetter,mode,modeSetter,displayS
             {mode === ADMIN_DISPLAY.EMAIL_FILTER && <EmailFilter goTickets={goTickets} />}
             {mode === ADMIN_DISPLAY.ADVANCED_FILTER &&
                 <AdvancedFilter goTickets={goTickets} errs={errs} errSetter={errSetter}/>}
-            {mode == ADMIN_DISPLAY.QUERY && <QueryForm/>}
+            {mode === ADMIN_DISPLAY.QUERY && <QueryForm/>}
         </div >
     );
 }
@@ -178,6 +178,7 @@ export function UserPanel({user, goTickets, goNewTicket }) {
             <button onClick={qGoTickets("/user/get_all")}>{t("my_tickets")}</button>
             <button onClick={qGoTickets("/user/get_open")}>{t("my_open_tickets")}</button>
             <button onClick={qGoTickets("/user/get_closed")}>{t("my_closed_tickets")}</button>
+            <button onClick={qGoTickets("/user/get_since_last")}>{t("my_since_last")}</button>
             <button onClick={goNewTicket}>{t("create_new_ticket")}</button>
             {!user.verified && <button onClick={verify}>{t("btn-verify_email")}</button>}
         </div>

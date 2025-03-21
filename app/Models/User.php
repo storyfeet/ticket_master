@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -64,5 +65,14 @@ class User extends Authenticatable
 
     function isAdmin(){
         return $this->hasRole('admin');
+    }
+
+    function lastAction(){
+        $lastTicket = Ticket::query()->where('user','=',$this->id)->max("created_at");
+
+        $lastMessage = TicketMessage::query()->where("user_id","=",$this->id)->max("updated_at");
+        $lastT = $lastTicket?->updated_at ?? Carbon::createFromTimestamp(0);
+        $lastM = $lastMessage?->updated_at ?? Carbon::createFromTimestamp(0);
+        return max($lastT,$lastM);
     }
 }

@@ -18,7 +18,7 @@ class TicketMessage extends Model
             ->selectRaw("ticket_id,MAX(created_at) as last_at")
             ->groupBy('ticket_id');
         return self::query()
-            ->select(["ticket_messages.ticket_id", "ticket_messages.user_id"])
+            ->select(["ticket_messages.ticket_id", "ticket_messages.user_id","ticket_messages.updated_at"])
             ->joinSub($lastMessages, "last_messages", function ($join) {
                 $join->on("ticket_messages.ticket_id", "=", "last_messages.ticket_id")
                     ->on("ticket_messages.created_at", "=", "last_messages.last_at");

@@ -93,6 +93,7 @@
     "my_tickets":"My Tickets",
     "my_open_tickets":"My Open Tickets",
     "my_closed_tickets":"My Closed Tickets",
+    "my_since_last": "Since Last Action",
     "create_new_ticket":"Create New Ticket",
     "create_ticket":"Create Ticket",
     "new_ticket":"New Ticket",

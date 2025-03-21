@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Middleware\JsonErrMiddleware;
+
 use App\Http\Middleware\UserMiddleware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\LanguageMiddleware;
@@ -88,6 +88,19 @@ Route::post('/user/new_ticket',
     'App\Http\Controllers\TicketController@newTicket'
 )->middleware(UserMiddleware::class);
 
+Route::get('/user/get_since_last',
+'App\Http\Controllers\UserController@getSinceLast')
+    ->middleware([
+       UserMiddleware::class,
+       ThrottleMiddleware::class,
+    ]);
+
+Route::get('/user/get_since/{date}',
+'App\Http\Controllers\UserController@getSince')
+    ->middleware([
+        UserMiddleware::class,
+        ThrottleMiddleware::class,
+    ]);
 
 
 Route::post('/user/new_ticket_message',
